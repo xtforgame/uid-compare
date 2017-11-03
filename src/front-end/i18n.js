@@ -34,9 +34,9 @@ export const appLocales = [
 export const appLocaleNames = [
   'English',
   'Deutsch',
-  '¤é¥»»y',
-  'ÁcÅé¤¤¤å',
-  '?Ê^¤¤¤å',
+  'æ—¥æœ¬èª',
+  'ç¹é«”ä¸­æ–‡',
+  'ç®€ä½“ä¸­æ–‡',
 ];
 
 let localeIndex = {};

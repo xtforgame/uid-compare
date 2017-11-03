@@ -16,28 +16,27 @@ import { ConnectedRouter } from 'react-router-redux';
 import { changeLocale } from '~/containers/LanguageProvider/actions';
 import { makeSelectLocale } from '~/containers/LanguageProvider/selectors';
 
+import { withStyles } from 'material-ui/styles';
+import withRoot from '../../components/withRoot';
+
+// Apply some reset
+const styles = theme => ({
+  '@global': {
+    html: {
+      background: theme.palette.background.default,
+      WebkitFontSmoothing: 'antialiased', // Antialiasing.
+      MozOsxFontSmoothing: 'grayscale', // Antialiasing.
+    },
+    body: {
+      margin: 0,
+    },
+  },
+});
 
 let App = ({ history, pathname, routes, locale, intl, changeLocale, greetName }) => (
-  <div>
-    <select name={'lang'} value={locale} onChange={changeLocale} style={{float: 'right'}}>
-      <option value="de">de</option>
-      <option value="en">en</option>
-      <option value="ja">ja</option>
-      <option value="zh-CN">zh-CN</option>
-      <option value="zh-TW">zh-TW</option>
-    </select>
-    {formatMessage(intl, messages.greetText, {user: greetName || 'user0001'})}<br />
-    <FormattedMessage {...messages.greetText} values={{user: greetName || 'user'}} /><br /><br />
-    {(pathname === '/async') && ' >>> ' }<button onClick={() => history.push('/async')}>Async Page</button><br />
-    {(pathname === '/injector-test') && ' >>> ' }<button onClick={() => history.push('/injector-test')}>Injector Test (Login is required)</button><br />
-    {(pathname === '/home') && ' >>> ' }<button onClick={() => history.push('/home')}>Home Page (in Main Frame)</button><br />
-    {(pathname === '/async-in-main') && ' >>> ' }<button onClick={() => history.push('/async-in-main')}>Async Page (in Main Frame)</button><br />
-    <hr />
-    { /* ConnectedRouter will use the store from Provider automatically */ }
-    <ConnectedRouter history={history}>
-      {routes}
-    </ConnectedRouter>
-  </div>
+  <ConnectedRouter history={history}>
+    {routes}
+  </ConnectedRouter>
 );
 
 const mapStateToProps = createSelector(
@@ -55,6 +54,8 @@ export function mapDispatchToProps(dispatch) {
 }
 
 export default compose(
+  withRoot,
   connect(mapStateToProps, mapDispatchToProps),
   injectIntl,
+  withStyles(styles),
 )(App);
