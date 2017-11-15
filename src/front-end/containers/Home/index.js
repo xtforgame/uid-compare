@@ -39,7 +39,7 @@ class Home extends React.Component {
   }
 
   render(){
-    let { routeViews, intl, greetName, logout, classes } = this.props;
+    let { routeView, intl, greetName, logout, classes } = this.props;
 
     return (
       <div>
@@ -48,6 +48,7 @@ class Home extends React.Component {
         </Typography>
         <Divider />
         <div className={classes.placeholder} />
+        { routeView }
         <Typography type="title">
           {formatMessage(intl, messages.greetText, {user: greetName || 'user0001'})}
         </Typography>

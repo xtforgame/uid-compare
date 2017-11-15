@@ -7,13 +7,15 @@ import { push } from 'react-router-redux';
 import messages from '../App/messages';
 import MainAppBar from './MainAppBar';
 import {
-  getMailFolderListItems,
-  getOtherMailFolderListItems,
+  getMailFolderList,
+  getOtherMailFolderList,
 } from './tileData';
+
+import RouteList from './RouteList';
 import { withStyles } from 'material-ui/styles';
 import Drawer from 'material-ui/Drawer';
 import Button from 'material-ui/Button';
-import List from 'material-ui/List';
+
 import Divider from 'material-ui/Divider';
 import Icon from 'material-ui/Icon';
 
@@ -59,6 +61,12 @@ class MainFrame extends React.Component {
     });
   };
 
+  closeDrawer = () => {
+    this.setState({
+      drawerOpened: false,
+    });
+  };
+
   componentWillMount(){
     console.log('MainFrame componentWillMount');
   }
@@ -67,19 +75,14 @@ class MainFrame extends React.Component {
     let { routeView, push, classes } = this.props;
     const sideList = (
       <div className={classes.list}>
-        <List>{getMailFolderListItems(() => push('/home'), () => push('/async-in-main'), () => push('/login'))}</List>
+        <RouteList closeDrawer={this.closeDrawer} />
         <Divider />
-        <List>{getOtherMailFolderListItems()}</List>
+        {getMailFolderList(this.closeDrawer, () => push('/home'), () => push('/async-in-main'), () => push('/login'))}
+        <Divider />
+        {getOtherMailFolderList(this.closeDrawer)}
       </div>
     );
 
-    const fullList = (
-      <div className={classes.listFull}>
-        <List>{getMailFolderListItems(() => push('/home'), () => push('/async-in-main'), () => push('/login'))}</List>
-        <Divider />
-        <List>{getOtherMailFolderListItems()}</List>
-      </div>
-    );
     return (
       <div>
         <MainAppBar
@@ -99,8 +102,8 @@ class MainFrame extends React.Component {
           <div
             tabIndex={0}
             role="button"
-            onTouchTap={this.toggleDrawer(false)}
-            onKeyDown={this.toggleDrawer(false)}
+            // onTouchTap={this.toggleDrawer(false)}
+            // onKeyDown={this.toggleDrawer(false)}
           >
             {sideList}
           </div>
