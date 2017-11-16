@@ -9,8 +9,9 @@ import SubContent01 from '~/containers/Home/SubContent01';
 import SubContent02 from '~/containers/Home/SubContent02';
 
 import Test from '~/containers/Test';
-import TestSubContent01 from '~/containers/Test/SubContent01';
-import TestSubContent02 from '~/containers/Test/SubContent02';
+import TestContent from '~/containers/Test/TestContent';
+import testCase00 from '~/test-cases/test-case-00';
+import testCase01 from '~/test-cases/test-case-01';
 
 import AsyncPage from '~/containers/AsyncPage';
 import Login from '~/containers/Login';
@@ -19,6 +20,19 @@ import InjectorTestReducer from '~/containers/InjectorTest/reducer';
 import InjectorTestEpic from '~/containers/InjectorTest/epic';
 
 import getListHierarchy from '~/containers/MainFrame/getListHierarchy';
+
+let testCases = [testCase00, testCase01];
+let getTestCaseRoutes = () => testCases.map((testCase, i) => {
+  i = ('0'.repeat(3) + i).slice(-3);
+  return {
+    name: `case${i}`,
+    path: `/test/case${i}`,
+    component: (props) => (<TestContent testCase={testCase}></TestContent>),
+    navbar: {
+      title: `Case ${i}`,
+    },
+  }
+});
 
 export let routesDefine = {
   name: 'root',
@@ -112,26 +126,12 @@ export let routesDefine = {
               name: 'test-index',
               path: '/test',
               onEnter: ({history}) => {
-                history.replace({ pathname: '/test/sub01' });
+                history.replace({ pathname: '/test/case001' });
               },
               exact: true,
             },
-            {
-              name: 'sub01',
-              path: '/test/sub01',
-              component: TestSubContent01,
-              navbar: {
-                title: 'Sub 01',
-              },
-            },
-            {
-              name: 'sub02',
-              path: '/test/sub02',
-              component: TestSubContent02,
-              navbar: {
-                title: 'Sub 02',
-              },
-            }],
+            ...getTestCaseRoutes(),
+            ],
           }],
         },
         {
