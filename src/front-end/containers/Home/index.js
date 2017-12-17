@@ -6,7 +6,7 @@ import formatMessage from '~/utils/formatMessage';
 import {
   logout,
 } from '../App/actions';
-import messages from '../App/messages';
+import { messages } from '../App/translation';
 import { withStyles } from 'material-ui/styles';
 import Icon from 'material-ui/Icon';
 import Typography from 'material-ui/Typography';

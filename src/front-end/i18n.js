@@ -12,11 +12,40 @@ import zhLocaleData from 'react-intl/locale-data/zh';
 
 import { DEFAULT_LOCALE } from '~/containers/App/constants';
 
-import enTranslationMessages from './translations/en.json';
-import deTranslationMessages from './translations/de.json';
-import jaTranslationMessages from './translations/ja.json';
-import zhTWTranslationMessages from './translations/zh-TW.json';
-import zhCNTranslationMessages from './translations/zh-CN.json';
+import enTranslationFromJson from './translations/en.json';
+import deTranslationFromJson from './translations/de.json';
+import jaTranslationFromJson from './translations/ja.json';
+import zhTWTranslationFromJson from './translations/zh-TW.json';
+import zhCNTranslationFromJson from './translations/zh-CN.json';
+
+import { translations } from '~/utils/translationManager';
+
+// console.log('translations :', translations);
+
+const enTranslationMessages = {
+  ...enTranslationFromJson,
+  ...translations['en'],
+}
+
+const deTranslationMessages = {
+  ...deTranslationFromJson,
+  ...translations['de'],
+}
+
+const jaTranslationMessages = {
+  ...jaTranslationFromJson,
+  ...translations['ja'],
+}
+
+const zhTWTranslationMessages = {
+  ...zhTWTranslationFromJson,
+  ...translations['zh-TW'],
+}
+
+const zhCNTranslationMessages = {
+  ...zhCNTranslationFromJson,
+  ...translations['zh-CN'],
+}
 
 addLocaleData(enLocaleData);
 addLocaleData(deLocaleData);

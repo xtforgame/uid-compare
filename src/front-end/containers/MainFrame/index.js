@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 
 import { push } from 'react-router-redux';
-import messages from '../App/messages';
+import { messages } from '../App/translation';
 import MainAppBar from './MainAppBar';
 import {
   getMailFolderList,
