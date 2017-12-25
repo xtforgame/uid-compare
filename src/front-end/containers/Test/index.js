@@ -3,7 +3,7 @@ import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import formatMessage from '~/utils/formatMessage';
-import messages from '../App/messages';
+import { messages } from '../App/translation';
 import { withStyles } from 'material-ui/styles';
 import Icon from 'material-ui/Icon';
 import Typography from 'material-ui/Typography';

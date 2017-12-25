@@ -15,7 +15,7 @@ import {
 import {
   login,
 } from '../App/actions';
-import messages from '../App/messages';
+import { messages } from '../App/translation';
 import {
   Redirect,
 } from 'react-router-dom';

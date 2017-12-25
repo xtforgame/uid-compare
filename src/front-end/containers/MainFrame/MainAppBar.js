@@ -21,7 +21,7 @@ import { injectIntl } from 'react-intl';
 import { FormattedMessage } from 'react-intl';
 import formatMessage from '~/utils/formatMessage';
 import { push } from 'react-router-redux';
-import messages from '../App/messages';
+import { messages } from '../App/translation';
 
 const styles = theme => ({
   root: {
