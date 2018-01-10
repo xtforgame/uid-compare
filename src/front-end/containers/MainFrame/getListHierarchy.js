@@ -2,20 +2,20 @@ import { capitalizeFirstLetter } from 'common/utils';
 
 let listHierarchy = null;
 
-export default (routesDefine) => {
+export default (routesConfig) => {
   if(listHierarchy){
     return listHierarchy;
   }
 
   listHierarchy = [];
 
-  let toListDefine = (routeDefine, currentList = listHierarchy, level = 0, parents = []) => {
+  let toListDefine = (routeConfig, currentList = listHierarchy, level = 0, parents = []) => {
     let {
       routeViews,
       name,
       path,
       navbar,
-    } = routeDefine;
+    } = routeConfig;
 
     let listData = null;
     let newLevel = level;
@@ -31,7 +31,7 @@ export default (routesDefine) => {
         name,
         path,
         title,
-        routeDefine,
+        routeConfig,
         level,
         parents,
       };
@@ -54,7 +54,7 @@ export default (routesDefine) => {
     }
   }
 
-  toListDefine(routesDefine);
+  toListDefine(routesConfig);
 
   return listHierarchy;
 }
