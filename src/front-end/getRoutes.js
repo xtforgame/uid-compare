@@ -1,8 +1,7 @@
 import React from 'react';
-import { Switch } from 'react-router';
+import { Switch, Redirect } from 'react-router';
 import EnhancedRoute from '~/components/routes/EnhancedRoute';
 import PrivateRoute from '~/containers/routes/PrivateRoute';
-import withRouteEvents from '~/components/withRouteEvents';
 
 import MainFrame from '~/containers/MainFrame';
 import Home from '~/containers/Home';
@@ -44,15 +43,7 @@ const globalRouteConfig = {
     routes: [{
       name: 'redirect',
       path: '/',
-      component: withRouteEvents({
-        onEnter: ({history}) => {
-          console.log('On enter root');
-          history.replace({ pathname: '/home' });
-        },
-        onLeave: () => {
-          console.log('On leave root');
-        },
-      })(null),
+      component: () => <Redirect to={{ pathname: '/home' }}/>,
       exact: true,
     },
     {
@@ -93,11 +84,7 @@ const globalRouteConfig = {
             routes: [{
               name: 'home-index',
               path: '/home',
-              component: withRouteEvents({
-                onEnter: ({history}) => {
-                  history.replace({ pathname: '/home/sub01' });
-                },
-              })(null),
+              component: () => <Redirect to={{ pathname: '/home/sub01' }}/>,
               exact: true,
             },
             {
@@ -127,11 +114,7 @@ const globalRouteConfig = {
             routes: [{
               name: 'test-index',
               path: '/test',
-              component: withRouteEvents({
-                onEnter: ({history}) => {
-                  history.replace({ pathname: '/test/case001' });
-                },
-              })(null),
+              component: () => <Redirect to={{ pathname: '/test/case001' }}/>,
               exact: true,
             },
             ...getTestCaseRoutes(),
