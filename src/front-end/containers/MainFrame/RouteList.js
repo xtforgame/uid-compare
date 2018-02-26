@@ -99,6 +99,42 @@ class RouteList extends React.Component {
     };
 
     return getList();
+
+    return (
+      <List className={classes.root} subheader={<ListSubheader>Nested List Items</ListSubheader>}>
+        <ListItem onTouchTap={navigateToFunc('/home')} button>
+          <ListItemIcon>
+            <SendIcon />
+          </ListItemIcon>
+          <ListItemText inset primary="Sent mail" />
+        </ListItem>
+        <ListItem button>
+          <ListItemIcon>
+            <DraftsIcon />
+          </ListItemIcon>
+          <ListItemText inset primary="Drafts" />
+        </ListItem>
+        <ListItem button onTouchTap={this.handleClick}>
+          <ListItemIcon>
+            <InboxIcon />
+          </ListItemIcon>
+          <ListItemText inset primary="Inbox" />
+          <ListItemIcon>
+            {this.state.open ? <ExpandLess /> : <ExpandMore />}
+          </ListItemIcon>
+        </ListItem>
+        <Collapse component="li" in={this.state.open} transitionDuration="auto" unmountOnExit>
+          <List disablePadding>
+            <ListItem button className={classes.nested}>
+              <ListItemIcon>
+                <StarBorder />
+              </ListItemIcon>
+              <ListItemText inset primary="Starred" />
+            </ListItem>
+          </List>
+        </Collapse>
+      </List>
+    );
   }
 }
 

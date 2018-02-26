@@ -36,7 +36,7 @@ export const clearState = () => {
 
 const delaySave = throttle(store => {
   let persistedData = store.getState().get('global');
-  if(persistedData.rememberUser){
+  if(persistedData.rememberUser && persistedData.isAuthenticated){
     saveState(persistedData);
   }else{
     // removeState();
