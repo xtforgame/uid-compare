@@ -1,6 +1,8 @@
 import ServiceBase from '../ServiceBase';
 //========================================
-import MainRouter from '../../routers/main-router';
+import MainRouter from '../../routers/MainRouter';
+import SessionRouter from '../../routers/SessionRouter';
+import UserRouter from '../../routers/UserRouter';
 
 export default class RouterManager extends ServiceBase {
   static $name = 'routerManager';
@@ -9,7 +11,8 @@ export default class RouterManager extends ServiceBase {
 
   constructor(httpApp){
     super();
-    let routers = [MainRouter]
+
+    let routers = [MainRouter, SessionRouter, UserRouter]
     .map(Router => new Router({}).setupRoutes(httpApp.appConfig));
   }
 

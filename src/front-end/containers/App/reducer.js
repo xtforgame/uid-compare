@@ -1,29 +1,21 @@
+import { combineReducers } from 'redux'
 import {
-  GREET,
-  LOGIN,
-  LOGOUT,
   REMEMBER_ME,
 } from './constants';
+import modelMap from './modelMap';
 
-export default (state = { greetName: '', isAuthenticated: false }, action) => {
+const {
+  SESSION_READ_COLL_SUCCESS,
+  SESSION_READ_COLL_ERROR,
+} = modelMap.types;
+
+const {
+  sessionReducer,
+  userReducer,
+} = modelMap.reducers;
+
+const persistence = (state = { rememberUser: false }, action) => {
   switch (action.type) {
-  case GREET:
-    return {
-      ...state,
-      greetName: action.name,
-    };
-
-  case LOGIN:
-    return {
-      ...state,
-      isAuthenticated: true,
-    };
-
-  case LOGOUT:
-    return {
-      ...state,
-      isAuthenticated: false,
-    };
 
   case REMEMBER_ME:
     return {
@@ -35,3 +27,9 @@ export default (state = { greetName: '', isAuthenticated: false }, action) => {
     return state;
   }
 };
+
+export default combineReducers({
+  sessions: sessionReducer,
+  users: userReducer,
+  persistence,
+});

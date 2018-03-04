@@ -1,25 +1,60 @@
-import 'rxjs';
-import { push } from 'react-router-redux';
+import HeaderManager from '~/utils/HeaderManager';
+import modelMap from './modelMap';
 
-import {
-  PING,
-} from '~/containers/InjectorTest/constants';
+const {
+  createSessionEpic,
+  readSessionCollEpic,
+  readUserEpic,
+  createUserEpic,
+} = modelMap.epics;
 
-import {
-  ping,
-  pong,
-} from '~/containers/InjectorTest/actions';
+const {
+  SESSION_CREATE_SUCCESS,
+  SESSION_CLEAR_START,
+  USER_CREATE_START,
+  USER_CREATE_SUCCESS,
+} = modelMap.types;
 
-export default (action$, store) => {
-  return action$.ofType(PING)
-    .delay(1000) // Asynchronously wait 1000ms then continue
-    .mergeMap(action =>
-      new Promise(resolve => {
-        console.log('App action :', action);
-        // setTimeout(() => {
-        //   store.dispatch(ping());
-        // }, 2000);
-        resolve(pong());
-      })
+const {
+  readUser,
+  createSession,
+} = modelMap.actions;
+
+const fetchMyUserDataAfterPostedSession = (action$, store) =>
+  action$.ofType(SESSION_CREATE_SUCCESS)
+    .mergeMap(action => {
+      // console.log('action :', action);
+      HeaderManager.set('Authorization', `${action.data.token_type} ${action.data.token}`);
+      return [
+        readUser({}, {
+          userId: action.data.userid,
+        }),
+      ];
+    });
+
+const clearAuthorizationHeaderAfterClearSession = (action$, store) =>
+  action$.ofType(SESSION_CLEAR_START)
+    .mergeMap(action => {
+      HeaderManager.delete('Authorization');
+      return [{ type: 'TO_NULL' }];
+    });
+
+const autologinAfterRegistration = (action$, store) =>
+  action$.ofType(USER_CREATE_START)
+    .switchMap((startAction) =>
+      action$.ofType(USER_CREATE_SUCCESS)
+        .take(1) // don't listen forever! IMPORTANT!
+        .switchMap(() => {
+          return [createSession(startAction.data.accountLinks[0])]; 
+        })
     );
-};
+
+export default [
+  fetchMyUserDataAfterPostedSession,
+  clearAuthorizationHeaderAfterClearSession,
+  autologinAfterRegistration,
+  createSessionEpic,
+  readSessionCollEpic,
+  readUserEpic,
+  createUserEpic,
+];
