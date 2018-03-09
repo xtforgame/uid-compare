@@ -1,5 +1,5 @@
 import RouterBase from '../core/router-base';
-import fakeUserManager from './fakeUserManager';
+import fakeUserManager from '../utils/fakeUserManager';
 
 export default class SessionRouter extends RouterBase {
   setupRoutes({ router }) {

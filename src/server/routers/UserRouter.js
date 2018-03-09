@@ -3,7 +3,7 @@ import {
   RestfulResponse,
   RestfulError,
 } from 'az-restful-helpers';
-import fakeUserManager from './fakeUserManager';
+import fakeUserManager from '../utils/fakeUserManager';
 
 export default class UserRouter extends RouterBase {
   setupRoutes({ router }) {
@@ -11,16 +11,23 @@ export default class UserRouter extends RouterBase {
       // console.log('ctx.local.userSession :', ctx.local.userSession);
       const { authorization = '' } = ctx.request.headers;
       const { userId } = ctx.params;
-      const tokens = authorization.split(' ');
-      const currentUserName = tokens[tokens.length - 1].replace('FakeToken', '');
-      const exposedUser = fakeUserManager.getUserByName(currentUserName);
+      const authorizationParts = authorization.split(' ');
+      const session = fakeUserManager.verify(authorizationParts[authorizationParts.length - 1]);
 
+      if(!session){
+        ctx.throw(404);
+      }
+
+      const currentUserId = session.userid;
+      if(currentUserId !== userId){
+        ctx.throw(403);
+      }
+
+      const exposedUser = fakeUserManager.getUserById(currentUserId);
       if(!exposedUser){
         ctx.throw(404);
       }
-      if(exposedUser.id !== userId){
-        ctx.throw(403);
-      }
+
       return ctx.body = exposedUser;
     });
 

@@ -1,9 +1,39 @@
+import JwtSessionHelper from 'jwt-session-helper';
+
 class FakeUserManager {
   constructor(){
     this.userCount = 0;
     this.users = {};
     this.userIdMap = {};
-    this.register('admin', 'admin', 'admin');
+
+    this.jwtSessionHelper = new JwtSessionHelper('secret', {
+      defaults: {
+        algorithm: 'HS256',
+      },
+      signDefaults: {
+        issuer: 'localhost',
+        expiresIn: '1y',
+      },
+      parsePayload: ({ user, auth_type, ...rest }) => ({
+        userid: user.id,
+        name: user.name,
+        username: user.username,
+        auth_type,
+        privilege: user.privilege,
+        subject: `user:${user.id}:${0}`,
+        token_type: 'Bearer',
+        ...rest,
+      }),
+      exposeInfo: (originalData, payload) => {
+        let result = {
+          ...payload,
+        };
+        delete result.auth_type;
+        return result;
+      },
+    });
+
+    this.register('admin', 'admin', 'Admin', 'admin');
   }
 
   register(username, password, name, privilege){
@@ -29,17 +59,21 @@ class FakeUserManager {
     if(auth_type !== 'basic' || !user){
       return null;
     }
-    const {
-      id: userid,
-      privilege,
-    } = user;
-    return {
-      userid,
-      username,
-      token_type: 'Bearer',
-      privilege,
-      token: `${username}FakeToken`,
-    };
+
+    let session = this.jwtSessionHelper.createSession({
+      user,
+      auth_type,
+    });
+
+    return session.info;
+  }
+
+  verify(token){
+    try{
+      return this.jwtSessionHelper.verify(token);
+    }catch(e){
+      return null;
+    }
   }
 
   _exposeUserData(user){
