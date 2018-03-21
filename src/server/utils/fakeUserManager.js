@@ -3,7 +3,7 @@ import JwtSessionHelper from 'jwt-session-helper';
 class FakeUserManager {
   constructor(){
     this.userCount = 0;
-    this.users = {};
+    this.usernames = {};
     this.userIdMap = {};
 
     this.jwtSessionHelper = new JwtSessionHelper('secret', {
@@ -15,9 +15,8 @@ class FakeUserManager {
         expiresIn: '1y',
       },
       parsePayload: ({ user, auth_type, ...rest }) => ({
-        userid: user.id,
-        name: user.name,
-        username: user.username,
+        user_id: user.id,
+        user_name: user.name,
         auth_type,
         privilege: user.privilege,
         subject: `user:${user.id}:${0}`,
@@ -37,7 +36,7 @@ class FakeUserManager {
   }
 
   register(username, password, name, privilege){
-    if(this.users[username]){
+    if(this.usernames[username]){
       return null;
     }
     const id = `${++this.userCount}`;
@@ -49,13 +48,13 @@ class FakeUserManager {
       privilege,
     };
 
-    this.users[username] = user;
+    this.usernames[username] = user;
     this.userIdMap[id] = user;
     return user;
   }
 
   authenticate(auth_type, username, password){
-    const user = this.users[username];
+    const user = this.usernames[username];
     if(auth_type !== 'basic' || !user){
       return null;
     }
@@ -96,10 +95,6 @@ class FakeUserManager {
 
   getUserById(id){
     return this._exposeUserData(this.userIdMap[id]);
-  }
-
-  getUserByName(username){
-    return this._exposeUserData(this.users[username]);
   }
 }
 

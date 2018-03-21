@@ -18,7 +18,7 @@ export default class UserRouter extends RouterBase {
         ctx.throw(404);
       }
 
-      const currentUserId = session.userid;
+      const currentUserId = session.user_id;
       if(currentUserId !== userId){
         ctx.throw(403);
       }
