@@ -1,4 +1,5 @@
 import JwtSessionHelper from 'jwt-session-helper';
+import drawIcon from '~/utils/drawIcon';
 
 class FakeUserManager {
   constructor(){
@@ -32,10 +33,13 @@ class FakeUserManager {
       },
     });
 
-    this.register('admin', 'admin', 'Admin', 'admin');
+    this.register('admin', 'admin', '宗麟', 'admin', {
+      bio: 'I should write my bio here but I don\'t even understand what I\'m writing, just putting lots of words here.',
+      email: 'xtforgame@gmail.com',
+    });
   }
 
-  register(username, password, name, privilege){
+  register(username, password, name, privilege, data){
     if(this.usernames[username]){
       return null;
     }
@@ -46,6 +50,11 @@ class FakeUserManager {
       username,
       password,
       privilege,
+      picture: `data:png;base64,${drawIcon(username).toString('base64')}`,
+      data: data || {
+        bio: `I'm ${name}`,
+        email: null,
+      },
     };
 
     this.usernames[username] = user;
@@ -84,17 +93,44 @@ class FakeUserManager {
       name,
       username,
       privilege,
+      picture,
+      data,
     } = user;
     return {
       id,
       name,
       username,
       privilege,
+      picture,
+      data,
     };
   }
 
   getUserById(id){
     return this._exposeUserData(this.userIdMap[id]);
+  }
+
+  updateUserById(id, inputData = {}){
+    let user = this.userIdMap[id];
+    if(!user){
+      return user;
+    }
+
+    const {
+      name,
+      picture,
+      data,
+    } = inputData;
+    if(name !== undefined){
+      user.name = name;
+    }
+    if(picture !== undefined){
+      user.picture = picture;
+    }
+    if(data !== undefined){
+      user.data = data;
+    }
+    return this._exposeUserData(user);
   }
 }
 

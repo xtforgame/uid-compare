@@ -58,5 +58,30 @@ export default class UserRouter extends RouterBase {
         privilege,
       };
     });
+
+
+    router.patch('/api/users/:userId', (ctx, next) => {
+      // console.log('ctx.local.userSession :', ctx.local.userSession);
+      const { authorization = '' } = ctx.request.headers;
+      const { userId } = ctx.params;
+      const authorizationParts = authorization.split(' ');
+      const session = fakeUserManager.verify(authorizationParts[authorizationParts.length - 1]);
+
+      if(!session){
+        ctx.throw(404);
+      }
+
+      const currentUserId = session.user_id;
+      if(currentUserId !== userId){
+        ctx.throw(403);
+      }
+
+      const exposedUser = fakeUserManager.updateUserById(currentUserId, ctx.request.body);
+      if(!exposedUser){
+        ctx.throw(404);
+      }
+
+      return ctx.body = exposedUser;
+    });
   }
 }
