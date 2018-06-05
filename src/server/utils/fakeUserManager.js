@@ -33,9 +33,9 @@ class FakeUserManager {
       },
     });
 
-    this.register('admin', 'admin', '宗麟', 'admin', {
+    this.register('admin@foo.bar', 'admin', '宗麟', 'admin', {
       bio: 'I should write my bio here but I don\'t even understand what I\'m writing, just putting lots of words here.',
-      email: 'xtforgame@gmail.com',
+      email: 'admin@foo.bar',
     });
   }
 
@@ -131,6 +131,43 @@ class FakeUserManager {
       user.data = data;
     }
     return this._exposeUserData(user);
+  }
+
+  updateUserPasswordById(id, password){
+    let user = this.userIdMap[id];
+    if(!user){
+      return user;
+    }
+
+    user.password = password;
+    user.recoveryToken = undefined;
+    return this._exposeUserData(user);
+  }
+
+  getRecoveryToken(username){
+    const user = this.usernames[username];
+    if(!user){
+      return user;
+    }
+    if(user.recoveryToken){
+      return {
+        user,
+        ...user.recoveryToken,
+      };
+    }
+    return {};
+  }
+
+  updateRecoveryToken(username){
+    const user = this.usernames[username];
+    if(!user){
+      return user;
+    }
+    const rnd = Math.random().toString();
+    return user.recoveryToken = {
+      token: rnd.substr(rnd.length - 7, 6),
+      updatedTime: new Date().getTime(),
+    };
   }
 }
 

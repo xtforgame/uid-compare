@@ -4,6 +4,7 @@ import { httpPort, httpsPort } from 'config';
 import EnvCfg from '~/services/env-cfg';
 import HttpApp from '~/services/http-app';
 import RouterManager from '~/services/router-manager';
+import Mailer from '~/services/mailer';
 import {
   runningMode,
 } from 'common/core/config';
@@ -15,6 +16,7 @@ class Server {
       EnvCfg,
       HttpApp,
       RouterManager,
+      Mailer,
     ]);
   
     this.ioc.digest();

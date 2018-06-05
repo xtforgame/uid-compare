@@ -9,8 +9,14 @@ let credentialFiles = {
 let httpPort = 80;
 let httpsPort = 443;
 
+let sendRecoveryTokenInterval = 2 * 60 * 1000;
+let externalUrl = 'https://localhost:8443';
+
 export {
   credentialFiles,
   httpPort,
   httpsPort,
+
+  sendRecoveryTokenInterval,
+  externalUrl,
 };
