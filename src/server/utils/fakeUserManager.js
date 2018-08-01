@@ -2,7 +2,7 @@ import JwtSessionHelper from 'jwt-session-helper';
 import drawIcon from '~/utils/drawIcon';
 
 class FakeUserManager {
-  constructor(){
+  constructor() {
     this.userCount = 0;
     this.usernames = {};
     this.userIdMap = {};
@@ -25,7 +25,7 @@ class FakeUserManager {
         ...rest,
       }),
       exposeInfo: (originalData, payload) => {
-        let result = {
+        const result = {
           ...payload,
         };
         delete result.auth_type;
@@ -39,8 +39,8 @@ class FakeUserManager {
     });
   }
 
-  register(username, password, name, privilege, data){
-    if(this.usernames[username]){
+  register(username, password, name, privilege, data) {
+    if (this.usernames[username]) {
       return null;
     }
     const id = `${++this.userCount}`;
@@ -62,13 +62,13 @@ class FakeUserManager {
     return user;
   }
 
-  authenticate(auth_type, username, password){
+  authenticate(auth_type, username, password) {
     const user = this.usernames[username];
-    if(auth_type !== 'basic' || !user){
+    if (auth_type !== 'basic' || !user) {
       return null;
     }
 
-    let session = this.jwtSessionHelper.createSession({
+    const session = this.jwtSessionHelper.createSession({
       user,
       auth_type,
     });
@@ -76,16 +76,16 @@ class FakeUserManager {
     return session.info;
   }
 
-  verify(token){
-    try{
+  verify(token) {
+    try {
       return this.jwtSessionHelper.verify(token);
-    }catch(e){
+    } catch (e) {
       return null;
     }
   }
 
-  _exposeUserData(user){
-    if(!user){
+  exposeUserData(user) {
+    if (!user) {
       return null;
     }
     const {
@@ -106,13 +106,13 @@ class FakeUserManager {
     };
   }
 
-  getUserById(id){
-    return this._exposeUserData(this.userIdMap[id]);
+  getUserById(id) {
+    return this.exposeUserData(this.userIdMap[id]);
   }
 
-  updateUserById(id, inputData = {}){
-    let user = this.userIdMap[id];
-    if(!user){
+  updateUserById(id, inputData = {}) {
+    const user = this.userIdMap[id];
+    if (!user) {
       return user;
     }
 
@@ -121,35 +121,35 @@ class FakeUserManager {
       picture,
       data,
     } = inputData;
-    if(name !== undefined){
+    if (name !== undefined) {
       user.name = name;
     }
-    if(picture !== undefined){
+    if (picture !== undefined) {
       user.picture = picture;
     }
-    if(data !== undefined){
+    if (data !== undefined) {
       user.data = data;
     }
-    return this._exposeUserData(user);
+    return this.exposeUserData(user);
   }
 
-  updateUserPasswordById(id, password){
-    let user = this.userIdMap[id];
-    if(!user){
+  updateUserPasswordById(id, password) {
+    const user = this.userIdMap[id];
+    if (!user) {
       return user;
     }
 
     user.password = password;
     user.recoveryToken = undefined;
-    return this._exposeUserData(user);
+    return this.exposeUserData(user);
   }
 
-  getRecoveryToken(username){
+  getRecoveryToken(username) {
     const user = this.usernames[username];
-    if(!user){
+    if (!user) {
       return user;
     }
-    if(user.recoveryToken){
+    if (user.recoveryToken) {
       return {
         user,
         ...user.recoveryToken,
@@ -158,9 +158,9 @@ class FakeUserManager {
     return {};
   }
 
-  updateRecoveryToken(username){
+  updateRecoveryToken(username) {
     const user = this.usernames[username];
-    if(!user){
+    if (!user) {
       return user;
     }
     const rnd = Math.random().toString();

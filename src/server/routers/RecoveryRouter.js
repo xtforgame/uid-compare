@@ -1,19 +1,18 @@
-import RouterBase from '../core/router-base';
 import {
-  RestfulResponse,
+  // RestfulResponse,
   RestfulError,
 } from 'az-restful-helpers';
-import drawIcon from '~/utils/drawIcon';
 import { externalUrl, sendRecoveryTokenInterval } from 'config';
+import RouterBase from '../core/router-base';
 import fakeUserManager from '../utils/fakeUserManager';
 
 export default class RecoveryRouter extends RouterBase {
-  challengeRecoveryTokens(ctx){
-    if(!ctx.request.body.username){
+  challengeRecoveryTokens(ctx) {
+    if (!ctx.request.body.username) {
       return { passed: false };
     }
-    let result = fakeUserManager.getRecoveryToken(ctx.request.body.username);
-    if(!result){
+    const result = fakeUserManager.getRecoveryToken(ctx.request.body.username);
+    if (!result) {
       return { passed: false };
     }
 
@@ -22,21 +21,21 @@ export default class RecoveryRouter extends RouterBase {
       user: result.user,
     };
   }
-  
+
   setupRoutes({ router }) {
     router.post('/api/recoveryTokens', (ctx, next) => {
       // console.log('ctx.request.body :', ctx.request.body);
-      if(!ctx.request.body.username){
+      if (!ctx.request.body.username) {
         return RestfulError.koaThrowWith(ctx, 400, 'Invalid username');
       }
-      let result = fakeUserManager.getRecoveryToken(ctx.request.body.username);
-      if(!result){
+      const result = fakeUserManager.getRecoveryToken(ctx.request.body.username);
+      if (!result) {
         return RestfulError.koaThrowWith(ctx, 404, 'User not found');
       }
-      const updatedTime = result.updatedTime;
-      if(updatedTime){
+      const { updatedTime } = result;
+      if (updatedTime) {
         const remainingTime = sendRecoveryTokenInterval - (new Date().getTime() - new Date(updatedTime).getTime());
-        if(remainingTime > 0){
+        if (remainingTime > 0) {
           return RestfulError.koaThrowWith(ctx, 429, { error: 'Too Many Request', remainingTime });
         }
       }
@@ -55,7 +54,7 @@ export default class RecoveryRouter extends RouterBase {
 
     router.post('/api/resetPasswordRequests', (ctx, next) => {
       const result = this.challengeRecoveryTokens(ctx);
-      if(!result.passed || !result.user){
+      if (!result.passed || !result.user) {
         return ctx.body = { passed: result.passed };
       }
       fakeUserManager.updateUserPasswordById(result.user.id, ctx.request.body.newPassword);
