@@ -26,7 +26,9 @@
     "test:server": "eslint --ext .js ./test/server && cross-env NODE_ENV=test mocha --require babel-core/register './test/server/**/*.spec.js'",
     "test-watch:server": "eslint --ext .js ./test/server && cross-env NODE_ENV=test mocha --watch ./test --watch-extensions js --require babel-core/register './test/server/**/*.spec.js'",
     "test:front-end": "eslint --ext .js ./test/front-end && cross-env NODE_ENV=test mocha --require ignore-styles --require babel-core/register './test/front-end/**/*.spec.js'",
-    "test-watch:front-end": "eslint --ext .js ./test/front-end && cross-env NODE_ENV=test mocha --watch ./test --watch-extensions js --require ignore-styles --require babel-core/register './test/front-end/**/*.spec.js'"
+    "test-watch:front-end": "eslint --ext .js ./test/front-end && cross-env NODE_ENV=test mocha --watch ./test --watch-extensions js --require ignore-styles --require babel-core/register './test/front-end/**/*.spec.js'",
+    "gmail-auth": "cross-env NODE_ENV=production node dist/server/scripts/gmailAuth.js",
+    "gmail-auth-dev": "cross-env NODE_ENV=development node dist/server/scripts/gmailAuth.js"
   },
   "license": "MIT",
   "engines": {
@@ -45,6 +47,7 @@
     "fontfaceobserver": "^2.0.13",
     "generic-router": "git+https://github.com/xtforgame/generic-router#v1.2.0",
     "google-libphonenumber": "^3.1.5",
+    "googleapis": "27",
     "history": "^4.0.0",
     "http-shutdown": "^1.2.0",
     "immutable": "^3.8.1",
