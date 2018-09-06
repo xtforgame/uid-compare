@@ -1,5 +1,8 @@
+/* eslint-disable no-underscore-dangle */
 import JwtSessionHelper from 'jwt-session-helper';
-import drawIcon from '~/utils/drawIcon';
+import {
+  createInitialUserData,
+} from '~/domain-logic';
 
 class FakeUserManager {
   constructor() {
@@ -44,18 +47,14 @@ class FakeUserManager {
       return null;
     }
     const id = `${++this.userCount}`;
-    const user = {
+    const user = createInitialUserData({
       id,
       name,
       username,
       password,
       privilege,
-      picture: `data:png;base64,${drawIcon(username).toString('base64')}`,
-      data: data || {
-        bio: `I'm ${name}`,
-        email: null,
-      },
-    };
+      data,
+    });
 
     this.usernames[username] = user;
     this.userIdMap[id] = user;
@@ -169,6 +168,30 @@ class FakeUserManager {
       updatedTime: new Date().getTime(),
     };
   }
+
+  _ensureLocal(ctx) {
+    ctx.local = ctx.local || {};
+  }
+
+  _ensureUserSession(ctx) {
+    this._ensureLocal(ctx);
+    ctx.local = ctx.local || {};
+    const { authorization = '' } = ctx.request.headers;
+    const authorizationParts = authorization.split(' ');
+
+    ctx.local.userSession = this.verify(authorizationParts[authorizationParts.length - 1]);
+  }
+
+  getIdentity = (ctx, next) => {
+    this._ensureUserSession(ctx);
+    if (ctx.local.userSession) {
+      const currentUserId = ctx.local.userSession.user_id;
+      ctx.local.user = this.userIdMap[currentUserId];
+      ctx.local.exposedUser = this.getUserById(currentUserId);
+    }
+
+    return next();
+  };
 }
 
 export default new FakeUserManager();

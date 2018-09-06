@@ -1,34 +1,25 @@
-// import {
-//   RestfulResponse,
-//   RestfulError,
-// } from 'az-restful-helpers';
+import {
+  // RestfulResponse,
+  RestfulError,
+} from 'az-restful-helpers';
 import RouterBase from '../core/router-base';
 import fakeUserManager from '../utils/fakeUserManager';
 
 export default class UserRouter extends RouterBase {
   setupRoutes({ router }) {
-    router.get('/api/users/:userId', (ctx, next) => {
+    router.get('/api/users/:userId', fakeUserManager.getIdentity, (ctx, next) => {
       // console.log('ctx.local.userSession :', ctx.local.userSession);
-      const { authorization = '' } = ctx.request.headers;
+      if (!ctx.local.userSession || !ctx.local.exposedUser) {
+        RestfulError.koaThrowWith(ctx, 404, 'User not found');
+      }
+
       const { userId } = ctx.params;
-      const authorizationParts = authorization.split(' ');
-      const session = fakeUserManager.verify(authorizationParts[authorizationParts.length - 1]);
-
-      if (!session) {
-        ctx.throw(404);
-      }
-
-      const currentUserId = session.user_id;
+      const currentUserId = ctx.local.userSession.user_id;
       if (currentUserId !== userId) {
-        ctx.throw(403);
+        RestfulError.koaThrowWith(ctx, 403, 'Admin privilege required');
       }
 
-      const exposedUser = fakeUserManager.getUserById(currentUserId);
-      if (!exposedUser) {
-        ctx.throw(404);
-      }
-
-      return ctx.body = exposedUser;
+      return ctx.body = ctx.local.exposedUser;
     });
 
     router.post('/api/users', (ctx) => {
@@ -59,29 +50,19 @@ export default class UserRouter extends RouterBase {
       };
     });
 
-
-    router.patch('/api/users/:userId', (ctx, next) => {
+    router.patch('/api/users/:userId', fakeUserManager.getIdentity, (ctx, next) => {
       // console.log('ctx.local.userSession :', ctx.local.userSession);
-      const { authorization = '' } = ctx.request.headers;
+      if (!ctx.local.userSession || !ctx.local.exposedUser) {
+        RestfulError.koaThrowWith(ctx, 404, 'User not found');
+      }
+
       const { userId } = ctx.params;
-      const authorizationParts = authorization.split(' ');
-      const session = fakeUserManager.verify(authorizationParts[authorizationParts.length - 1]);
-
-      if (!session) {
-        ctx.throw(404);
-      }
-
-      const currentUserId = session.user_id;
+      const currentUserId = ctx.local.userSession.user_id;
       if (currentUserId !== userId) {
-        ctx.throw(403);
+        RestfulError.koaThrowWith(ctx, 403, 'Admin privilege required');
       }
 
-      const exposedUser = fakeUserManager.updateUserById(currentUserId, ctx.request.body);
-      if (!exposedUser) {
-        ctx.throw(404);
-      }
-
-      return ctx.body = exposedUser;
+      return ctx.body = fakeUserManager.updateUserById(currentUserId, ctx.request.body);
     });
   }
 }

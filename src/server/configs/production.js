@@ -10,6 +10,12 @@ const credentialFiles = {
   cert: 'certificate.pem',
 };
 
+const jwtSecretFiles = {
+  basePath: path.join(secretsFolder, 'jwt'),
+  private: 'jwtRS256.key',
+  public: 'jwtRS256.key.pub',
+};
+
 const httpPort = 80;
 const httpsPort = 443;
 
@@ -28,6 +34,7 @@ const mailerConfig = {
 
 export {
   credentialFiles,
+  jwtSecretFiles,
   httpPort,
   httpsPort,
 
