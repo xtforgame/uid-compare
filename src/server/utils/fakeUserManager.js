@@ -54,6 +54,8 @@ class FakeUserManager {
       password,
       privilege,
       data,
+    }, {
+      memos: [],
     });
 
     this.usernames[username] = user;
