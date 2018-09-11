@@ -1,6 +1,6 @@
 # AzReactMaterialDev
 
-A general purpose seed project base
+A react material ui seed project
 
 Run `npm install`
 

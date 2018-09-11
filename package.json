@@ -32,11 +32,11 @@
   },
   "license": "MIT",
   "engines": {
-    "node": ">=8.0"
+    "node": ">=10.0"
   },
   "dependencies": {
     "@material-ui/core": "^1.5.1",
-    "@material-ui/icons": "^2.0.0",
+    "@material-ui/icons": "^2.0.3",
     "app-root-path": "^1.0.0",
     "axios": "^0.17.1",
     "az-mail-kit": "git+https://github.com/xtforgame/az-mail-kit.git#v0.1.0",
@@ -97,7 +97,9 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
+    "babel-register": "^6.14.0",
     "chai": "^3.5.0",
+    "compression-webpack-plugin": "^1.1.12",
     "copy-webpack-plugin": "^3.0.1",
     "cross-env": "^3.1.4",
     "css-loader": "^0.23.1",
@@ -120,7 +122,8 @@
     "rimraf": "^2.5.4",
     "sinon": "^4.3.0",
     "style-loader": "^0.13.1",
-    "webpack": "^3.10.0"
+    "webpack": "^3.10.0",
+    "webpack-bundle-analyzer": "^2.13.1"
   },
   "false": {}
 }
