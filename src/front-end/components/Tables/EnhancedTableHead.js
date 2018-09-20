@@ -14,15 +14,27 @@ export default class EnhancedTableHead extends React.Component {
 
   render() {
     const {
-      withDetail, withActions, columns, order, orderBy, sortTip,
+      withDetail,
+      withActions,
+      columns,
+      columnSizes,
+      order,
+      orderBy,
+      sortTip,
     } = this.props;
 
     return (
       <TableHead>
         <TableRow>
-          {withDetail && <TableCell padding="checkbox" />}
-          {columns.map((column) => {
+          {withDetail && (
+            <TableCell
+              padding="checkbox"
+              style={columnSizes ? { width: 72 } : {}}
+            />
+          )}
+          {columns.map((column, i) => {
             const sortProps = {};
+            const style = (columnSizes && columnSizes[i] != null) ? { width: columnSizes[i] } : {};
             let lable = column.label;
             if (column.sortable !== false) {
               sortProps.sortDirection = orderBy === column.id ? order : false;
@@ -44,6 +56,7 @@ export default class EnhancedTableHead extends React.Component {
                 padding={column.padding || 'default'}
                 className={column.cellClassName}
                 {...sortProps}
+                style={style}
               >
                 {column.label && (
                   <Tooltip
@@ -57,7 +70,7 @@ export default class EnhancedTableHead extends React.Component {
               </TableCell>
             );
           }, this)}
-          {withActions && <TableCell padding="checkbox" />}
+          {withActions && <TableCell padding="checkbox" style={columnSizes ? { width: 72 } : {}} />}
         </TableRow>
       </TableHead>
     );

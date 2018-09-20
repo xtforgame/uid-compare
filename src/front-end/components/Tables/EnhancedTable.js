@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -22,6 +23,10 @@ const styles = theme => ({
   table: {
     minWidth: 700,
   },
+  tableFixedLayout: {
+    minWidth: 700,
+    tableLayout: 'fixed',
+  },
   paper: {
     width: '100%',
   },
@@ -41,7 +46,11 @@ const styles = theme => ({
 
 class EnhancedTable extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   static updateState({
-    columns, rows = [], order, orderBy,
+    columns,
+    columnSizes,
+    rows = [],
+    order,
+    orderBy,
   }) {
     let sortedRows = [...rows]; // eslint-disable-line no-unused-vars
 
@@ -62,8 +71,9 @@ class EnhancedTable extends React.PureComponent { // eslint-disable-line react/p
 
     return {
       columns,
+      columnSizes,
       columnMap,
-      rows,
+      rows: sortedRows,
       order,
       orderBy,
     };
@@ -78,6 +88,7 @@ class EnhancedTable extends React.PureComponent { // eslint-disable-line react/p
       expanded: {},
       ...EnhancedTable.updateState({
         columns: this.props.columns,
+        columnSizes: this.props.columnSizes,
         rows: this.props.rows,
         order: 'asc',
         orderBy: this.props.defaultSortBy,
@@ -90,6 +101,7 @@ class EnhancedTable extends React.PureComponent { // eslint-disable-line react/p
       || (props.order && (props.order !== prevState.order))
       || (props.orderBy && (props.orderBy !== prevState.orderBy))
       || (props.columns && (props.columns !== prevState.columns))
+      || (props.columnSizes && (props.columnSizes !== prevState.columnSizes))
     ) {
       const rows = props.rows || prevState.rows;
       const order = props.order || prevState.order;
@@ -130,6 +142,7 @@ class EnhancedTable extends React.PureComponent { // eslint-disable-line react/p
 
     this.setState(EnhancedTable.updateState({
       columns: this.props.columns,
+      columnSizes: this.props.columnSizes,
       rows: this.state.rows,
       order,
       orderBy,
@@ -151,20 +164,28 @@ class EnhancedTable extends React.PureComponent { // eslint-disable-line react/p
 
   render() {
     const {
-      classes, withDetail, getActionMenuItems, columns, loading, loadingRows,
+      classes,
+      withDetail,
+      getActionMenuItems,
+      columns,
+      columnSizes,
+      loading,
+      loadingRows,
+      renderEmptyRows,
     } = this.props;
     const {
       order, orderBy, rowsPerPage, page,
     } = this.state;
-    // const emptyRows = rowsPerPage - Math.min(rowsPerPage, this.state.rows.length - page * rowsPerPage);
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, this.state.rows.length - page * rowsPerPage);
 
     return (
       <Paper className={classes.root}>
-        <Table className={classes.table}>
+        <Table className={columnSizes ? classes.tableFixedLayout : classes.table}>
           <EnhancedTableHead
             withDetail={withDetail}
             withActions={!!getActionMenuItems}
             columns={columns}
+            columnSizes={columnSizes}
             sortTip="Sort"
             order={order}
             orderBy={orderBy}
@@ -228,11 +249,13 @@ class EnhancedTable extends React.PureComponent { // eslint-disable-line react/p
                 </React.Fragment>
               );
             })}
-            {/* {emptyRows > 0 && (
-              <TableRow style={{ height: 49 * emptyRows }}>
-                <TableCell colSpan={6} />
+            {renderEmptyRows && emptyRows > 0
+            && Array.apply(null, { length: emptyRows }) // eslint-disable-line prefer-spread
+            .map((_, i) => (
+              <TableRow key={`empty-${i}`}>
+                <TableCell colSpan={columns.length + (+withDetail) + (+!!getActionMenuItems)} />
               </TableRow>
-            )} */}
+            ))}
           </TableBody>
         </Table>
         {!loading && loadingRows && <ProgressWithMask delay={100} />}
