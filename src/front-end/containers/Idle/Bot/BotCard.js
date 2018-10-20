@@ -181,7 +181,7 @@ class BotCard extends React.Component {
       <ClickableCard
         className={classes.card}
         buttonProps={{
-          onClick
+          onClick,
         }}
       >
         <CardMedia
