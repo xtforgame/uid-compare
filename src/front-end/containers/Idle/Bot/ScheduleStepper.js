@@ -199,7 +199,7 @@ class ScheduleStepper extends React.Component {
                         disableTypography
                         primary={(
                           <Typography
-                            variant="subheading"
+                            variant="subtitle1"
                           >
                             Description
                           </Typography>
@@ -228,7 +228,7 @@ class ScheduleStepper extends React.Component {
                               disableTypography
                               primary={(
                                 <Typography
-                                  variant="subheading"
+                                  variant="subtitle1"
                                   classes={{
                                     subheading: classes.success,
                                   }}
@@ -263,7 +263,7 @@ class ScheduleStepper extends React.Component {
                               disableTypography
                               primary={(
                                 <Typography
-                                  variant="subheading"
+                                  variant="subtitle1"
                                   classes={{
                                     subheading: classes.danger,
                                   }}

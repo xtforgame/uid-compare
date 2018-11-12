@@ -40,7 +40,7 @@ class MainAppBar extends React.Component {
                 <MenuIcon />
               </IconButton>
             )}
-            <Typography variant="title" color="inherit" className={classes.flex1}>
+            <Typography variant="h6" color="inherit" className={classes.flex1}>
               <FormattedMessage {...messages.appTitle} />
             </Typography>
             <LocaleDropdown />

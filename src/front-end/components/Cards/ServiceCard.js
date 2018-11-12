@@ -150,11 +150,11 @@ class ServiceCard extends React.Component {
           /> */}
           <div className={classes.details}>
             <CardContent className={classes.content}>
-              <Typography variant="subheading">
+              <Typography variant="subtitle1">
                 {name}
               </Typography>
               <Typography
-                variant="subheading"
+                variant="subtitle1"
                 color="textSecondary"
                 classes={{
                   subheading: classes[status.type],
@@ -165,7 +165,7 @@ class ServiceCard extends React.Component {
             </CardContent>
             <Divider />
             {/* <CardContent className={classes.content}>
-              <Typography variant="subheading">
+              <Typography variant="subtitle1">
                 tags:
               </Typography>
               <div className={classes.chipContainer} >
@@ -186,7 +186,7 @@ class ServiceCard extends React.Component {
                   disableTypography
                   primary={(
                     <Typography
-                      variant="subheading"
+                      variant="subtitle1"
                     >
                     Tags
                     </Typography>
@@ -211,7 +211,7 @@ class ServiceCard extends React.Component {
                   disableTypography
                   primary={(
                     <Typography
-                      variant="subheading"
+                      variant="subtitle1"
                     >
                     Ports
                     </Typography>

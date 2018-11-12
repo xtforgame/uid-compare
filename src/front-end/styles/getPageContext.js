@@ -52,6 +52,7 @@ export function getTheme(theme) {
   return createMuiTheme({
     direction: theme.direction,
     typography: {
+      useNextVariants: true,
       fontFamily: '"Noto Sans TC", "Noto Sans SC", "Noto Sans JP", "Roboto", sans-serif',
     },
     palette: {

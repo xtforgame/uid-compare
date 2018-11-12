@@ -152,7 +152,7 @@ class Login extends React.Component {
                   <ArrowBack />
                 </IconButton>
               )}
-              <Typography variant="title" color="inherit" className={classes.flex1}>
+              <Typography variant="h6" color="inherit" className={classes.flex1}>
                 {title}
               </Typography>
               <LocaleDropdown />

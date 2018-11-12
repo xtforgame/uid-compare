@@ -147,7 +147,7 @@ class ResetPassword extends React.Component {
           {recoveryCodeError
             && (
               <React.Fragment>
-                <Typography variant="body2" color="secondary">
+                <Typography variant="body1" color="secondary">
                   {recoveryCodeError}
                 </Typography>
                 <FormSpace variant="content4" />
@@ -175,7 +175,7 @@ class ResetPassword extends React.Component {
           <div className={classes.flexContainer}>
             <div className={classes.flex1} />
             <Button
-              variant="raised"
+              variant="contained"
               color="primary"
               disabled={!password}
               className={classes.actionBtn}

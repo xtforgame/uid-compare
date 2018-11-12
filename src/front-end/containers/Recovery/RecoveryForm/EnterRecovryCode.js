@@ -159,7 +159,7 @@ class EnterRecovryCode extends React.Component {
           >
             {(...parts) => (
               <Typography
-                variant="body2"
+                variant="body1"
                 className={classes.textContainer}
                 onClick={(event) => {
                   event.stopPropagation();
@@ -197,7 +197,7 @@ class EnterRecovryCode extends React.Component {
             )}
             <div className={classes.flex1} />
             <Button
-              variant="raised"
+              variant="contained"
               color="primary"
               disabled={!recoveryCode || recoveryCode.length !== 6}
               className={classes.actionBtn}

@@ -44,14 +44,14 @@ class ErrorContent extends React.Component {
         <FormSpace variant="top" />
         <FormContent>
           <FormSpace variant="content8" />
-          <Typography variant="body2">
+          <Typography variant="body1">
             {translated.failToGetUserData}
           </Typography>
           <FormSpace variant="content8" />
           <div className={classes.flexContainer}>
             <div className={classes.flex1} />
             <Button
-              variant="raised"
+              variant="contained"
               color="primary"
               fullWidth
               onClick={() => {

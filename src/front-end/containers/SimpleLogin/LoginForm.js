@@ -162,7 +162,7 @@ class LoginForm extends React.Component {
           />
           <FormSpace variant="content1" />
           <Button
-            variant="raised"
+            variant="contained"
             fullWidth
             color="primary"
             className={classes.loginBtn}

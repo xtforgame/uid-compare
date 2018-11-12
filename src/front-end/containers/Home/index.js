@@ -44,16 +44,16 @@ class Home extends React.Component {
 
     return (
       <div className={classes.mainContainer}>
-        <Typography variant="display3">
+        <Typography variant="h2">
           Home
         </Typography>
         <Divider />
         <div className={classes.placeholder} />
         { routeView }
-        <Typography variant="title">
+        <Typography variant="h6">
           {formatMessage(intl, messages.greetText, { user: greetName || 'user0001' })}
         </Typography>
-        <Typography variant="title">
+        <Typography variant="h6">
           <ruby>
             <rb>
 圖
@@ -142,7 +142,7 @@ class Home extends React.Component {
             ㄊㄨˊㄕㄨㄍㄨㄢˇ
           </ruby>
         </Typography>
-        <Typography variant="title">
+        <Typography variant="h6">
           <ruby>
             <rb>
 図

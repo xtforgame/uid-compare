@@ -230,7 +230,7 @@ class SendRecovryCode extends React.Component {
           />
           <FormSpace variant="content8" />
           <Button
-            variant="raised"
+            variant="contained"
             fullWidth
             color="secondary"
             disabled={!username || remainingTime > 0}

@@ -203,7 +203,7 @@ class BotCard extends React.Component {
               borderRadius: '50%',
             }}
             />
-            <Typography variant="body2" gutterBottom>
+            <Typography variant="body1" gutterBottom>
               {name}
             </Typography>
           </div>

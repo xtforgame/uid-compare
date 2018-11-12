@@ -67,7 +67,7 @@ class SubContent04 extends React.Component {
         <div className={classes.placeholder} />
         <Divider />
         <div className={classes.placeholder} />
-        <Typography variant="display1">
+        <Typography variant="h4">
           Services
         </Typography>
         <div className={classes.cardContainer}>
@@ -94,7 +94,7 @@ class SubContent04 extends React.Component {
           />
         </div>
         <div className={classes.placeholder} />
-        <Typography variant="display1">
+        <Typography variant="h4">
           Containers
         </Typography>
         <div className={classes.cardContainer}>

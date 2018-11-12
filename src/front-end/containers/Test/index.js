@@ -23,7 +23,7 @@ class Test extends React.Component {
 
     return (
       <div className={classes.mainContainer}>
-        <Typography variant="display3">
+        <Typography variant="h2">
           Test
         </Typography>
         <Divider />

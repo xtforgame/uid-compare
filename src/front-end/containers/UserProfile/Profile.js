@@ -214,7 +214,7 @@ class Profile extends React.Component {
     return (
       <CardContent>
         <Centered>
-          <Typography gutterBottom variant="headline" component="h2">
+          <Typography gutterBottom variant="h5" component="h2">
             {user.name}
           </Typography>
         </Centered>
@@ -230,7 +230,7 @@ class Profile extends React.Component {
               disableTypography
               primary={(
                 <Typography
-                  variant="subheading"
+                  variant="subtitle1"
                 >
                 Bio
                 </Typography>
@@ -375,7 +375,7 @@ class Profile extends React.Component {
                 )
                 }
                 {!user.picture && (
-                  <Typography variant="display1">
+                  <Typography variant="h4">
                     {(user.name || '').substr(0, 2)}
                   </Typography>
                 )
@@ -416,7 +416,7 @@ class Profile extends React.Component {
               <CardActions>
                 <SuccessButton
                   size="small"
-                  variant="raised"
+                  variant="contained"
                   fullWidth
                   color="primary"
                   onClick={this.submit}

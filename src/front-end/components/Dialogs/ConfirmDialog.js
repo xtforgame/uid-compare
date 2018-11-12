@@ -67,7 +67,7 @@ class ConfirmDialog extends React.Component {
               <IconButton color="inherit" className={classes.menuButton} onClick={this.handleClose(false)} aria-label="Close">
                 <CloseIcon />
               </IconButton>
-              <Typography variant="title" color="inherit" className={classes.flex1}>
+              <Typography variant="h6" color="inherit" className={classes.flex1}>
                 {title}
               </Typography>
               {/* <Button color="inherit" onClick={onClose}>

@@ -43,7 +43,7 @@ class SimpleFullScreenDialog extends React.Component {
             <IconButton color="inherit" className={classes.menuButton} onClick={onClose} aria-label="Close">
               <CloseIcon />
             </IconButton>
-            <Typography variant="title" color="inherit" className={classes.flex1}>
+            <Typography variant="h6" color="inherit" className={classes.flex1}>
               {title}
             </Typography>
             {headerContent}

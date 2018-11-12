@@ -195,7 +195,7 @@ class RegistrationForm extends React.Component {
             !comfirmUserAgreement && (userAgreementLable)
           }
           <SuccessButton
-            variant="raised"
+            variant="contained"
             fullWidth
             color="primary"
             disabled={comfirmUserAgreement && !this.state.agreed}

@@ -103,7 +103,7 @@ class DetailedExpansionPanel extends React.Component {
             </div>
             <div className={classes.column}>
               <Typography
-                variant="subheading"
+                variant="subtitle1"
                 className={classes.secondaryHeading}
                 color="textSecondary"
                 classes={{

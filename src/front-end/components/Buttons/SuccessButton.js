@@ -11,7 +11,7 @@ const styles = theme => ({
 
 const SuccessButton = ({ classes, ...props }) => (
   <Button
-    variant="raised"
+    variant="contained"
     classes={{
       raisedPrimary: classes.raisedPrimary,
     }}
