@@ -11,7 +11,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 const styles = theme => ({
 });
 
-const FormTextInput = (props) => {
+const FormTextField = (props) => {
   const {
     id,
     label,
@@ -41,10 +41,10 @@ const FormTextInput = (props) => {
   );
 };
 
-FormTextInput.propTypes = {
+FormTextField.propTypes = {
   id: PropTypes.string.isRequired,
 };
 
 export default compose(
   withStyles(styles),
-)(FormTextInput);
+)(FormTextField);

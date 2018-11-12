@@ -17,7 +17,7 @@ import {
 } from '~/components/SignInSignUp';
 
 import FormInputLinker, {
-  FromTextInputGetProps,
+  FormTextFieldGetProps,
   FromPasswordVisibilityGetProps,
   assert,
 } from '~/utils/FormInputLinker';
@@ -59,11 +59,11 @@ class ResetPassword extends React.Component {
       exposed: {
         onChange: 'onPasswordChange',
       },
-      getProps: FromTextInputGetProps,
+      getProps: FormTextFieldGetProps,
       validate: value => assert(isValidPassword(value), null, { key: 'wrongPasswordFormatError' }),
     }, {
       name: 'confrimPassword',
-      getProps: FromTextInputGetProps,
+      getProps: FormTextFieldGetProps,
       validate: (value) => {
         const {
           password,

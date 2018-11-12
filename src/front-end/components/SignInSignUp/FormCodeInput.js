@@ -4,7 +4,7 @@ import { compose } from 'recompose';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import FormTextInput from './FormTextInput';
+import FormTextField from './FormTextField';
 
 const styles = theme => ({
 });
@@ -22,7 +22,7 @@ const FormCodeInput = (props) => {
     </InputAdornment>
   );
   return (
-    <FormTextInput
+    <FormTextField
       id={id}
       type={type}
       startAdornment={startAdornment}

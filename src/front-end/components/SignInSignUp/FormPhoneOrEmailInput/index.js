@@ -12,7 +12,7 @@ import /* libphonenumber, */ {
   PhoneNumberUtil,
 } from 'google-libphonenumber';
 import { isValidEmail } from 'common/utils/validators';
-import FormTextInput from '../FormTextInput';
+import FormTextField from '../FormTextField';
 import PhoneRegionSelect from './PhoneRegionSelect';
 import { getCountryCodeFromBrowser } from './langToCountry';
 
@@ -84,7 +84,7 @@ class FormPhoneOrEmailInput extends React.Component {
   static getDerivedStateFromProps(props, prevState) {
     let newState = null;
     let enablePhone = prevState.enablePhone !== undefined ? prevState.enablePhone : true;
-    let enableEmail = prevState.enablePhone !== undefined ? prevState.enablePhone : true;
+    let enableEmail = prevState.enableEmail !== undefined ? prevState.enableEmail : true;
 
     if (props.enablePhone !== undefined && (props.enablePhone !== prevState.enablePhone)) {
       newState = newState || {};
@@ -142,9 +142,11 @@ class FormPhoneOrEmailInput extends React.Component {
       </InputAdornment>
     );
     return (
-      <FormTextInput
+      <FormTextField
         id={id}
-        startAdornment={startAdornment}
+        InputProps={{
+          startAdornment,
+        }}
         {...rest}
         onChange={this.onChange}
       />

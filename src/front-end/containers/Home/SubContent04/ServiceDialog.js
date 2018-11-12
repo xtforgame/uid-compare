@@ -1,6 +1,6 @@
 import React from 'react';
 import { compose } from 'recompose';
-import { FormTextInput, FormSpace } from '~/components/SignInSignUp';
+import { FormTextField, FormSpace } from '~/components/SignInSignUp';
 import ConfirmDialog from '~/components/Dialogs/ConfirmDialog';
 import { withStyles } from '@material-ui/core/styles';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -76,17 +76,12 @@ class ServiceDialog extends React.Component {
           ? (
             <DialogContent className={classes.dialogContent1}>
               <FormSpace variant="content2" />
-              <FormTextInput
+              <FormTextField
                 id="service-name"
                 label="Service Name"
                 onKeyPress={this.handleEnterForTextField}
                 value={this.state.editingText}
                 onChange={e => this.setState({ editingText: e.target.value })}
-                formProps={{
-                  style: {
-                    width: '100%',
-                  },
-                }}
                 autoFocus
                 margin="dense"
                 fullWidth

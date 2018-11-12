@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button';
 import createCommonStyles from '~/styles/common';
 import SimpleFullScreenDialog from '~/components/Dialogs/SimpleFullScreenDialog';
 import {
-  FormTextInput,
+  FormTextField,
 } from '~/components/SignInSignUp';
 import modelMap from '~/containers/App/modelMap';
 
@@ -97,14 +97,9 @@ class NewMemoDialog extends React.Component {
             {/* <Typography component={BreakAllCodeBlock} variant="body1" className={classes.flex1}>
               {JSON.stringify(result, null, 2)}
             </Typography> */}
-            <FormTextInput
+            <FormTextField
               id="article"
               label="Memo..."
-              formProps={{
-                style: {
-                  width: '100%',
-                },
-              }}
               multiline
               fullWidth
               rows={2}

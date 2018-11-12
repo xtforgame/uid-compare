@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
-import FormTextInput from './FormTextInput';
+import FormTextField from './FormTextField';
 
 const styles = theme => ({
 });
@@ -34,10 +34,12 @@ const FormPasswordInput = (props) => {
     </InputAdornment>
   );
   return (
-    <FormTextInput
+    <FormTextField
       id={id}
       type={type}
-      endAdornment={endAdornment}
+      InputProps={{
+        endAdornment,
+      }}
       {...rest}
     />
   );

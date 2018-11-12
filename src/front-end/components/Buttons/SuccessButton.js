@@ -13,7 +13,7 @@ const SuccessButton = ({ classes, ...props }) => (
   <Button
     variant="contained"
     classes={{
-      raisedPrimary: classes.raisedPrimary,
+      containedPrimary: classes.containedPrimary,
     }}
     {...props}
   />

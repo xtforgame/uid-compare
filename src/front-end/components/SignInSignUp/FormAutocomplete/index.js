@@ -7,7 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
 import {
-  FormTextInput,
+  FormTextField,
 } from '~/components/SignInSignUp';
 
 const WrappedInput = (props) => {
@@ -32,7 +32,7 @@ const WrappedInput = (props) => {
   };
 
   return (
-    <FormTextInput
+    <FormTextField
       id={InputProps.id}
       label={label}
       className={classes.inputRoot}

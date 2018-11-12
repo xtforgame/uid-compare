@@ -1,5 +1,5 @@
 export default theme => ({
-  raisedPrimary: {
+  containedPrimary: {
     contrastText: theme.palette.getContrastText(theme.palette.primary.main),
     color: theme.status.success.contrastText,
     backgroundColor: theme.status.success.main,

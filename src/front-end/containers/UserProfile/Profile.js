@@ -28,7 +28,7 @@ import {
 } from '~/utils/imageHelpers';
 
 import {
-  FormTextInput,
+  FormTextField,
 } from '~/components/SignInSignUp';
 
 import {
@@ -262,7 +262,7 @@ class Profile extends React.Component {
 
     return (
       <CardContent>
-        <FormTextInput
+        <FormTextField
           id="name"
           label="Name"
           onKeyPress={() => {}}
@@ -272,15 +272,10 @@ class Profile extends React.Component {
               name: e.target.value,
             });
           }}
-          formProps={{
-            style: {
-              width: '100%',
-            },
-          }}
           fullWidth
         />
         <div className={classes.space3} />
-        <FormTextInput
+        <FormTextField
           id="email"
           label="Email"
           onKeyPress={() => {}}
@@ -290,16 +285,11 @@ class Profile extends React.Component {
               email: e.target.value,
             });
           }}
-          formProps={{
-            style: {
-              width: '100%',
-            },
-          }}
           fullWidth
         />
         <div className={classes.space3} />
         <React.Fragment>
-          <FormTextInput
+          <FormTextField
             id="bio"
             label="Bio"
             onKeyPress={() => {}}
@@ -308,11 +298,6 @@ class Profile extends React.Component {
               this.setState({
                 bio: e.target.value,
               });
-            }}
-            formProps={{
-              style: {
-                width: '100%',
-              },
             }}
             multiline
             fullWidth

@@ -1,7 +1,38 @@
 /* eslint-disable no-underscore-dangle */
 import { capitalizeFirstLetter } from 'common/utils';
 
-export const FromTextInputGetProps = ({
+export const FormTextFieldGetProps = ({
+  value,
+  link,
+  linker,
+  handleChange,
+  errorOccurred,
+  helperMessage,
+  validateError,
+  errorFromProps,
+},
+{ translate } = {}) => {
+  let errorMessage;
+  if (validateError) {
+    errorMessage = (
+      (validateError.i18n && translate(validateError.i18n.key, validateError.i18n.values))
+      || validateError.message
+    );
+  } else if (errorFromProps) {
+    errorMessage = errorFromProps === true ? '' : errorFromProps;
+  }
+
+  return {
+    id: `${linker.namespace}${link.name}`,
+    value,
+    onChange: handleChange,
+    error: !!errorOccurred,
+    helperText: errorMessage, // helperMessage,
+    ...link.props,
+  };
+};
+
+export const FormTextInputGetProps = ({
   value,
   link,
   linker,

@@ -10,13 +10,13 @@ import translateMessages from '~/utils/translateMessages';
 import {
   FormSpace,
   FormContent,
-  FormTextInput,
+  FormTextField,
   FormPasswordInput,
   FormCheckbox,
 } from '~/components/SignInSignUp';
 
 import FormInputLinker, {
-  FromTextInputGetProps,
+  FormTextFieldGetProps,
   FromPasswordVisibilityGetProps,
   assert,
 } from '~/utils/FormInputLinker';
@@ -43,7 +43,7 @@ class LoginForm extends React.Component {
         error: 'usernameError',
       },
       getProps: (__, _) => ({
-        ...FromTextInputGetProps(__, _),
+        ...FormTextFieldGetProps(__, _),
         placeholder: _.translate('usernameEmptyError', {
           emailAddress: { key: 'emailAddress' },
           phoneNumber: { key: 'phoneNumber' },
@@ -62,7 +62,7 @@ class LoginForm extends React.Component {
         onChange: 'onPasswordChange',
         error: 'passwordError',
       },
-      getProps: FromTextInputGetProps,
+      getProps: FormTextFieldGetProps,
       validate: value => assert(value != null && value !== '', null, { key: 'passwordEmptyError' }),
     }, {
       name: 'password-visibility',
@@ -137,7 +137,7 @@ class LoginForm extends React.Component {
       <div>
         <FormSpace variant="top" />
         <FormContent>
-          <FormTextInput
+          <FormTextField
             label={translated.username}
             onKeyPress={this.handleEnterForTextField}
             {...this.fil

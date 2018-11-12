@@ -17,7 +17,7 @@ import {
 } from '~/components/SignInSignUp';
 
 import FormInputLinker, {
-  FromTextInputGetProps,
+  FormTextFieldGetProps,
   FromPasswordVisibilityGetProps,
   assert,
 } from '~/utils/FormInputLinker';
@@ -49,7 +49,7 @@ class LoginForm extends React.Component {
         toOutput: (value => value && value.value),
       },
       getProps: (__, _) => ({
-        ...FromTextInputGetProps(__, _),
+        ...FormTextFieldGetProps(__, _),
         placeholder: _.translate('usernameEmptyError', {
           emailAddress: { key: 'emailAddress' },
           phoneNumber: { key: 'phoneNumber' },
@@ -68,7 +68,7 @@ class LoginForm extends React.Component {
         onChange: 'onPasswordChange',
         error: 'passwordError',
       },
-      getProps: FromTextInputGetProps,
+      getProps: FormTextFieldGetProps,
       validate: value => assert(value != null && value !== '', null, { key: 'passwordEmptyError' }),
     }, {
       name: 'password-visibility',

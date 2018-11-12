@@ -16,7 +16,7 @@ import {
 } from '~/components/SignInSignUp';
 
 import FormInputLinker, {
-  FromTextInputGetProps,
+  FormTextFieldGetProps,
   assert,
 } from '~/utils/FormInputLinker';
 
@@ -78,7 +78,7 @@ class EnterRecovryCode extends React.Component {
           ) ? e.target.value : valueInState)
         ),
       },
-      getProps: FromTextInputGetProps,
+      getProps: FormTextFieldGetProps,
       validate: value => assert(value, null),
     });
 

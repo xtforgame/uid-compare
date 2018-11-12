@@ -1,5 +1,6 @@
 import FormSpace from './FormSpace';
 import FormContent from './FormContent';
+import FormTextField from './FormTextField';
 import FormTextInput from './FormTextInput';
 import FormPhoneOrEmailInput from './FormPhoneOrEmailInput';
 import FormPasswordInput from './FormPasswordInput';
@@ -12,6 +13,7 @@ import InternalLink from './InternalLink';
 export {
   FormSpace,
   FormContent,
+  FormTextField,
   FormTextInput,
   FormPhoneOrEmailInput,
   FormPasswordInput,
