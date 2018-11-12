@@ -67,7 +67,7 @@ export default class HttpApp extends ServiceBase {
     // ======================================================
     let p = Promise.resolve();
     if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
-      const { middlewarePromise/* , compileDonePromise */ } = getWebpackService();
+      const { middlewarePromise, compileDonePromise } = getWebpackService();
       p = middlewarePromise
       .then((middleware) => {
         this.app.use(middleware);
@@ -76,7 +76,9 @@ export default class HttpApp extends ServiceBase {
           middleware.close(resolve);
         }));
       });
-      // .then(() => compileDonePromise);
+      if (process.env.NODE_ENV === 'test') {
+        p = p.then(() => compileDonePromise);
+      }
     } else {
       this.closeWebpack = Promise.resolve();
       this.app.use(koaStatic(path.join(appRoot, 'dist', 'front-end')));

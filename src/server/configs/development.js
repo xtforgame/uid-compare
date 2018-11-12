@@ -19,6 +19,8 @@ const jwtSecretFiles = {
 const httpPort = 8080;
 const httpsPort = 8443;
 
+const webpackHotClientPort = 18080;
+
 const sendRecoveryTokenInterval = 1 * 20 * 1000;
 const externalUrl = 'https://localhost:8443';
 
@@ -35,6 +37,8 @@ export {
   jwtSecretFiles,
   httpPort,
   httpsPort,
+
+  webpackHotClientPort,
 
   sendRecoveryTokenInterval,
   externalUrl,
