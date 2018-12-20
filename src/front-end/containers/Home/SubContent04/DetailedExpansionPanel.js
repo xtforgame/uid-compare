@@ -67,7 +67,7 @@ const styles = theme => ({
   },
 });
 
-class DetailedExpansionPanel extends React.Component {
+class DetailedExpansionPanel extends React.PureComponent {
   state = {
     enabled: true,
   };

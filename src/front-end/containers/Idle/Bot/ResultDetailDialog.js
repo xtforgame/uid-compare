@@ -24,7 +24,7 @@ const styles = theme => ({
   },
 });
 
-class ResultDetailDialog extends React.Component {
+class ResultDetailDialog extends React.PureComponent {
   render() {
     const {
       classes,

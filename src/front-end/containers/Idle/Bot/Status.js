@@ -20,7 +20,7 @@ const styles = theme => ({
   },
 });
 
-class Status extends React.Component {
+class Status extends React.PureComponent {
   render() {
     const { style, classes, theme } = this.props;
     const labelColor = fade(theme.palette.background.paper, 0.7);

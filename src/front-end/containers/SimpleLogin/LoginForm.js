@@ -31,7 +31,7 @@ const styles = theme => ({
   ...createCommonStyles(theme, 'flex'),
 });
 
-class LoginForm extends React.Component {
+class LoginForm extends React.PureComponent {
   constructor(props) {
     super(props);
     this.il = new InputLinker(this, {

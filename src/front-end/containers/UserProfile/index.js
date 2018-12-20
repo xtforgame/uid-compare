@@ -9,7 +9,7 @@ const styles = {
   // },
 };
 
-class UserProfile extends React.Component {
+class UserProfile extends React.PureComponent {
   render() {
     // const {
     //   classes,

@@ -53,7 +53,7 @@ const styles = theme => ({
   },
 });
 
-class EnterRecoveryCode extends React.Component {
+class EnterRecoveryCode extends React.PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     onChallenge: PropTypes.func.isRequired,

@@ -35,7 +35,7 @@ const styles = theme => ({
   },
 });
 
-class ProgressWithMask extends React.Component {
+class ProgressWithMask extends React.PureComponent {
   constructor(...args) {
     super(...args);
     this.state = {

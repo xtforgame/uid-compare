@@ -46,7 +46,7 @@ const styles = theme => ({
   },
 });
 
-class Recovery extends React.Component {
+class Recovery extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {

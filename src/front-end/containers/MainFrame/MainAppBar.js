@@ -24,7 +24,7 @@ const styles = theme => ({
   ...createCommonStyles(theme, ['flex', 'appBar']),
 });
 
-class MainAppBar extends React.Component {
+class MainAppBar extends React.PureComponent {
   render() {
     const {
       classes,

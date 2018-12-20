@@ -48,7 +48,7 @@ const styles = theme => ({
   ...createCommonStyles(theme, ['flex', 'appBar']),
 });
 
-class Login extends React.Component {
+class Login extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {

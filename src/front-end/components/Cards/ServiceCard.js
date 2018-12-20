@@ -103,7 +103,7 @@ const styles = theme => ({
   },
 });
 
-class ServiceCard extends React.Component {
+class ServiceCard extends React.PureComponent {
   static propTypes = {
     status: PropTypes.shape({
       type: PropTypes.oneOf(['healthy', 'warning', 'danger', 'inactive', 'unknown']).isRequired,

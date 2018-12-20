@@ -127,7 +127,7 @@ const styles = theme => ({
   },
 });
 
-class Profile extends React.Component {
+class Profile extends React.PureComponent {
   constructor(...args) {
     super(...args);
     this.state = {

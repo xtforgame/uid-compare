@@ -34,7 +34,7 @@ if (session) {
   store.dispatch(sessionVerified(session));
 }
 
-class AppWrapper extends React.Component {
+class AppWrapper extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {

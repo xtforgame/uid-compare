@@ -15,7 +15,7 @@ const styles = theme => ({
   ...createCommonStyles(theme, ['flex', 'appBar']),
 });
 
-class TableSearchBar extends React.Component {
+class TableSearchBar extends React.PureComponent {
   render() {
     const {
       classes,

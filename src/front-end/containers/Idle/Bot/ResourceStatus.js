@@ -72,7 +72,7 @@ const resourceInfo = {
   },
 };
 
-class ResourceLabel extends React.Component {
+class ResourceLabel extends React.PureComponent {
   render() {
     const {
       value, max, delta, showMax,
@@ -101,7 +101,7 @@ class ResourceLabel extends React.Component {
   }
 }
 
-class ResourceStatus extends React.Component { // eslint-disable-line react/no-multi-comp
+class ResourceStatus extends React.PureComponent { // eslint-disable-line react/no-multi-comp
   constructor(props) {
     super(props);
     this.state = {

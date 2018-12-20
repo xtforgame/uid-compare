@@ -13,7 +13,7 @@ const flex1 = {
   flex: 1,
 };
 
-export class SegmentContainer extends React.Component {
+export class SegmentContainer extends React.PureComponent {
   static propTypes = {
     percent: PropTypes.number,
     animation: PropTypes.number,
@@ -53,7 +53,7 @@ export class SegmentContainer extends React.Component {
   }
 }
 
-export class Segment extends React.Component {
+export class Segment extends React.PureComponent {
   static propTypes = {
     percent: PropTypes.number,
     color: PropTypes.string,
@@ -107,7 +107,7 @@ export class Segment extends React.Component {
   }
 }
 
-export default class StackedProgress extends React.Component {
+export default class StackedProgress extends React.PureComponent {
   static propTypes = {
     mainLabel: PropTypes.any,
     height: PropTypes.oneOfType([

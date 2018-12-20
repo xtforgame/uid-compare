@@ -21,7 +21,7 @@ import {
 const styles = {
 };
 
-class UserSettingsDialog extends React.Component {
+class UserSettingsDialog extends React.PureComponent {
   handleToggle = () => {
     const {
       uiTheme,

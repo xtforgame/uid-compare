@@ -35,7 +35,7 @@ const styles = theme => ({
   },
 });
 
-class FormPhoneOrEmailInput extends React.Component {
+class FormPhoneOrEmailInput extends React.PureComponent {
   static rawInputToState(rawInput, enablePhone = true, enableEmail = true) {
     let regionCode = null;
     let value = rawInput;

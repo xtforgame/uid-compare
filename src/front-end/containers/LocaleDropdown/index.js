@@ -17,7 +17,7 @@ import { compose } from 'recompose';
 const styles = theme => ({
 });
 
-class LocaleDropdown extends React.Component {
+class LocaleDropdown extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {

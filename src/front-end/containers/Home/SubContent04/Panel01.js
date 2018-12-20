@@ -20,7 +20,7 @@ const styles = theme => ({
   },
 });
 
-class Panel01 extends React.Component {
+class Panel01 extends React.PureComponent {
   constructor(...args) {
     super(...args);
     this.state = {

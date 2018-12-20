@@ -2,7 +2,7 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import EmbeddedMocha from '~/embedded-tests/embedded-mocha';
 
-export default class TestContent extends React.Component {
+export default class TestContent extends React.PureComponent {
   run = () => {
     if (this.props.testCase) {
       this.ebdMocha = this.ebdMocha || new EmbeddedMocha();

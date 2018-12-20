@@ -39,7 +39,7 @@ const styles = theme => ({
   },
 });
 
-class RouteList extends React.Component {
+class RouteList extends React.PureComponent {
   state = {};
 
   handleClick = name => () => {

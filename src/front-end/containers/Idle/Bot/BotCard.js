@@ -50,7 +50,7 @@ const styles = theme => ({
   },
 });
 
-class BotCard extends React.Component {
+class BotCard extends React.PureComponent {
   getMemoryUsage() {
     let {
       botInfo,

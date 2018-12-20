@@ -97,7 +97,7 @@ const styles = theme => ({
   },
 });
 
-class ContainerCard extends React.Component {
+class ContainerCard extends React.PureComponent {
   static propTypes = {
     status: PropTypes.shape({
       type: PropTypes.oneOf(['healthy', 'warning', 'danger', 'inactive', 'unknown']).isRequired,

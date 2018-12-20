@@ -15,7 +15,7 @@ const styles = {
   },
 };
 
-class Test extends React.Component {
+class Test extends React.PureComponent {
   render() {
     const {
       routeView, classes,

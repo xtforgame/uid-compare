@@ -15,7 +15,7 @@ const styles = theme => ({
   },
 });
 
-class ScheduleCard extends React.Component {
+class ScheduleCard extends React.PureComponent {
   handleExpandClick = () => {
     this.setState(state => ({ expanded: !state.expanded }));
   };

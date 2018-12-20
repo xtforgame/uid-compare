@@ -5,7 +5,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import { FormTextField, FormSpace } from '../FormInputs';
 import ConfirmDialog from './ConfirmDialog';
 
-export default class InputDialog extends React.Component {
+export default class InputDialog extends React.PureComponent {
   constructor(...args) {
     super(...args);
     this.state = {

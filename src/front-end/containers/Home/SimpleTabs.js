@@ -25,7 +25,7 @@ const styles = theme => ({
   },
 });
 
-class SimpleTabs extends React.Component {
+class SimpleTabs extends React.PureComponent {
   state = {
     value: 0,
   };

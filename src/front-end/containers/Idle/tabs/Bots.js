@@ -6,7 +6,7 @@ import botPastureStatus from '../botPastureStatus';
 const styles = {
 };
 
-class Bots extends React.Component {
+class Bots extends React.PureComponent {
   render() {
     const status = botPastureStatus && botPastureStatus.status;
     const bots = (status && status.bots) || [];

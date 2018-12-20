@@ -31,7 +31,7 @@ const {
 const styles = theme => ({
 });
 
-class SendRecoveryCode extends React.Component {
+class SendRecoveryCode extends React.PureComponent {
   static propTypes = {
     onCodeSent: PropTypes.func.isRequired,
     onBackToEnterTheCode: PropTypes.func.isRequired,

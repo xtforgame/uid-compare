@@ -57,7 +57,7 @@ const styles = theme => ({
   },
 });
 
-class SimpleExpansionCard extends React.Component {
+class SimpleExpansionCard extends React.PureComponent {
   state = { expanded: false };
 
   handleExpandClick = () => {

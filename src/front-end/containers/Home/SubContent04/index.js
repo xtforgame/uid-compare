@@ -30,7 +30,7 @@ const styles = {
 const owner = 'rick';
 const proj = `${owner}-proj01`;
 
-class SubContent04 extends React.Component {
+class SubContent04 extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {

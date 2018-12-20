@@ -71,7 +71,7 @@ const stateToClassName = {
   cancelled: 'disabled',
 };
 
-class ScheduleStepper extends React.Component {
+class ScheduleStepper extends React.PureComponent {
   state = {
     activeStep: 0,
     skipped: new Set(),

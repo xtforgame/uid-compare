@@ -39,7 +39,7 @@ const styles = theme => ({
   },
 });
 
-class MemoCard extends React.Component {
+class MemoCard extends React.PureComponent {
   render() {
     const {
       classes,

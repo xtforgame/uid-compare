@@ -28,7 +28,7 @@ const styles = {
   },
 };
 
-class Bot extends React.Component {
+class Bot extends React.PureComponent {
   render() {
     const { theme, width } = this.props;
     let topOffset = 56;

@@ -3,7 +3,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
-class EnhancedTableActionMenuButton extends React.Component {
+class EnhancedTableActionMenuButton extends React.PureComponent {
   state = {
     anchorEl: null,
     open: false,

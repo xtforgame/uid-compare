@@ -7,7 +7,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Tooltip from '@material-ui/core/Tooltip';
 
-export default class EnhancedTableHead extends React.Component {
+export default class EnhancedTableHead extends React.PureComponent {
   createSortHandler = property => (event) => {
     this.props.onRequestSort(event, property);
   };

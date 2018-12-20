@@ -36,7 +36,7 @@ const styles = theme => ({
   },
 });
 
-class Home extends React.Component {
+class Home extends React.PureComponent {
   render() {
     const {
       routeView, intl, greetName, classes,

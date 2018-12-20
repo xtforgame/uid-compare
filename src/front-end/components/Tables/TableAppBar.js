@@ -12,7 +12,7 @@ const styles = theme => ({
   ...createCommonStyles(theme, ['flex', 'appBar']),
 });
 
-class TableAppBar extends React.Component {
+class TableAppBar extends React.PureComponent {
   render() {
     const {
       children,

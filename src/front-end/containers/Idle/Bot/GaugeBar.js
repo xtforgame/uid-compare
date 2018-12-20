@@ -12,7 +12,7 @@ export const getTextStyle = color => ({
   fontSize: 10,
 });
 
-export default class GaugeBar extends React.Component {
+export default class GaugeBar extends React.PureComponent {
   render() {
     const {
       title,

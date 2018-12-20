@@ -35,7 +35,7 @@ const styles = theme => ({
   icon: {},
 });
 
-class UserInfoDropdown extends React.Component {
+class UserInfoDropdown extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {

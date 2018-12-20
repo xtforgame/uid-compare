@@ -31,7 +31,7 @@ import {
   isValidPassword,
 } from 'common/utils/validators';
 
-class RegistrationForm extends React.Component {
+class RegistrationForm extends React.PureComponent {
   constructor(props) {
     super(props);
     this.il = new InputLinker(this, {

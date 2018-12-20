@@ -25,7 +25,7 @@ const styles = theme => ({
   },
 });
 
-class ResetPassword extends React.Component {
+class ResetPassword extends React.PureComponent {
   static propTypes = {
     onBackToLogin: PropTypes.func.isRequired,
   };

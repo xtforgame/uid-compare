@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import keycode from 'keycode';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import { withStyles } from '@material-ui/core/styles';
@@ -39,7 +39,7 @@ const styles = theme => ({
  * Material design search bar
  * @see [Search patterns](https://material.io/guidelines/patterns/search.html)
  */
-class SearchInput extends Component {
+class SearchInput extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {

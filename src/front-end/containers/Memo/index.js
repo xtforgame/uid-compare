@@ -56,7 +56,7 @@ const styles = theme => ({
   ...createCommonStyles(theme, ['flex', 'mobile']),
 });
 
-class Idle extends React.Component {
+class Idle extends React.PureComponent {
   state = {
     dialogOpen: false,
   };

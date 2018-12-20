@@ -12,7 +12,7 @@ import xkFlag from './xk.svg';
 const styles = theme => ({
 });
 
-class PhoneRegionSelect extends React.Component {
+class PhoneRegionSelect extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {

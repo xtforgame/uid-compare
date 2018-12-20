@@ -24,7 +24,7 @@ const styles = theme => ({
   },
 });
 
-class ServiceDialog extends React.Component {
+class ServiceDialog extends React.PureComponent {
   constructor(...args) {
     super(...args);
     this.state = {

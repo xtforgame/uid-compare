@@ -42,7 +42,7 @@ const styles = theme => ({
   },
 });
 
-class NewMemoDialog extends React.Component {
+class NewMemoDialog extends React.PureComponent {
   state = {
     memoText: '',
   }

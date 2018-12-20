@@ -27,7 +27,7 @@ const {
 const styles = theme => ({
 });
 
-class RecoveryForm extends React.Component {
+class RecoveryForm extends React.PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired, // eslint-disable-line react/no-unused-prop-types
     username: PropTypes.object,

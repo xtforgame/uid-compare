@@ -15,7 +15,7 @@ const styles = theme => ({
   ...createCommonStyles(theme, ['flex', 'appBar']),
 });
 
-class SimpleFullScreenDialog extends React.Component {
+class SimpleFullScreenDialog extends React.PureComponent {
   render() {
     const {
       classes,

@@ -1,6 +1,6 @@
 /* eslint-disable flowtype/require-valid-file-annotation, no-underscore-dangle */
 // https://github.com/mui-org/material-ui/blob/master/docs/src/modules/components/AppWrapper.js
-import React, { Component } from 'react';
+import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import JssProvider from 'react-jss/lib/JssProvider';
 import LanguageProvider from '~/containers/LanguageProvider';
@@ -19,7 +19,7 @@ if (process.browser && !global.__INSERTION_POINT__) {
 }
 
 export default function withRoot(BaseComponent) {
-  class WithRoot extends Component {
+  class WithRoot extends React.PureComponent {
     constructor(...args) {
       super(...args);
       this.state = {

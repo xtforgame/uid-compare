@@ -51,7 +51,7 @@ const styles = theme => ({
   ...createCommonStyles(theme, ['flex', 'appBar']),
 });
 
-class MainFrame extends React.Component {
+class MainFrame extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {

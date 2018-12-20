@@ -24,7 +24,7 @@ const styles = theme => ({
   ...createCommonStyles(theme, ['flex', 'appBar']),
 });
 
-class ConfirmDialog extends React.Component {
+class ConfirmDialog extends React.PureComponent {
   static propTypes = {
     open: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,

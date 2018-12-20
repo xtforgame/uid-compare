@@ -104,7 +104,7 @@ const styles = theme => ({
   },
 });
 
-class FormAutocomplete extends React.Component {
+class FormAutocomplete extends React.PureComponent {
   state = {
     inputValue: '',
   };

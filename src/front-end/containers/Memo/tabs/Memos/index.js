@@ -21,7 +21,7 @@ const styles = theme => ({
   },
 });
 
-class Memos extends React.Component {
+class Memos extends React.PureComponent {
   render() {
     const { classes, memos } = this.props;
 

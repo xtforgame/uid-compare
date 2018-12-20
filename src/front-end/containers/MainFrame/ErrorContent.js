@@ -25,7 +25,7 @@ const styles = theme => ({
   ...createCommonStyles(theme, ['flex']),
 });
 
-class ErrorContent extends React.Component {
+class ErrorContent extends React.PureComponent {
   render() {
     const {
       classes,

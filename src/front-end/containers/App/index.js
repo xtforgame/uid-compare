@@ -36,7 +36,7 @@ const AppWithTheme = compose(
   withStyles(styles),
 )(AppInternal);
 
-class App extends React.Component {
+class App extends React.PureComponent {
   render() {
     return (
       <AppWithTheme
