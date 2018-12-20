@@ -108,9 +108,7 @@ class Login extends React.Component {
           </AppBar>
           <LoginForm
             username={this.state.username}
-            onUsernameChange={username => this.setState({
-              username,
-            })}
+            onUsernameChange={username => this.setState({ username })}
             usernameError={!!this.state.loginError}
             passwordError={this.state.loginError && wrongUsernameOrPassword}
             defaultRememberMe={rememberUser}
