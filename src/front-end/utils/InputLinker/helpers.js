@@ -1,10 +1,18 @@
 /* eslint-disable no-underscore-dangle */
+import React from 'react';
+import Divider from '@material-ui/core/Divider';
+import Button from '@material-ui/core/Button';
+import SuccessButton from '~/components/Buttons/SuccessButton';
 import {
   FormTextField,
   FormTextInput,
+  FormCodeInput,
   FormCheckbox,
   FormPhoneOrEmailInput,
 } from '~/components/FormInputs';
+import {
+  isAllDigital,
+} from 'common/utils/validators';
 
 export const assert = (condition, message, i18n) => {
   if (!condition) {
@@ -83,7 +91,7 @@ export const FormTextInputGetProps = (props, {
 export const FormTextInputPreset = cfg => ({
   ...cfg,
   InputComponent: FormTextInput,
-  getProps: cfg.getProps.concat([FormTextInputGetProps]),
+  extraGetProps: FormTextInputGetProps,
 });
 
 export const FormPasswordVisibilityGetProps = (props, {
@@ -94,13 +102,12 @@ export const FormPasswordVisibilityGetProps = (props, {
   onShowPassswordClick: handleChange,
 });
 
-
 export const FormPasswordVisibilityPreset = cfg => ({
   ...cfg,
-  getProps: cfg.getProps.concat([FormPasswordVisibilityGetProps]),
+  extraGetProps: FormPasswordVisibilityGetProps,
+  ignoredFromOutputs: true,
   converter: {
     fromView: ((_, { storedValue }) => !storedValue),
-    toOutput: () => undefined,
   },
 });
 
@@ -120,12 +127,11 @@ export const FormCheckboxGetProps = (props, {
 export const FormCheckboxPreset = cfg => ({
   ...cfg,
   InputComponent: FormCheckbox,
-  getProps: cfg.getProps.concat([FormCheckboxGetProps]),
+  extraGetProps: FormCheckboxGetProps,
   converter: {
     fromView: (([e, v]) => v),
   },
 });
-
 
 // // the short version
 // export const FormPhoneOrEmailInputPreset = {
@@ -153,10 +159,70 @@ export const FormPhoneOrEmailInputPreset = {
   }),
 };
 
-export const translateLabelAndAddOnKeyPressEvent = (i18nKey, onKeyPress = (() => {})) => ({
+export const FormCodeInputPreset = {
+  presets: [FormTextFieldPreset],
+  evaluate: cfg => ({
+    ...cfg,
+    InputComponent: FormCodeInput,
+    converter: {
+      fromView: (([e], { storedValue }) => (
+        (
+          !e.target.value
+          || (isAllDigital(e.target.value) && e.target.value.length <= 6)
+        ) ? e.target.value : storedValue)
+      ),
+    },
+    validate: value => assert(value, null),
+  }),
+};
+
+export const DividerPreset = cfg => ({
+  ...cfg,
+  InputComponent: Divider,
+  ignoredFromOutputs: true,
+});
+
+export const BottonPreset = cfg => ({
+  ...cfg,
+  InputComponent: Button,
+  ignoredFromOutputs: true,
+});
+
+export const SuccessBottonPreset = cfg => ({
+  ...cfg,
+  InputComponent: SuccessButton,
+  ignoredFromOutputs: true,
+});
+
+export const FragmentPreset = cfg => ({
+  ...cfg,
+  InputComponent: React.Fragment,
+  ignoredFromOutputs: true,
+});
+
+export const translateLabel = i18nKey => ({
   extraGetProps: (props, { link: { owner } }, { translate }) => ({
     ...props,
-    onKeyPress,
     label: i18nKey && translate(i18nKey),
   }),
 });
+
+export const addOnPressEnterEvent = (onPressEnter = undefined) => ({
+  extraGetProps: (props, { link: { owner } }) => ({
+    ...props,
+    onPressEnter: typeof onPressEnter === 'string' ? owner[onPressEnter] : onPressEnter,
+  }),
+});
+
+export const propagateOnChangeEvent = (parentOnChangePropName = 'onChange') => (props) => {
+  const originalOnChange = props.onChange || (() => {});
+  return {
+    ...props,
+    onChange: (value, rawArgs, linkInfo) => {
+      originalOnChange(value, rawArgs, linkInfo);
+      const { link: { name, linker, ownerProps } } = linkInfo;
+      const onChange = ownerProps[parentOnChangePropName] || (() => {});
+      onChange(name, value, rawArgs, linker);
+    },
+  };
+};

@@ -137,6 +137,10 @@ class RecoveryForm extends React.PureComponent {
       onBackToLogin = () => {},
     } = this.props;
 
+    this.setState({
+      resetCompleted: false,
+      recoveringUsername: '',
+    });
     clearSensitiveData();
     push('/login');
     onBackToLogin();
@@ -159,9 +163,7 @@ class RecoveryForm extends React.PureComponent {
 
     if (resetCompleted) {
       return (
-        <ResetCompleted
-          onBackToLogin={this.backToLoginPage}
-        />
+        <ResetCompleted onBackToLogin={this.backToLoginPage} />
       );
     } else if (recoveringUsername && recoveringCode) {
       return (
