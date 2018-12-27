@@ -18,10 +18,13 @@ import { compose } from 'recompose';
 import createCommonStyles from '~/styles/common';
 
 const styles = theme => ({
+  ...createCommonStyles(theme, ['flex', 'appBar']),
   appBar: {
     position: 'relative',
   },
-  ...createCommonStyles(theme, ['flex', 'appBar']),
+  paper: {
+    margin: 'auto',
+  },
 });
 
 class ConfirmDialog extends React.PureComponent {
@@ -47,18 +50,22 @@ class ConfirmDialog extends React.PureComponent {
       fullScreen,
     } = this.props;
 
-    const YesButton = buttonComponents.yes || Button;
-    const NoButton = buttonComponents.no || Button;
+    const ConfirmButton = buttonComponents.yes || buttonComponents.confirm || Button;
+    const CancelButton = buttonComponents.no || buttonComponents.cancel || Button;
 
-    const YesButtonText = buttonTexts.yes || 'Confirm';
-    const NoButtonText = buttonTexts.no || 'Cancel';
+    const ConfirmButtonText = buttonTexts.yes || buttonTexts.confirm || 'Confirm';
+    const CancelButtonText = buttonTexts.no || buttonTexts.cancel || 'Cancel';
 
     return (
       <Dialog
         fullScreen={fullScreen}
         open={this.props.open}
         onClose={this.handleClose()}
+        scroll="paper"
         aria-labelledby="form-dialog-title"
+        classes={{
+          paper: classes.paper,
+        }}
         {...dialogProps}
       >
         {fullScreen && (
@@ -68,7 +75,7 @@ class ConfirmDialog extends React.PureComponent {
                 <CloseIcon />
               </IconButton>
               <Typography variant="h6" color="inherit" className={classes.flex1}>
-                {title}
+                {title || ''}
               </Typography>
               {/* <Button color="inherit" onClick={onClose}>
               save
@@ -79,7 +86,7 @@ class ConfirmDialog extends React.PureComponent {
         }
         {!fullScreen && (
           <DialogTitle id="form-dialog-title">
-            {title}
+            {title || ''}
           </DialogTitle>
         )}
         {!!(contents || contentText) && (
@@ -96,12 +103,12 @@ class ConfirmDialog extends React.PureComponent {
         )}
         {children}
         <DialogActions>
-          <NoButton onClick={this.handleClose(false)} color="primary">
-            {NoButtonText}
-          </NoButton>
-          <YesButton onClick={this.handleClose(true)} color="primary">
-            {YesButtonText}
-          </YesButton>
+          <CancelButton onClick={this.handleClose(false)}>
+            {CancelButtonText}
+          </CancelButton>
+          <ConfirmButton onClick={this.handleClose(true)} variant="contained" color="primary">
+            {ConfirmButtonText}
+          </ConfirmButton>
         </DialogActions>
       </Dialog>
     );

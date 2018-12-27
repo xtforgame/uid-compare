@@ -12,7 +12,7 @@ import {
   propagateOnChangeEvent,
 } from '~/utils/InputLinker/helpers';
 
-class FormBaseType001 extends React.PureComponent {
+class DialogLayout extends React.PureComponent {
   constructor(props) {
     super(props);
     const {
@@ -30,6 +30,9 @@ class FormBaseType001 extends React.PureComponent {
     this.il.setDefaultValues(defaultValues);
 
     this.state = this.il.mergeInitState({});
+
+    const { onInited = () => {} } = this.props;
+    onInited(this.il);
   }
 
   handleSubmit = () => {
@@ -37,7 +40,12 @@ class FormBaseType001 extends React.PureComponent {
     if (this.il.validate()) {
       const outputs = this.il.getOutputs();
       onSubmit(outputs, this.il);
+      return {
+        outputs,
+        linker: this.il,
+      };
     }
+    return null;
   }
 
   render() {
@@ -79,4 +87,4 @@ class FormBaseType001 extends React.PureComponent {
 
 export default compose(
   injectIntl,
-)(FormBaseType001);
+)(DialogLayout);

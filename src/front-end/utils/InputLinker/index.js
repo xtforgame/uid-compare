@@ -117,6 +117,7 @@ export default class InputLinker {
     this.fieldCustomStateName = options.fieldCustomStateName;
     this.fieldErrorStateName = options.fieldErrorStateName || 'errors';
     this.presets = options.presets || {};
+    this.ignoredUndefinedFromOutputs = options.ignoredUndefinedFromOutputs;
     this.fieldLinks = [];
     this.fieldMap = {};
     this._idCounter = 0;
@@ -179,6 +180,15 @@ export default class InputLinker {
     return result;
   }
 
+  setDefaultValues(defaultValues) {
+    Object.keys(defaultValues).forEach((key) => {
+      const field = this.getField(key);
+      if (field) {
+        field.defaultValue = defaultValues[key];
+      }
+    });
+  }
+
   getField = fieldName => this.fieldMap[fieldName];
 
   getFields = () => this.fieldMap;
@@ -199,8 +209,9 @@ export default class InputLinker {
     const values = {};
     Object.keys(this.fieldMap).forEach((fieldName) => {
       const field = this.fieldMap[fieldName];
-      if (!field.ignoredFromOutputs) {
-        values[fieldName] = field.getOutput();
+      const value = field.getOutput();
+      if (!field.ignoredFromOutputs && !(this.ignoredUndefinedFromOutputs && value === undefined)) {
+        values[fieldName] = value;
       }
     });
     return values;

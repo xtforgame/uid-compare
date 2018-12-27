@@ -24,13 +24,19 @@ const styles = theme => ({
 class SimpleLayout extends React.PureComponent {
   constructor(props) {
     super(props);
-    const { fields, namespace = '' } = props;
+    const {
+      fields = [],
+      namespace = '',
+      defaultValues = {},
+      ignoredUndefinedFromOutputs = true,
+    } = props;
 
-    this.il = new InputLinker(this, { namespace });
-
+    this.il = new InputLinker(this, { namespace, ignoredUndefinedFromOutputs });
     this.il.add(...(fields.map(field => ({
       presets: [field, propagateOnChangeEvent()],
     }))));
+
+    this.il.setDefaultValues(defaultValues);
 
     this.state = this.il.mergeInitState({});
   }

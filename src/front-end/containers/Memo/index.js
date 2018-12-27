@@ -20,6 +20,7 @@ import {
 } from 'react-router-dom';
 
 import modelMap from '~/containers/App/modelMap';
+import FilterBar from './FilterBar';
 import NewMemoDialog from './tabs/Memos/NewMemoDialog';
 
 const {
@@ -119,6 +120,12 @@ class Idle extends React.PureComponent {
     return (
       <div className={classes.mobielContainer}>
         <div className={classes.mobileContentPlaceholder} />
+        {location.pathname === `${match.url}/memos` && (
+          <FilterBar
+            position="relative"
+            onToggleMenu={this.toggleDrawer}
+          />
+        )}
         <div className={classes.mobileContent}>
           { newRouteView }
         </div>
