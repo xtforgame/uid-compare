@@ -1,8 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 import React from 'react';
-import Divider from '@material-ui/core/Divider';
-import Button from '@material-ui/core/Button';
-import SuccessButton from '~/components/Buttons/SuccessButton';
+import Typography from '@material-ui/core/Typography';
+import ListItemText from '@material-ui/core/ListItemText';
+import BreakAllContentText from '~/components/Text/BreakAllContentText';
 import {
   FormTextField,
   FormTextInput,
@@ -10,9 +10,7 @@ import {
   FormCheckbox,
   FormPhoneOrEmailInput,
 } from '~/components/FormInputs';
-import {
-  isAllDigital,
-} from 'common/utils/validators';
+import { isAllDigital } from 'common/utils/validators';
 
 export const assert = (condition, message, i18n) => {
   if (!condition) {
@@ -22,41 +20,38 @@ export const assert = (condition, message, i18n) => {
   }
 };
 
-export const FormTextFieldGetProps = (props, {
-  value,
-  link,
-  handleChange,
-  validateError,
-},
-{ translate } = {}) => {
-  const validateErrorMessage = validateError && (
-    (validateError.i18n && translate(validateError.i18n.key, validateError.i18n.values))
-    || validateError.message
-  );
-
-  return {
-    ...props,
-    id: link.key,
-    value,
-    onChange: handleChange,
-    error: !!validateErrorMessage,
-    helperText: validateErrorMessage, // helperMessage,
-  };
-};
-
 export const FormTextFieldPreset = cfg => ({
   ...cfg,
   InputComponent: FormTextField,
-  getProps: cfg.getProps.concat([FormTextFieldGetProps]),
+  extraGetProps: (props, {
+    value,
+    link,
+    handleChange,
+    validateError,
+  },
+  { translate } = {}) => {
+    const validateErrorMessage = validateError && (
+      (validateError.i18n && translate(validateError.i18n.key, validateError.i18n.values))
+      || validateError.message
+    );
+
+    return {
+      ...props,
+      id: link.key,
+      value,
+      onChange: handleChange,
+      error: !!validateErrorMessage,
+      helperText: validateErrorMessage, // helperMessage,
+    };
+  },
 });
 
 export const displayErrorFromPropsForTextField = (propKey, getMessageFunc = e => e) => (
   props,
-  { link: { ownerProps }, validateError },
-  options
+  { link: { hostProps }, validateError }
 ) => {
   const newProps = { ...props };
-  const errorFromProps = ownerProps[propKey];
+  const errorFromProps = hostProps[propKey];
   if (!validateError && errorFromProps) {
     newProps.error = true;
     newProps.helperText = getMessageFunc(errorFromProps);
@@ -64,165 +59,169 @@ export const displayErrorFromPropsForTextField = (propKey, getMessageFunc = e =>
   return newProps;
 };
 
-export const FormTextInputGetProps = (props, {
-  value,
-  link,
-  handleChange,
-  validateError,
-},
-{ translate } = {}) => {
-  const validateErrorMessage = validateError && (
-    (validateError.i18n && translate(validateError.i18n.key, validateError.i18n.values))
-    || validateError.message
-  );
-
-  return {
-    ...props,
-    id: link.key,
-    value,
-    onChange: handleChange,
-    formProps: {
-      error: validateErrorMessage,
-    },
-    helperText: validateErrorMessage, // helperMessage,
-  };
-};
-
 export const FormTextInputPreset = cfg => ({
   ...cfg,
   InputComponent: FormTextInput,
-  extraGetProps: FormTextInputGetProps,
-});
+  extraGetProps: (props, {
+    value,
+    link,
+    handleChange,
+    validateError,
+  },
+  { translate } = {}) => {
+    const validateErrorMessage = validateError && (
+      (validateError.i18n && translate(validateError.i18n.key, validateError.i18n.values))
+      || validateError.message
+    );
 
-export const FormPasswordVisibilityGetProps = (props, {
-  value, link, handleChange, validateError,
-}, options = {}) => ({
-  ...props,
-  type: value ? 'text' : 'password',
-  onShowPassswordClick: handleChange,
+    return {
+      ...props,
+      id: link.key,
+      value,
+      onChange: handleChange,
+      formProps: {
+        error: validateErrorMessage,
+      },
+      helperText: validateErrorMessage, // helperMessage,
+    };
+  },
 });
 
 export const FormPasswordVisibilityPreset = cfg => ({
   ...cfg,
-  extraGetProps: FormPasswordVisibilityGetProps,
+  extraGetProps: (props, { value, handleChange }) => ({
+    ...props,
+    type: value ? 'text' : 'password',
+    onShowPassswordClick: handleChange,
+  }),
   ignoredFromOutputs: true,
   converter: {
     fromView: ((_, { storedValue }) => !storedValue),
+    toOutput: () => undefined,
   },
-});
-
-export const FormCheckboxGetProps = (props, {
-  value,
-  link,
-  handleChange,
-  validateError,
-},
-{ translate } = {}) => ({
-  ...props,
-  id: link.key,
-  onChange: handleChange,
-  checked: value,
 });
 
 export const FormCheckboxPreset = cfg => ({
   ...cfg,
   InputComponent: FormCheckbox,
-  extraGetProps: FormCheckboxGetProps,
+  extraGetProps: (props, {
+    value,
+    link,
+    handleChange,
+    validateError,
+  },
+  { translate } = {}) => ({
+    ...props,
+    id: link.key,
+    onChange: handleChange,
+    checked: value,
+  }),
   converter: {
     fromView: (([e, v]) => v),
   },
 });
 
-// // the short version
-// export const FormPhoneOrEmailInputPreset = {
-//   presets: [FormTextFieldPreset],
-//   InputComponent: FormPhoneOrEmailInput,
-//   props: { enablePhone: true },
-//   converter: {
-//     toView: (value => (value && value.rawInput) || ''),
-//     fromView: (([value]) => value),
-//     toOutput: (value => value && value.value),
-//   },
-// };
-
 export const FormPhoneOrEmailInputPreset = {
   presets: [FormTextFieldPreset],
-  evaluate: cfg => ({
-    ...cfg,
-    InputComponent: FormPhoneOrEmailInput,
-    props: { enablePhone: false },
-    converter: {
-      toView: (value => (value && value.rawInput) || ''),
-      fromView: (([value]) => value),
-      toOutput: (value => value && value.value),
-    },
-  }),
+  InputComponent: FormPhoneOrEmailInput,
+  props: { enablePhone: true },
+  converter: {
+    toView: (value => (value && value.rawInput) || ''),
+    fromView: (([value]) => value),
+    toOutput: (value => value && value.value),
+  },
 };
 
 export const FormCodeInputPreset = {
   presets: [FormTextFieldPreset],
-  evaluate: cfg => ({
-    ...cfg,
-    InputComponent: FormCodeInput,
-    converter: {
-      fromView: (([e], { storedValue }) => (
-        (
-          !e.target.value
-          || (isAllDigital(e.target.value) && e.target.value.length <= 6)
-        ) ? e.target.value : storedValue)
-      ),
-    },
-    validate: value => assert(value, null),
-  }),
+  InputComponent: FormCodeInput,
+  converter: {
+    fromView: (([e], { storedValue }) => (
+      (
+        !e.target.value
+        || (isAllDigital(e.target.value) && e.target.value.length <= 6)
+      ) ? e.target.value : storedValue)
+    ),
+  },
+  validate: value => assert(value, null),
 };
 
-export const DividerPreset = cfg => ({
+export const createIgnoredPreset = InputComponent => cfg => ({
   ...cfg,
-  InputComponent: Divider,
+  InputComponent,
   ignoredFromOutputs: true,
 });
 
-export const BottonPreset = cfg => ({
-  ...cfg,
-  InputComponent: Button,
-  ignoredFromOutputs: true,
-});
-
-export const SuccessBottonPreset = cfg => ({
-  ...cfg,
-  InputComponent: SuccessButton,
-  ignoredFromOutputs: true,
-});
-
-export const FragmentPreset = cfg => ({
-  ...cfg,
-  InputComponent: React.Fragment,
-  ignoredFromOutputs: true,
+export const ListItemDisplayerPreset = (props, { value, link: { name, hostProps } }) => ({
+  key: props.key,
+  children: (
+    <ListItemText
+      key={name}
+      disableTypography
+      primary={(
+        <Typography variant="subtitle1">
+          {props.label || name}
+        </Typography>
+      )}
+      secondary={(
+        <Typography component={BreakAllContentText} color="textSecondary">
+          {hostProps.defaultValues[name]}
+        </Typography>
+      )}
+    />
+  ),
 });
 
 export const translateLabel = i18nKey => ({
-  extraGetProps: (props, { link: { owner } }, { translate }) => ({
+  extraGetProps: (props, { link: { host } }, { translate }) => ({
     ...props,
     label: i18nKey && translate(i18nKey),
   }),
 });
 
 export const addOnPressEnterEvent = (onPressEnter = undefined) => ({
-  extraGetProps: (props, { link: { owner } }) => ({
-    ...props,
-    onPressEnter: typeof onPressEnter === 'string' ? owner[onPressEnter] : onPressEnter,
-  }),
+  extraGetProps: (props, { link: { host } }) => {
+    const onPressEnterFunction = typeof onPressEnter === 'string' ? host[onPressEnter] : onPressEnter;
+    return {
+      ...props,
+      onPressEnter: onPressEnterFunction && ((e) => {
+        e.preventDefault();
+        onPressEnterFunction(e);
+      }),
+    };
+  },
 });
 
-export const propagateOnChangeEvent = (parentOnChangePropName = 'onChange') => (props) => {
-  const originalOnChange = props.onChange || (() => {});
+export const propagateOnChangeEvent = (parentOnChangePropName = 'onChange') => (cfg) => {
+  const originalOnChange = cfg.onChange || (() => {});
   return {
-    ...props,
+    ...cfg,
     onChange: (value, rawArgs, linkInfo) => {
       originalOnChange(value, rawArgs, linkInfo);
-      const { link: { name, linker, ownerProps } } = linkInfo;
-      const onChange = ownerProps[parentOnChangePropName] || (() => {});
+      const { link: { name, linker, hostProps } } = linkInfo;
+      const onChange = hostProps[parentOnChangePropName] || (() => {});
       onChange(name, value, rawArgs, linker);
     },
   };
 };
+
+export const createDefaultContainer = getSpace => extraChildElements => ({
+  ignoredFromOutputs: true,
+  mergeChildren: (_, childrenElements, linkInfo) => childrenElements.reduce(
+    (a, c, i) => {
+      const array = a.concat([c]);
+      if (i < childrenElements.length - 1) {
+        array.push(getSpace(linkInfo));
+      }
+      return array;
+    },
+    [],
+  ),
+  extraChildElements,
+  middlewares: {
+    last: cfg => ({
+      ...cfg,
+      ...(cfg.InputComponent || cfg.getInputComponent ? {} : { InputComponent: React.Fragment }),
+    }),
+  },
+});

@@ -7,7 +7,10 @@ import FormPasswordInput from './FormPasswordInput';
 import FormCodeInput from './FormCodeInput';
 import FormCheckbox from './FormCheckbox';
 import FormSelect from './FormSelect';
+import FormOutlinedSelect from './FormOutlinedSelect';
 import FormAutocomplete from './FormAutocomplete';
+import FormFieldButton from './FormFieldButton';
+import FormFileInput from './FormFileInput';
 import InternalLink from './InternalLink';
 
 export {
@@ -20,6 +23,9 @@ export {
   FormCodeInput,
   FormCheckbox,
   FormSelect,
+  FormOutlinedSelect,
   FormAutocomplete,
+  FormFieldButton,
+  FormFileInput,
   InternalLink,
 };

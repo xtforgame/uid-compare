@@ -3,6 +3,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import createHistory from 'history/createHashHistory';
+import { MuiPickersUtilsProvider } from 'material-ui-pickers';
+import MomentUtils from '@date-io/moment';
 
 import configureStore from './configureStore';
 import getRoutes from './getRoutes';
@@ -59,7 +61,9 @@ class AppWrapper extends React.PureComponent {
     const { app } = this.state;
     return (
       <Provider store={store}>
-        {app}
+        <MuiPickersUtilsProvider utils={MomentUtils}>
+          {app}
+        </MuiPickersUtilsProvider>
       </Provider>
     );
   }

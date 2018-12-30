@@ -230,7 +230,7 @@ class ScheduleStepper extends React.PureComponent {
                                 <Typography
                                   variant="subtitle1"
                                   classes={{
-                                    subheading: classes.success,
+                                    subtitle1: classes.success,
                                   }}
                                 >
                                   Result
@@ -265,7 +265,7 @@ class ScheduleStepper extends React.PureComponent {
                                 <Typography
                                   variant="subtitle1"
                                   classes={{
-                                    subheading: classes.danger,
+                                    subtitle1: classes.danger,
                                   }}
                                 >
                                   Error

@@ -75,7 +75,7 @@ const fileds = [
   },
 ];
 
-class SubContent02 extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+class SubContent05 extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   state = { username: '' };
 
   render() {
@@ -86,6 +86,10 @@ class SubContent02 extends React.PureComponent { // eslint-disable-line react/pr
         <SimpleLayout
           namespace="form1"
           fields={fileds}
+          defaultValues={{
+            password: 'password',
+            passwordVisibility: true,
+          }}
           username={username}
           onUsernameChange={username => this.setState({ username })}
           // onChange={(...agrs) => { console.log('agrs :', agrs); }}
@@ -98,4 +102,4 @@ class SubContent02 extends React.PureComponent { // eslint-disable-line react/pr
   }
 }
 
-export default withStyles(styles)(SubContent02);
+export default withStyles(styles)(SubContent05);

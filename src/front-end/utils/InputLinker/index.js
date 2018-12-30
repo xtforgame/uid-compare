@@ -9,21 +9,24 @@ export class Converter {
   }
 }
 
-const toArray = value => (Array.isArray(value) ? value : [value].filter(i => i));
+export const toArray = value => (Array.isArray(value) ? value : [value].filter(i => i));
 
 export class FieldLink {
   constructor(linker, config) {
     this.linker = linker;
     this.config = config;
     this.childLinks = [];
-    this._owner = this.linker.component;
+    this.childElements = [];
+    this._host = this.linker.component;
     this.namespace = this.linker.namespace;
     this.name = config.name;
     this.uniqueName = this.namespace ? `${this.namespace}-${this.name}` : this.name;
     this.key = this.uniqueName;
     this.defaultValue = config.defaultValue;
     this.InputComponent = config.InputComponent;
+    this._getInputComponent = config.getInputComponent;
     this.ignoredFromOutputs = config.ignoredFromOutputs;
+    this.mergeChildren = config.mergeChildren || ((children, childrenElements) => children.concat(childrenElements));
     this.options = config.options || {};
 
     this.handledByProps = config.handledByProps && { ...config.handledByProps };
@@ -33,21 +36,21 @@ export class FieldLink {
       }
       if (typeof this.handledByProps.value === 'string') {
         const valueProp = this.handledByProps.value;
-        this.handledByProps.value = ({ link: { ownerProps } }, options = {}) => ownerProps[valueProp];
+        this.handledByProps.value = ({ link: { hostProps } }, options = {}) => hostProps[valueProp];
       }
 
       if (typeof this.handledByProps.onChange === 'string') {
         const onChangeProp = this.handledByProps.onChange;
-        this.handledByProps.onChange = ({ value, rawArgs }, { link, link: { ownerProps } }, options = {}) => {
-          this.owner.setState(this.linker._getUpdatedStateForResetError(this.name));
-          if (ownerProps[onChangeProp]) {
-            ownerProps[onChangeProp](value, rawArgs, link);
+        this.handledByProps.onChange = ({ value, rawArgs }, { link, link: { hostProps } }, options = {}) => {
+          this.host.setState(this.linker._getUpdatedStateForResetError(this.name));
+          if (hostProps[onChangeProp]) {
+            hostProps[onChangeProp](value, rawArgs, link);
           }
         };
       } else {
         const { onChange } = this.handledByProps;
-        this.handledByProps.onChange = ({ value, rawArgs }, { link, link: { ownerProps } }, options = {}) => {
-          this.owner.setState(this.linker._getUpdatedStateForResetError(this.name));
+        this.handledByProps.onChange = ({ value, rawArgs }, { link, link: { hostProps } }, options = {}) => {
+          this.host.setState(this.linker._getUpdatedStateForResetError(this.name));
           if (onChange) {
             onChange(value, rawArgs, link);
           }
@@ -71,9 +74,9 @@ export class FieldLink {
     const linkInfo = { link: this };
 
     this.getValue = targetState => this.linker.getValueFromState(this.name, targetState);
-    this.setValue = value => this.owner.setState(this.linker._getUpdatedState(this.name, value));
+    this.setValue = value => this.host.setState(this.linker._getUpdatedState(this.name, value));
     this.getCustomState = targetState => this.linker.getCustomStateFromState(this.name, targetState);
-    this.setCustomState = value => this.owner.setState(this.linker.getMergedCustomState({ [this.name]: value }));
+    this.setCustomState = value => this.host.setState(this.linker.getMergedCustomState({ [this.name]: value }));
     this.getOutput = targetState => this.converter.toOutput(this.getValue(targetState), { ...linkInfo });
     this.getViewValue = targetState => this.converter.toView(this.getValue(targetState), { ...linkInfo });
     this.validate = targetState => this._validate(this.getValue(targetState), { ...linkInfo });
@@ -84,8 +87,12 @@ export class FieldLink {
     }
   }
 
-  addChild(...children) {
+  addChildLink(...children) {
     this.childLinks.push(...children);
+  }
+
+  addChildElement(...children) {
+    this.childElements.push(...children);
   }
 
   // handlers
@@ -97,16 +104,24 @@ export class FieldLink {
     this.setValue(value, rawArgs);
   };
 
-  getProps = (initProps, linkInfo, options) => this._getPropsMiddlewares.reduce(
+  getProps = (initProps, linkInfo, options, middlewares) => (middlewares || this._getPropsMiddlewares).reduce(
     (props, m) => (typeof m === 'function' ? m(props, linkInfo, options) : { ...props, ...m }),
     initProps
   );
 
-  get owner() { return this._owner; }
+  get host() { return this._host; }
 
-  get ownerProps() { return this.owner.props; }
+  get hostProps() { return this.host.props; }
 
-  get ownerState() { return this.owner.state; }
+  get hostState() { return this.host.state; }
+
+  getInputComponent = (extraLinkInfo) => {
+    const { InputComponent, _getInputComponent } = this;
+    if (!InputComponent && !_getInputComponent) {
+      throw new Error(`No InputComponent or getInputComponent provided :${this.name}`);
+    }
+    return _getInputComponent ? _getInputComponent({ link: this, ...extraLinkInfo }) : InputComponent;
+  };
 }
 
 export default class InputLinker {
@@ -118,6 +133,7 @@ export default class InputLinker {
     this.fieldErrorStateName = options.fieldErrorStateName || 'errors';
     this.presets = options.presets || {};
     this.ignoredUndefinedFromOutputs = options.ignoredUndefinedFromOutputs;
+    this.FieldLink = options.FieldLink || FieldLink;
     this.fieldLinks = [];
     this.fieldMap = {};
     this._idCounter = 0;
@@ -127,20 +143,34 @@ export default class InputLinker {
 
   getPreset = preset => (typeof preset === 'string' ? this.presets[preset] : preset);
 
-  evaluateConfig = (currentCfg, c) => {
+  evaluateConfig = ({ config: currentCfg, lastQueue = [] }, c) => {
     let config;
     if (typeof c === 'function') {
       config = c(currentCfg);
     } else {
       config = currentCfg;
-      const { preset, presets, evaluate = _config => ({ ..._config, ...c }) } = c;
-      config = toArray(preset).concat(toArray(presets)).concat(toArray(evaluate))
-        .map(this.getPreset)
-        .reduce(this.evaluateConfig, config);
+      const {
+        preset, presets, evaluate = _config => ({ ..._config, ...c }), middlewares: { before, after, last } = {},
+      } = c;
+
+      const addLast = (c) => {
+        if (last) {
+          lastQueue.unshift(last);
+        }
+        return c;
+      };
+
+      ({ config } = toArray(before)
+        .concat(toArray(preset)).concat(toArray(presets)).concat(toArray(evaluate))
+        .concat([addLast])
+        .concat(toArray(after))
+          .map(this.getPreset)
+          .reduce(this.evaluateConfig, { config, lastQueue }));
 
       delete config.preset;
       delete config.presets;
       delete config.evaluate;
+      delete config.middlewares;
     }
     if (!config) {
       console.error('Wrong config', c);
@@ -157,18 +187,33 @@ export default class InputLinker {
       config.childLinks.push(...config.extraChildLinks);
       delete config.extraChildLinks;
     }
-    return config;
+    if (config.extraChildElements) {
+      config.extraChildElements = toArray(config.extraChildElements);
+      config.childElements.push(...config.extraChildElements);
+      delete config.extraChildElements;
+    }
+    return { config, lastQueue };
   };
 
   _add(configs) {
     return configs.map((_c) => {
       const configChain = toArray(_c);
-      let config = { getProps: [(_, { link }) => link.props], childLinks: [] };
-      config = configChain.reduce(this.evaluateConfig, config);
+      let config = {
+        getProps: [(props, { link }) => ({ ...props, ...link.props })], childLinks: [], childElements: [],
+      };
+      let lastQueue = [];
+      ({ config, lastQueue } = configChain.reduce(this.evaluateConfig, { config, lastQueue }));
+      while (lastQueue.length > 0) {
+        ({ config, lastQueue } = lastQueue.reduce(this.evaluateConfig, { config, lastQueue: [] }));
+      }
       config.name = config.name || this.getUniqueName();
-      const fieldLink = this.fieldMap[config.name] = new FieldLink(this, config); // eslint-disable-line no-multi-assign
+      this.fieldMap[config.name] = new this.FieldLink(this, config);
+      const fieldLink = this.fieldMap[config.name];
       if (config.childLinks) {
-        fieldLink.addChild(...this._add(config.childLinks));
+        fieldLink.addChildLink(...this._add(config.childLinks));
+      }
+      if (config.childElements) {
+        fieldLink.addChildElement(...this._add(config.childElements));
       }
       return fieldLink;
     });
@@ -303,12 +348,14 @@ export default class InputLinker {
   getErrorStatus = fieldName => ({ validateError: this.getErrorFromState(fieldName) });
 
   // render helpers
-  renderProps = (fieldName, options = {}) => {
+  renderProps = (fieldName, options = {}, ignoreKey) => {
     const field = this.fieldMap[fieldName];
     const props = {
-      key: field.key,
       ...options.props,
     };
+    if (!ignoreKey) {
+      props.key = field.key;
+    }
     const { validateError } = this.getErrorStatus(fieldName);
 
     const myProps = field.getProps(props, {
@@ -320,22 +367,30 @@ export default class InputLinker {
     const { childLinks } = field;
     return childLinks.reduce((props, childLink) => ({
       ...props,
-      ...this.renderProps(childLink.name, options),
+      ...this.renderProps(childLink.name, options, true),
     }), myProps);
   };
 
   renderComponent = (fieldName, options = {}) => {
     const field = this.fieldMap[fieldName];
-    const { InputComponent } = field;
-    if (!InputComponent) {
-      throw new Error(`No InputComponent provided :${field.name}`);
+    const Component = field.getInputComponent({});
+    if (Component == null) {
+      throw new Error(`Wrong Component Class (${fieldName})`);
     }
 
-    return field.getVisibility({ link: field }) ? (
-      <InputComponent
-        {...this.renderProps(fieldName, options)}
-        {...options.extraProps}
-      />
-    ) : undefined;
+    if (!field.getVisibility({ link: field })) {
+      return undefined;
+    }
+
+    const extraChildren = field.childElements.map(child => this.renderComponent(child.name, options));
+    const props = {
+      ...this.renderProps(fieldName, options),
+      ...options.extraProps,
+    };
+    props.children = field.mergeChildren(toArray(props.children), toArray(extraChildren), { link: field });
+    if (props.children.length === 0) {
+      props.children = undefined;
+    } else if (props.children.length === 1) { ([props.children] = props.children); }
+    return (<Component {...props} />);
   };
 }

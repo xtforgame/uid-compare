@@ -12,7 +12,7 @@ export default function withOnPressEnterEvent(TextFieldComponent) {
         multiline,
       } = this.props;
       const {
-        onPressEnterCheckCondition = event => (!multiline || !event.nativeEvent.shiftKey),
+        onPressEnterCheckCondition = event => (!multiline || event.nativeEvent.shiftKey),
       } = this.props;
       const {
         isOnComposition,

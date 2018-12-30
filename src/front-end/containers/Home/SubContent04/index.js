@@ -34,19 +34,19 @@ class SubContent04 extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      modifyingService: null,
+      editingService: null,
     };
   }
 
   startModifyService = name => () => {
     this.setState({
-      modifyingService: name || true,
+      editingService: name || true,
     });
   }
 
   updateService = (data) => {
     this.setState({
-      modifyingService: null,
+      editingService: null,
     });
   }
 
@@ -54,7 +54,7 @@ class SubContent04 extends React.PureComponent {
     const {
       classes,
     } = this.props;
-    const { modifyingService } = this.state;
+    const { editingService } = this.state;
 
     return (
       <div className={classes.mainContainer}>
@@ -165,8 +165,8 @@ class SubContent04 extends React.PureComponent {
         </div>
         <ServiceDialog
           fullScreen
-          name={modifyingService}
-          open={!!modifyingService}
+          name={editingService}
+          open={!!editingService}
           contentText={undefined}
           buttonComponents={{ yes: SuccessButton }}
           buttonTexts={{ yes: 'Create' }}

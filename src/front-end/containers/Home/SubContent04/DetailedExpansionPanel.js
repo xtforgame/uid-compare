@@ -107,7 +107,7 @@ class DetailedExpansionPanel extends React.PureComponent {
                 className={classes.secondaryHeading}
                 color="textSecondary"
                 classes={{
-                  subheading: enabled ? classes.healthy : classes.inactive,
+                  subtitle1: enabled ? classes.healthy : classes.inactive,
                 }}
               >
                 {enabled ? 'Enabled' : 'Disabled'}

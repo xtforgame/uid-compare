@@ -4,14 +4,11 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 import DialogWithChips from '~/components/FilterInputs/DialogWithChips';
 
 import { compose } from 'recompose';
-import { FormattedMessage } from 'react-intl';
-import { messages } from '~/containers/App/translation';
 import createCommonStyles from '~/styles/common';
 
 import {

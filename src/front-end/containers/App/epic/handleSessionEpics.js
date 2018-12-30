@@ -19,6 +19,9 @@ const {
   getUser,
   getUserSettings,
   postSessions,
+
+  getOrganizations,
+  getProjects,
 } = modelMap.waitableActions;
 
 const dispatchSessionVerifiedAfterPostedSession = (action$, store) => action$.ofType(types.respondPostSessions)
@@ -29,10 +32,12 @@ const dispatchSessionVerifiedAfterPostedSession = (action$, store) => action$.of
 const fetchDataAfterSessionVerified = (action$, store) => action$.ofType(SESSION_VERIFIED)
     .mergeMap((action) => {
       HeaderManager.set('Authorization', `${action.session.token_type} ${action.session.token}`);
-      return Observable.combineLatest(
-        Observable.fromPromise(store.dispatch(getUser(action.session.user_id))),
-        Observable.fromPromise(store.dispatch(getUserSettings()))
-      )
+      return Observable.fromPromise(Promise.all([
+        store.dispatch(getUser(action.session.user_id)),
+        store.dispatch(getUserSettings()),
+        store.dispatch(getOrganizations()),
+        store.dispatch(getProjects()),
+      ]))
       .mergeMap(([_, action]) => action.data
         .filter(setting => setting.type === 'preference' && setting.data)
         .map(setting => changeTheme(setting.data.uiTheme, false))

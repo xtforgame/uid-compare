@@ -16,6 +16,8 @@ const {
   challengeRecoveryTokenReducer,
   resetPasswordRequestReducer,
   memoReducer,
+  organizationReducer,
+  projectReducer,
 } = modelMap.reducers;
 
 const persistence = (state = { rememberUser: false }, action) => {
@@ -28,8 +30,8 @@ const persistence = (state = { rememberUser: false }, action) => {
 
     case CHANGE_THEME: {
       if (action.uiTheme && state.uiTheme
-      && action.uiTheme.direction === state.uiTheme.direction
-      && action.uiTheme.paletteType === state.uiTheme.paletteType
+        && action.uiTheme.direction === state.uiTheme.direction
+        && action.uiTheme.paletteType === state.uiTheme.paletteType
       ) {
         break;
       }
@@ -73,6 +75,8 @@ export default combineReducers({
   challengeRecoveryTokens: challengeRecoveryTokenReducer,
   resetPasswordRequests: resetPasswordRequestReducer,
   memos: memoReducer,
+  organizations: organizationReducer,
+  projects: projectReducer,
   persistence,
   appTempState,
 });

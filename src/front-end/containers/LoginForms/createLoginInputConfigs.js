@@ -1,6 +1,7 @@
+// import Divider from '@material-ui/core/Divider';
 import {
   FormCheckboxPreset,
-  // DividerPreset,
+  // createIgnoredPreset,
   translateLabel,
   addOnPressEnterEvent,
 } from '~/utils/InputLinker/helpers';
@@ -9,6 +10,8 @@ import {
   createPhoneOrEmailAccountInput,
   createNonemptyPasswordInput,
 } from './inputConfigs';
+
+// export const DividerPreset = createIgnoredPreset(Divider);
 
 export default (defaultRememberMe = false) => [
   createPhoneOrEmailAccountInput(),

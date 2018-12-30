@@ -9,7 +9,7 @@ import {
 
 import {
   FormTextFieldPreset,
-  FragmentPreset,
+  createIgnoredPreset,
   displayErrorFromPropsForTextField,
   FormPasswordVisibilityPreset,
   assert,
@@ -27,19 +27,19 @@ export default classes => [
     props: { variant: 'content2' },
   },
   {
-    presets: [FragmentPreset],
-    getProps: (props, { link: { owner, ownerProps, linker } }) => ({
+    presets: [createIgnoredPreset(React.Fragment)],
+    getProps: (props, { link: { host, hostProps, linker } }) => ({
       ...props,
       children: (
         <React.Fragment>
           <Typography variant="body1" color="secondary">
-            {ownerProps.recoveryCodeError}
+            {hostProps.recoveryCodeError}
           </Typography>
           <FormSpace variant="content4" />
         </React.Fragment>
       ),
     }),
-    getVisibility: ({ link: { ownerProps } }) => ownerProps.recoveryCodeError,
+    getVisibility: ({ link: { hostProps } }) => hostProps.recoveryCodeError,
   },
   {
     name: 'newPassword',
@@ -75,8 +75,8 @@ export default classes => [
     options: { space: <FormSpace variant="content4" /> },
   },
   {
-    presets: [FragmentPreset],
-    getProps: (props, { link: { owner, ownerProps, linker } }) => ({
+    presets: [createIgnoredPreset(React.Fragment)],
+    getProps: (props, { link: { host, hostProps, linker } }) => ({
       ...props,
       children: (
         <div className={classes.flexContainer}>
@@ -85,9 +85,9 @@ export default classes => [
             variant="contained"
             color="primary"
             disabled={!linker.getValue('newPassword') || !linker.getValue('confrimPassword')}
-            onClick={owner.handleSubmit}
+            onClick={host.handleSubmit}
           >
-            {ownerProps.setNewPasswordText}
+            {hostProps.setNewPasswordText}
           </Button>
         </div>
       ),

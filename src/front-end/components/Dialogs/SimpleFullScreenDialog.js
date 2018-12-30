@@ -20,6 +20,8 @@ class SimpleFullScreenDialog extends React.PureComponent {
     const {
       classes,
       title,
+      headerLeftButton,
+      disableHeaderLeftButton,
       headerContent,
       children,
       open,
@@ -40,12 +42,16 @@ class SimpleFullScreenDialog extends React.PureComponent {
       >
         <AppBar className={classes.appBar} {...appBarProps}>
           <Toolbar {...toolBarProps}>
-            <IconButton color="inherit" className={classes.menuButton} onClick={onClose} aria-label="Close">
-              <CloseIcon />
-            </IconButton>
-            <Typography variant="h6" color="inherit" className={classes.flex1}>
-              {title}
-            </Typography>
+            {!disableHeaderLeftButton && (headerLeftButton || (
+              <IconButton color="inherit" className={classes.menuButton} onClick={onClose} aria-label="Close">
+                <CloseIcon />
+              </IconButton>
+            ))}
+            {title && (
+              <Typography variant="h6" color="inherit" className={classes.flex1}>
+                {title}
+              </Typography>
+            )}
             {headerContent}
             {/* <Button color="inherit" onClick={onClose}>
               save

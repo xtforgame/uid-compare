@@ -5,6 +5,8 @@ import SessionRouter from '~/routers/SessionRouter';
 import UserRouter from '~/routers/UserRouter';
 import UserSettingRouter from '~/routers/UserSettingRouter';
 import RecoveryRouter from '~/routers/RecoveryRouter';
+import OrganizationRouter from '~/routers/OrganizationRouter';
+import ProjectRouter from '~/routers/ProjectRouter';
 import MemoRouter from '~/routers/MemoRouter';
 
 export default class RouterManager extends ServiceBase {
@@ -24,6 +26,8 @@ export default class RouterManager extends ServiceBase {
       UserRouter,
       UserSettingRouter,
       RecoveryRouter,
+      OrganizationRouter,
+      ProjectRouter,
       MemoRouter,
     ]
     .map(Router => new Router({

@@ -23,15 +23,10 @@ const schedules = [
 ];
 
 const styles = theme => ({
-  spaceForFab: {
-    width: 1,
-    height: theme.spacing.unit * 2 * 2 + 56,
-  },
 });
 
 class Schedules extends React.PureComponent {
   render() {
-    const { classes } = this.props;
     return (
       <div>
         <FlipMove>
@@ -42,7 +37,6 @@ class Schedules extends React.PureComponent {
             />
           ))}
         </FlipMove>
-        <div className={classes.spaceForFab} />
       </div>
     );
   }

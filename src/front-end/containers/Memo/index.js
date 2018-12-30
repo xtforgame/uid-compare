@@ -4,14 +4,11 @@ import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
-import BottomNavigation from '@material-ui/core/BottomNavigation';
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import Button from '@material-ui/core/Button';
 import RestoreIcon from '@material-ui/icons/Restore';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import AddIcon from '@material-ui/icons/Add';
 import UpIcon from '@material-ui/icons/KeyboardArrowUp';
-import Zoom from '@material-ui/core/Zoom';
 import green from '@material-ui/core/colors/green';
 import createCommonStyles from '~/styles/common';
 import { push } from 'react-router-redux';
@@ -23,21 +20,13 @@ import modelMap from '~/containers/App/modelMap';
 import FilterBar from './FilterBar';
 import NewMemoDialog from './tabs/Memos/NewMemoDialog';
 
+import MobileTabsFrame from '~/containers/MobileTabsFrame';
+
 const {
   getMemos,
 } = modelMap.waitableActions;
 
 const styles = theme => ({
-  nav: {
-    width: '100%',
-  },
-  spacing: {
-    width: 1,
-    height: 8,
-  },
-  fabContainer: {
-    position: 'relative',
-  },
   fab: {
     position: 'absolute',
     bottom: theme.spacing.unit * 2,
@@ -57,7 +46,7 @@ const styles = theme => ({
   ...createCommonStyles(theme, ['flex', 'mobile']),
 });
 
-class Idle extends React.PureComponent {
+class Memo extends React.PureComponent {
   state = {
     dialogOpen: false,
   };
@@ -65,8 +54,6 @@ class Idle extends React.PureComponent {
   componentDidMount() {
     this.props.getMemos();
   }
-
-  changeTab = tabName => this.handleTabChange(undefined, `/idle/${tabName}`);
 
   handleTabChange = (_, value) => {
     // console.log('value :', value);
@@ -83,103 +70,82 @@ class Idle extends React.PureComponent {
     const {
       routeView,
       classes,
-      theme,
       location,
       match,
     } = this.props;
 
-    const transitionDuration = {
-      enter: theme.transitions.duration.enteringScreen,
-      exit: theme.transitions.duration.leavingScreen,
-    };
-
-    const fabs = [
+    const tabs = [
       {
         name: 'memos',
-        color: 'primary',
-        className: classes.fab,
-        icon: <AddIcon />,
+        nav: {
+          label: 'Memos',
+          icon: <RestoreIcon />,
+        },
+        fab: {
+          color: 'primary',
+          className: classes.fab,
+          fabIcon: <AddIcon />,
+        },
       },
       {
         name: 'schedules',
-        color: 'inherit',
-        className: classNames(classes.fab, classes.fabGreen),
-        icon: <UpIcon />,
+        nav: {
+          label: 'Schedules',
+          icon: <ScheduleIcon />,
+        },
+        fab: {
+          color: 'inherit',
+          className: classNames(classes.fab, classes.fabGreen),
+          fabIcon: <UpIcon />,
+        },
       },
     ];
 
-    let newRouteView = routeView;
-    if (routeView) {
-      // Append props to children
-      newRouteView = newRouteView.map(v => React.cloneElement(v, {
-        componentProps: {
-          changeTab: this.changeTab,
-        },
-      }));
-    }
+    tabs.filter(tab => tab.fab).forEach((tab) => {
+      const { fab } = tab;
+      tab.fab = ( // eslint-disable-line no-param-reassign
+        <Button
+          variant="fab"
+          className={fab.className}
+          color={fab.color}
+          onClick={() => {
+            this.setState({
+              dialogOpen: true,
+            });
+          }}
+        >
+          {fab.fabIcon}
+        </Button>
+      );
+    });
+
     return (
-      <div className={classes.mobielContainer}>
-        <div className={classes.mobileContentPlaceholder} />
-        {location.pathname === `${match.url}/memos` && (
+      <MobileTabsFrame
+        beforeRouteView={location.pathname === `${match.url}/memos` && (
           <FilterBar
             position="relative"
-            onToggleMenu={this.toggleDrawer}
           />
         )}
-        <div className={classes.mobileContent}>
-          { newRouteView }
-        </div>
-        <div className={classes.spacing} />
-        <div className={classes.fabContainer}>
-          {fabs.map(fab => (
-            <Zoom
-              key={fab.color}
-              in={location.pathname === `${match.url}/${fab.name}`}
-              timeout={transitionDuration}
-              style={{
-                transitionDelay: `${location.pathname === `${match.url}/${fab.name}` ? transitionDuration.exit : 0}ms`,
-              }}
-              unmountOnExit
-            >
-              <Button
-                variant="fab"
-                className={fab.className}
-                color={fab.color}
-                onClick={() => {
-                  this.setState({
-                    dialogOpen: true,
-                  });
-                }}
-              >
-                {fab.icon}
-              </Button>
-            </Zoom>
-          ))}
-        </div>
-        <BottomNavigation value={location.pathname} onChange={this.handleTabChange} className={classes.nav}>
-          <BottomNavigationAction label="Memos" value={`${match.url}/memos`} icon={<RestoreIcon />} />
-          <BottomNavigationAction label="Schedules" value={`${match.url}/schedules`} icon={<ScheduleIcon />} />
-        </BottomNavigation>
+        routeView={routeView}
+        parentUrl={match.url}
+        pathname={location.pathname}
+        handleTabChange={this.handleTabChange}
+        tabs={tabs}
+      >
         {this.state.dialogOpen && (
           <NewMemoDialog
             open={this.state.dialogOpen}
             onClose={this.closeDialog}
           />
         )}
-      </div>
+      </MobileTabsFrame>
     );
   }
 }
 
 export default compose(
-  connect(
-    null,
-    {
-      getMemos,
-      push,
-    },
-  ),
+  connect(null, { getMemos, push }),
   injectIntl,
   withRouter,
-  withStyles(styles, { withTheme: true }),
-)(Idle);
+  withStyles(styles),
+)(Memo);

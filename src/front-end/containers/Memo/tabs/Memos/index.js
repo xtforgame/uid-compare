@@ -15,15 +15,11 @@ const {
 } = modelMap.selectors;
 
 const styles = theme => ({
-  spaceForFab: {
-    width: 1,
-    height: theme.spacing.unit * 2 * 2 + 56,
-  },
 });
 
 class Memos extends React.PureComponent {
   render() {
-    const { classes, memos } = this.props;
+    const { memos } = this.props;
 
     return (
       <div>
@@ -35,7 +31,6 @@ class Memos extends React.PureComponent {
             />
           ))}
         </FlipMove>
-        <div className={classes.spaceForFab} />
       </div>
     );
   }

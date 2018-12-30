@@ -6,48 +6,9 @@ import {
   FormSpace,
   FormContent,
 } from '~/components/FormInputs';
+import LayoutBase from '~/components/FormLayouts/LayoutBase';
 
-import InputLinker from '~/utils/InputLinker';
-import {
-  propagateOnChangeEvent,
-} from '~/utils/InputLinker/helpers';
-
-class DialogLayout extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    const {
-      fields = [],
-      namespace = '',
-      defaultValues = {},
-      ignoredUndefinedFromOutputs = true,
-    } = props;
-
-    this.il = new InputLinker(this, { namespace, ignoredUndefinedFromOutputs });
-    this.il.add(...(fields.map(field => ({
-      presets: [field, propagateOnChangeEvent()],
-    }))));
-
-    this.il.setDefaultValues(defaultValues);
-
-    this.state = this.il.mergeInitState({});
-
-    const { onInited = () => {} } = this.props;
-    onInited(this.il);
-  }
-
-  handleSubmit = () => {
-    const { onSubmit = () => {} } = this.props;
-    if (this.il.validate()) {
-      const outputs = this.il.getOutputs();
-      onSubmit(outputs, this.il);
-      return {
-        outputs,
-        linker: this.il,
-      };
-    }
-    return null;
-  }
-
+class DialogLayout extends LayoutBase {
   render() {
     const {
       intl,

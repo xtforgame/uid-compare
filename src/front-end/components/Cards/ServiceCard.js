@@ -157,7 +157,7 @@ class ServiceCard extends React.PureComponent {
                 variant="subtitle1"
                 color="textSecondary"
                 classes={{
-                  subheading: classes[status.type],
+                  subtitle1: classes[status.type],
                 }}
               >
                 {status.state}

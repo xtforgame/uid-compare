@@ -3,16 +3,16 @@ import Button from '@material-ui/core/Button';
 import {
   FormSpace,
 } from '~/components/FormInputs';
-import { FragmentPreset } from '~/utils/InputLinker/helpers';
+import { createIgnoredPreset } from '~/utils/InputLinker/helpers';
 import {
   createRecoveryCodeInput,
 } from './inputConfigs';
 
 export default classes => [
   {
-    presets: [FragmentPreset],
-    getProps: (props, { link: { ownerProps } }) => ({
-      children: ownerProps.displayLabel,
+    presets: [createIgnoredPreset(React.Fragment)],
+    getProps: (props, { link: { hostProps } }) => ({
+      children: hostProps.displayLabel,
     }),
     options: { space: <FormSpace variant="content8" /> },
   },
@@ -25,18 +25,18 @@ export default classes => [
   {
     InputComponent: 'div',
     ignoredFromOutputs: true,
-    getProps: (props, { link: { owner, ownerProps, linker } }) => {
+    getProps: (props, { link: { host, hostProps, linker } }) => {
       const recoveryCode = linker.getOutput('recoveryCode');
       return {
         className: classes.flexContainer,
         children: (
           <React.Fragment>
-            {ownerProps.onResend && (
+            {hostProps.onResend && (
               <Button
                 color="default"
-                onClick={ownerProps.onResend}
+                onClick={hostProps.onResend}
               >
-                {ownerProps.resendText}
+                {hostProps.resendText}
               </Button>
             )}
             <div className={classes.flex1} />
@@ -44,9 +44,9 @@ export default classes => [
               variant="contained"
               color="primary"
               disabled={!recoveryCode || recoveryCode.length !== 6}
-              onClick={owner.handleSubmit}
+              onClick={host.handleSubmit}
             >
-              {ownerProps.enterCodeText}
+              {hostProps.enterCodeText}
             </Button>
           </React.Fragment>
         ),

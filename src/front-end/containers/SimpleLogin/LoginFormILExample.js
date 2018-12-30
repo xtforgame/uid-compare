@@ -19,7 +19,7 @@ import InputLinker from '~/utils/InputLinker';
 import {
   FormTextFieldPreset,
   displayErrorFromPropsForTextField,
-  FormPasswordVisibilityGetProps,
+  FormPasswordVisibilityPreset,
   FormCheckboxPreset,
   assert,
 } from '~/utils/InputLinker/helpers';
@@ -42,8 +42,8 @@ class LoginForm extends React.PureComponent {
       [FormTextFieldPreset, cfg => ({
         ...cfg,
         name: 'username',
-        // onChange: (value, [e], { link: { ownerProps } }) => {
-        //   ownerProps.onUsernameChange(e.target.value);
+        // onChange: (value, [e], { link: { hostProps } }) => {
+        //   hostProps.onUsernameChange(e.target.value);
         // },
         handledByProps: {
           value: 'username',
@@ -51,9 +51,9 @@ class LoginForm extends React.PureComponent {
         },
         // getProps: cfg.getProps.concat([
         //   displayErrorFromPropsForTextField('passwordError', () => undefined),
-        //   (props, { link: { owner } }, { translate }) => ({
+        //   (props, { link: { host } }, { translate }) => ({
         //     ...props,
-        //     onKeyPress: owner.handleEnterForTextField,
+        //     onKeyPress: host.handleEnterForTextField,
         //     label: translate('username'),
         //     placeholder: translate('usernameEmptyError', {
         //       emailAddress: { key: 'emailAddress' },
@@ -64,7 +64,7 @@ class LoginForm extends React.PureComponent {
         extraGetProps: [
           displayErrorFromPropsForTextField('passwordError', () => undefined),
           { onKeyPress: this.handleEnterForTextField },
-          (props, { link: { owner } }, { translate }) => ({
+          (props, { link: { host } }, { translate }) => ({
             ...props,
             label: translate('username'),
             placeholder: translate('usernameEmptyError', {
@@ -86,16 +86,16 @@ class LoginForm extends React.PureComponent {
         InputComponent: FormPasswordInput,
         // getProps: cfg.getProps.concat([
         //   displayErrorFromPropsForTextField('passwordError'),
-        //   (props, { link: { owner } }, { translate }) => ({
+        //   (props, { link: { host } }, { translate }) => ({
         //     ...props,
-        //     onKeyPress: owner.handleEnterForTextField,
+        //     onKeyPress: host.handleEnterForTextField,
         //     label: translate('password'),
         //   }),
         // ]),
         extraGetProps: [
           displayErrorFromPropsForTextField('passwordError'),
           { onKeyPress: this.handleEnterForTextField },
-          (props, { link: { owner } }, { translate }) => ({
+          (props, { link: { host } }, { translate }) => ({
             ...props,
             label: translate('password'),
           }),
@@ -104,12 +104,7 @@ class LoginForm extends React.PureComponent {
       }],
       {
         name: 'passwordVisibility',
-        defaultValue: false,
-        getProps: FormPasswordVisibilityGetProps,
-        converter: {
-          fromView: ((_, { storedValue }) => !storedValue),
-          toOutput: () => undefined,
-        },
+        presets: [FormPasswordVisibilityPreset],
       },
       [FormCheckboxPreset, cfg => ({
         ...cfg,
@@ -117,15 +112,15 @@ class LoginForm extends React.PureComponent {
         props: { dense: 'true', color: 'primary' },
         defaultValue: (this.props.defaultRememberMe !== undefined ? this.props.defaultRememberMe : false),
         // getProps: cfg.getProps.concat([
-        //   (props, { link: { owner } }, { translate }) => ({
+        //   (props, { link: { host } }, { translate }) => ({
         //     ...props,
-        //     onKeyPress: owner.handleEnterForTextField,
+        //     onKeyPress: host.handleEnterForTextField,
         //     label: translate('rememberMe'),
         //   }),
         // ]),
-        extraGetProps: (props, { link: { owner } }, { translate }) => ({
+        extraGetProps: (props, { link: { host } }, { translate }) => ({
           ...props,
-          onKeyPress: owner.handleEnterForTextField,
+          onKeyPress: host.handleEnterForTextField,
           label: translate('rememberMe'),
         }),
       })]

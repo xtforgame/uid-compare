@@ -35,6 +35,7 @@
     "node": ">=10.0"
   },
   "dependencies": {
+    "@date-io/moment": "^0.0.2",
     "@material-ui/core": "3.4.0",
     "@material-ui/icons": "3.0.1",
     "@material-ui/lab": "3.0.0-alpha.23",
@@ -61,7 +62,9 @@
     "koa": "^2.5.0",
     "koa-bodyparser": "^4.2.0",
     "lodash": "^4.17.4",
+    "material-ui-pickers": "2.0.3",
     "moment": "^2.22.2",
+    "numeral": "^2.0.6",
     "pngjs": "^3.3.3",
     "prop-types": "^15.6.0",
     "react": "^16.3.0",
@@ -69,6 +72,7 @@
     "react-flip-move": "^3.0.2",
     "react-intl": "^2.4.0",
     "react-jss": "^8.1.0",
+    "react-number-format": "^3.5.2",
     "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
@@ -84,6 +88,7 @@
     "reselect": "^3.0.1",
     "rrw-module": "git+https://github.com/xtforgame/rrw-module.git#v0.1.3",
     "rxjs": "^5.4.3",
+    "sequelize": "4.37.5",
     "validator": "^10.2.0"
   },
   "devDependencies": {

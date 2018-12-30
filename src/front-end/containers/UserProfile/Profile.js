@@ -1,35 +1,41 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable jsx-a11y/label-has-associated-control, no-underscore-dangle */
 import React from 'react';
+import classNames from 'classnames';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { withStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
+import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
-import EditIcon from '@material-ui/icons/Edit';
-import CloseIcon from '@material-ui/icons/Close';
-import Typography from '@material-ui/core/Typography';
-import bgImg from './StockSnap_3FOSIEZDTW.jpg';
-import classNames from 'classnames';
-import Avatar from '@material-ui/core/Avatar';
-import Centered from '~/components/Layout/Centered';
+import SuccessButton from '~/components/Buttons/SuccessButton';
 import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
+import EditIcon from '@material-ui/icons/Edit';
+import CloseIcon from '@material-ui/icons/Close';
+import Avatar from '@material-ui/core/Avatar';
 import grey from '@material-ui/core/colors/grey';
-import SuccessButton from '~/components/Buttons/SuccessButton';
+import Centered from '~/components/Layout/Centered';
+import UserProfileCard from '~/components/Cards/UserProfileCard';
 import {
-  readFile,
-} from '~/utils/imageHelpers';
-
-import {
-  FormTextField,
+  FormSpace,
+  FormFileInput,
 } from '~/components/FormInputs';
+import {
+  createIgnoredPreset,
+  FormTextFieldPreset,
+  ListItemDisplayerPreset,
+  addOnPressEnterEvent,
+} from '~/utils/InputLinker/helpers';
+import {
+  ContainerConfig,
+  EditableConfig,
+} from '~/components/LinkerPresets/ConfigCreators';
+import bgImg from './StockSnap_3FOSIEZDTW.jpg';
 
 import {
   makeMyUserSelector,
@@ -42,54 +48,36 @@ const {
 } = modelMap.waitableActions;
 
 const styles = theme => ({
+  halfHeight: {
+    height: '50%',
+  },
+  spaceAfterMedia: {
+    height: 55,
+  },
   mainContainer: {
     width: '100%',
   },
-  // media: {
-  //   height: 0,
-  //   paddingTop: '56.25%', // 16:9
-  // },
-  card: {
-    width: 300,
-    [theme.breakpoints.up('sm')]: {
-      width: 345,
-    },
-  },
+
   media: {
     position: 'relative',
     height: 150,
   },
-  row: {
-    display: 'flex',
-    justifyContent: 'center',
-  },
-  avatar: {
-    // margin: 10,
-    color: '#fff',
-    backgroundColor: grey[500],
-  },
   absolute: {
     position: 'absolute',
+    top: 0,
   },
-  bigAvatar: {
-    width: 96,
-    height: 96,
+  mask: {
+    width: '100%',
+    height: '100%',
   },
-
-  space0: {
-    height: 100,
-  },
-
-  space1: {
-    height: '50%',
-  },
-
-  space2: {
-    height: 55,
-  },
-
-  space3: {
-    height: 20,
+  editBanner: {
+    color: theme.palette.common.white,
+    margin: 'auto',
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    width: 56,
+    height: 56,
   },
 
   avatarContainer: {
@@ -105,6 +93,23 @@ const styles = theme => ({
     right: 8,
   },
 
+  avatar: {
+    // margin: 10,
+    color: '#fff',
+    backgroundColor: grey[500],
+  },
+  bigAvatar: {
+    width: 96,
+    height: 96,
+  },
+
+  avatarImage: {
+    width: '100%',
+    height: '100%',
+    textAlign: 'center',
+    objectFit: 'cover',
+  },
+
   editPhoto: {
     color: theme.palette.common.white,
     margin: 'auto',
@@ -114,50 +119,177 @@ const styles = theme => ({
     right: 0,
     left: 0,
   },
+});
 
-  input: {
-    display: 'none',
-  },
-
-  avatarImage: {
-    width: '100%',
-    height: '100%',
-    textAlign: 'center',
-    objectFit: 'cover',
+const createTextInputPreset = (name, label) => ({
+  presets: [FormTextFieldPreset, addOnPressEnterEvent('handleSubmit')],
+  name,
+  extraGetProps: {
+    label,
+    fullWidth: true,
   },
 });
 
+const getFields = classes => [
+  new EditableConfig({
+    name: 'bannerImg',
+    InputComponent: CardMedia,
+    converter: {
+      fromView: ([v]) => v,
+    },
+    extraGetProps: (props, { value, handleChange }) => ({
+      ...props,
+      className: classes.media,
+      image: value,
+      title: '',
+      children: [<div key="space" className={classes.halfHeight} />],
+    }),
+    extraChildElements: [
+      new ContainerConfig([
+        new EditableConfig({
+          presets: [createIgnoredPreset(Button)],
+          extraGetProps: (props, { link: { host } }) => ({
+            ...props,
+            variant: 'fab',
+            className: classes.editButton,
+          }),
+        },
+        null, (props, { link: { host } }) => ({
+          ...props,
+          color: 'secondary',
+          'aria-label': 'edit',
+          onClick: host.startEditing,
+          children: <EditIcon />,
+        }),
+        null, (props, { link: { host } }) => ({
+          ...props,
+          color: 'default',
+          'aria-label': 'cancel',
+          onClick: host.cancelEditing,
+          children: <CloseIcon />,
+        })),
+        new EditableConfig({
+          name: 'avatarImg',
+          InputComponent: Avatar,
+          converter: {
+            fromView: ([v]) => v,
+          },
+          extraGetProps: (props, { value }) => ({
+            ...props,
+            className: classNames(classes.avatar, classes.bigAvatar),
+            children: [
+              <img key="avatar-img" alt="me" src={value} className={classes.avatarImage} />,
+            ],
+          }),
+        }, () => Avatar, null, null, (props, { handleChange }) => ({
+          ...props,
+          children: props.children.concat([
+            <div
+              key="avatar-mask"
+              className={classNames(classes.absolute, classes.mask)}
+              style={{ backgroundColor: 'rgba(0, 0, 0, 0.35)' }}
+            />,
+            <FormFileInput
+              key="avatar-input"
+              id="avatar-input"
+              accept="image/*"
+              onLoadEnd={(fileInfo) => {
+                handleChange(fileInfo.dataURL);
+              }}
+            >
+              <IconButton component="span" className={classNames(classes.editPhoto)}>
+                <PhotoCamera />
+              </IconButton>
+            </FormFileInput>,
+          ]),
+        })),
+      ], {
+        getInputComponent: () => Centered,
+        extraGetProps: { className: classes.avatarContainer },
+      }, () => undefined),
+    ],
+  }, null, null, null, (props, { value, handleChange }) => ({
+    ...props,
+    className: classes.media,
+    image: value,
+    title: '',
+    children: props.children.concat([
+      <div
+        key="avatar-mask"
+        className={classNames(classes.absolute, classes.mask)}
+        style={{ backgroundColor: 'rgba(0, 0, 0, 0.35)' }}
+      />,
+      <FormFileInput
+        key="avatar-input"
+        id="icon-button-file"
+        accept="image/*"
+        onLoadEnd={(fileInfo) => {
+          handleChange(fileInfo.dataURL);
+        }}
+      >
+        <IconButton component="span" className={classNames(classes.editBanner)}>
+          <PhotoCamera />
+        </IconButton>
+      </FormFileInput>,
+    ]),
+  })),
+  {
+    presets: [createIgnoredPreset('div')],
+    extraGetProps: { className: classes.spaceAfterMedia },
+  },
+  new ContainerConfig([
+    new ContainerConfig([
+      new EditableConfig(createTextInputPreset('name', 'Name'), () => Centered, (props, { value, link: { name, hostProps } }) => ({
+        key: props.key,
+        children: (
+          <Typography gutterBottom variant="h5" component="h2">
+            {hostProps.defaultValues[name]}
+          </Typography>
+        ),
+      })),
+      new EditableConfig(
+        new ContainerConfig([
+          new EditableConfig(createTextInputPreset('email', 'Email'), () => ListItem, ListItemDisplayerPreset),
+          new EditableConfig(createTextInputPreset('bio', 'Bio'), () => ListItem, ListItemDisplayerPreset, null, p => ({
+            ...p,
+            multiline: true,
+            rows: 1,
+            rowsMax: 10,
+          })),
+        ]),
+        () => List, null, () => React.Fragment
+      ),
+    ], { InputComponent: CardContent }),
+  ]),
+  new EditableConfig(
+    { presets: [createIgnoredPreset(FormSpace)] },
+    () => React.Fragment, null,
+    null, props => ({ ...props, variant: 'content2' })
+  ),
+  new EditableConfig(
+    new ContainerConfig([
+      new EditableConfig(
+        createIgnoredPreset(SuccessButton),
+        () => React.Fragment, ({ key }) => ({ key }),
+        null, (props, { link: { host } }) => ({
+          ...props,
+          size: 'small',
+          variant: 'contained',
+          fullWidth: true,
+          color: 'primary',
+          onClick: host.handleSubmit,
+          children: 'Save',
+        })
+      ),
+    ]),
+    () => React.Fragment, null, () => CardActions
+  ),
+];
+
 class Profile extends React.PureComponent {
-  constructor(...args) {
-    super(...args);
-    this.state = {
-      editing: false,
-    };
-  }
+  state = { editing: false };
 
-  startEditing = () => {
-    const {
-      user = {},
-    } = this.props;
-    this.setState({
-      editing: true,
-      name: user.name,
-      bio: user.data && user.data.bio,
-      email: user.data && user.data.email,
-    });
-  };
-
-  cancelEditing = () => {
-    this.setState({
-      editing: false,
-      name: undefined,
-      email: undefined,
-      bio: undefined,
-      thumbnail: undefined,
-    });
-  };
-
-  submit = () => {
+  submit = (values) => {
     const {
       patchUser,
       user = {},
@@ -167,35 +299,31 @@ class Profile extends React.PureComponent {
 
     if (user.id != null) {
       const patchData = {};
-      if (this.state.name) {
-        patchData.name = this.state.name;
+      if (values.name) {
+        patchData.name = values.name;
       }
-      if (this.state.email) {
+      if (values.email) {
         patchData.data = {
           ...user.data,
           ...patchData.data,
-          email: this.state.email,
+          email: values.email,
         };
       }
-      if (this.state.bio) {
+      if (values.bio) {
         patchData.data = {
           ...user.data,
           ...patchData.data,
-          bio: this.state.bio,
+          bio: values.bio,
         };
       }
-      if (this.state.thumbnail) {
-        patchData.picture = this.state.thumbnail;
+      if (values.avatarImg) {
+        patchData.picture = values.avatarImg;
       }
       p = patchUser(user.id, patchData);
     }
     p.then(() => {
       this.setState({
         editing: false,
-        name: undefined,
-        email: undefined,
-        bio: undefined,
-        thumbnail: undefined,
       });
     })
     .catch((e) => {
@@ -203,214 +331,41 @@ class Profile extends React.PureComponent {
     });
   }
 
-  renderDetailView() {
-    const {
-      user = {},
-    } = this.props;
-
-    const bio = user.data && user.data.bio;
-    const email = user.data && user.data.email;
-
-    return (
-      <CardContent>
-        <Centered>
-          <Typography gutterBottom variant="h5" component="h2">
-            {user.name}
-          </Typography>
-        </Centered>
-        <List>
-          <ListItem>
-            <ListItemText
-              primary="Email"
-              secondary={email}
-            />
-          </ListItem>
-          <ListItem>
-            <ListItemText
-              disableTypography
-              primary={(
-                <Typography
-                  variant="subtitle1"
-                >
-                Bio
-                </Typography>
-              )}
-              secondary={(
-                <Typography
-                  variant="body1"
-                  component="p"
-                  color="textSecondary"
-                >
-                  {bio}
-                </Typography>
-              )}
-            />
-          </ListItem>
-        </List>
-      </CardContent>
-    );
-  }
-
-  renderEditView() {
-    const {
-      classes,
-      user = {},
-    } = this.props;
-
-    const bio = user.data && user.data.bio;
-    const email = user.data && user.data.email;
-
-    return (
-      <CardContent>
-        <FormTextField
-          id="name"
-          label="Name"
-          onKeyPress={() => {}}
-          value={(this.state.editing ? this.state.name : user.name) || ''}
-          onChange={(e) => {
-            this.setState({
-              name: e.target.value,
-            });
-          }}
-          fullWidth
-        />
-        <div className={classes.space3} />
-        <FormTextField
-          id="email"
-          label="Email"
-          onKeyPress={() => {}}
-          value={(this.state.editing ? this.state.email : email) || ''}
-          onChange={(e) => {
-            this.setState({
-              email: e.target.value,
-            });
-          }}
-          fullWidth
-        />
-        <div className={classes.space3} />
-        <React.Fragment>
-          <FormTextField
-            id="bio"
-            label="Bio"
-            onKeyPress={() => {}}
-            value={(this.state.editing ? this.state.bio : bio) || ''}
-            onChange={(e) => {
-              this.setState({
-                bio: e.target.value,
-              });
-            }}
-            multiline
-            fullWidth
-            rows={1}
-            rowsMax={10}
-          />
-          <div className={classes.space3} />
-        </React.Fragment>
-      </CardContent>
-    );
-  }
-
   render() {
     const {
       classes,
-      user = {},
+      user,
     } = this.props;
+
+    const { editing } = this.state;
+
+    const {
+      name,
+      picture: avatarImg,
+      data: {
+        bio,
+        email,
+      } = {},
+    } = user || {};
 
     return (
       <Centered className={classes.mainContainer}>
-        <Card className={classes.card}>
-          <CardMedia
-            className={classes.media}
-            image={bgImg}
-            title=""
-          >
-            <div className={classes.space1} />
-            <Centered
-              className={classes.avatarContainer}
-            >
-              <Avatar
-                alt="Adelle Charles"
-                {...{/* src: bgImg */}}
-                className={classNames(classes.avatar, classes.bigAvatar)}
-              >
-                {this.state.editing && (
-                  <input
-                    accept="image/*"
-                    className={classes.input}
-                    id="icon-button-file"
-                    type="file"
-                    onChange={(e) => {
-                      if (e.target.files[0]) {
-                        readFile(e.target.files[0], {
-                          thumbnailInfo: {
-                            maxWidth: 512,
-                            maxHeight: 512,
-                          },
-                        })
-                        .then((imgInfo) => {
-                          this.setState(imgInfo);
-                          // console.log('imgInfo :', imgInfo);
-                        });
-                      }
-                    }}
-                  />
-                )}
-                {user.picture && (
-                  <img alt="me" src={(this.state.editing && this.state.thumbnail) || user.picture} className={classes.avatarImage} />
-                )
-                }
-                {!user.picture && (
-                  <Typography variant="h4">
-                    {(user.name || '').substr(0, 2)}
-                  </Typography>
-                )
-                }
-                {this.state.editing
-                  && (
-                    <React.Fragment>
-                      <div
-                        className={classNames(classes.absolute, classes.bigAvatar)}
-                        style={{ backgroundColor: 'rgba(0, 0, 0, 0.35)' }}
-                      />
-                      <label htmlFor="icon-button-file">
-                        <IconButton component="span" className={classNames(classes.editPhoto)}>
-                          <PhotoCamera />
-                        </IconButton>
-                      </label>
-                    </React.Fragment>
-                  )}
-              </Avatar>
-              <Button
-                variant="fab"
-                color={this.state.editing ? 'default' : 'secondary'}
-                aria-label={this.state.editing ? 'cancel' : 'edit'}
-                className={classes.editButton}
-                onClick={this.state.editing ? this.cancelEditing : this.startEditing}
-              >
-                {this.state.editing ? (<CloseIcon />) : (<EditIcon />)}
-              </Button>
-            </Centered>
-          </CardMedia>
-          <div className={classes.space2} />
-          {this.state.editing
-            ? this.renderEditView()
-            : this.renderDetailView()
-          }
-          {this.state.editing
-            && (
-              <CardActions>
-                <SuccessButton
-                  size="small"
-                  variant="contained"
-                  fullWidth
-                  color="primary"
-                  onClick={this.submit}
-                >
-                Save
-                </SuccessButton>
-              </CardActions>
-            )}
-        </Card>
+        <UserProfileCard
+          user={user}
+          bgImg={bgImg}
+          fields={getFields(classes)}
+          defaultValues={{
+            name,
+            bannerImg: bgImg,
+            avatarImg,
+            bio,
+            email,
+          }}
+          editing={editing}
+          onStartEditing={() => this.setState({ editing: true })}
+          onCancelEditing={() => this.setState({ editing: false })}
+          onSubmit={this.submit}
+        />
       </Centered>
     );
   }

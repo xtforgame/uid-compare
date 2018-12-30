@@ -25,9 +25,9 @@ export default (defaultRememberMe = false) => [
     presets: [FormCheckboxPreset, addOnPressEnterEvent('handleSubmit')],
     props: { dense: 'true', color: 'primary' },
     defaultValue: false,
-    extraGetProps: (props, { link: { ownerProps } }, { translate, userAgreementLabel }) => ({
+    extraGetProps: (props, { link: { hostProps } }, { translate, userAgreementLabel }) => ({
       ...props,
-      label: ownerProps.comfirmUserAgreement && userAgreementLabel,
+      label: hostProps.comfirmUserAgreement && userAgreementLabel,
     }),
   },
 ];

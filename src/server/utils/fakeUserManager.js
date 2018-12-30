@@ -56,6 +56,14 @@ class FakeUserManager {
       data,
     }, {
       memos: [],
+      organizations: [
+        { id: 1, name: 'default' },
+        { id: 2, name: 'x' },
+      ],
+      projects: [
+        { id: 1, name: 'default' },
+        { id: 2, name: 'x' },
+      ],
     });
 
     this.usernames[username] = user;
@@ -66,6 +74,10 @@ class FakeUserManager {
   authenticate(auth_type, username, password) {
     const user = this.usernames[username];
     if (auth_type !== 'basic' || !user) {
+      return null;
+    }
+
+    if (user.password !== password) {
       return null;
     }
 

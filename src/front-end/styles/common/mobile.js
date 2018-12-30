@@ -9,8 +9,8 @@ export default theme => ({
     display: 'flex',
   },
   mobileContent: {
-    marginRight: 8,
-    marginLeft: 8,
+    paddingRight: 8,
+    paddingLeft: 8,
     flex: 1,
     height: 1,
     overflowY: 'scroll',

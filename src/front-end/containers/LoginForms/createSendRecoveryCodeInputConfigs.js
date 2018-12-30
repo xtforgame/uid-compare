@@ -1,10 +1,11 @@
 import React from 'react';
+import Button from '@material-ui/core/Button';
 import {
   FormSpace,
 } from '~/components/FormInputs';
 import {
   FormPhoneOrEmailInputPreset,
-  BottonPreset,
+  createIgnoredPreset,
   displayErrorFromPropsForTextField,
   assert,
   translateLabel,
@@ -39,28 +40,28 @@ export default recover => ([
     options: { space: <FormSpace variant="content8" /> },
   },
   {
-    presets: [BottonPreset],
-    getProps: (props, { link: { owner, ownerProps, linker } }) => ({
+    presets: [createIgnoredPreset(Button)],
+    getProps: (props, { link: { host, hostProps, linker } }) => ({
       variant: 'contained',
       fullWidth: true,
       color: 'secondary',
-      disabled: !linker.getOutput('username') || ownerProps.remainingTime > 0,
-      className: ownerProps.classes.loginBtn,
-      onClick: owner.handleSubmit,
-      children: ownerProps.countDownText,
+      disabled: !linker.getOutput('username') || hostProps.remainingTime > 0,
+      className: hostProps.classes.loginBtn,
+      onClick: host.handleSubmit,
+      children: hostProps.countDownText,
     }),
     options: { space: <FormSpace variant="content4" /> },
   },
   {
-    presets: [BottonPreset],
-    getProps: (props, { link: { ownerProps, linker } }) => ({
+    presets: [createIgnoredPreset(Button)],
+    getProps: (props, { link: { hostProps, linker } }) => ({
       fullWidth: true,
       disabled: !linker.getOutput('username'),
-      className: ownerProps.classes.loginBtn,
-      onClick: ownerProps.backToEnterTheCode,
-      children: ownerProps.enterCodeText,
+      className: hostProps.classes.loginBtn,
+      onClick: hostProps.backToEnterTheCode,
+      children: hostProps.enterCodeText,
     }),
-    getVisibility: ({ link: { owner, linker, ownerProps: { lastSentUsername } } }) => lastSentUsername && lastSentUsername === linker.getOutput('username'),
+    getVisibility: ({ link: { host, linker, hostProps: { lastSentUsername } } }) => lastSentUsername && lastSentUsername === linker.getOutput('username'),
     options: { space: <FormSpace variant="content1" /> },
   },
 ]);

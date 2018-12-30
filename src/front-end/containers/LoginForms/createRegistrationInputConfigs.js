@@ -1,11 +1,11 @@
 import React from 'react';
+import SuccessButton from '~/components/Buttons/SuccessButton';
 import {
   FormSpace,
 } from '~/components/FormInputs';
 import {
   FormCheckboxPreset,
-  FragmentPreset,
-  SuccessBottonPreset,
+  createIgnoredPreset,
   addOnPressEnterEvent,
 } from '~/utils/InputLinker/helpers';
 
@@ -27,29 +27,29 @@ export default (defaultRememberMe = false) => [
     presets: [FormCheckboxPreset, addOnPressEnterEvent('handleSubmit')],
     props: { dense: 'true', color: 'primary' },
     defaultValue: false,
-    getVisibility: ({ link: { ownerProps } }) => ownerProps.comfirmUserAgreement,
-    extraGetProps: (props, { link: { ownerProps } }, { translate }) => ({
+    getVisibility: ({ link: { hostProps } }) => hostProps.comfirmUserAgreement,
+    extraGetProps: (props, { link: { hostProps } }, { translate }) => ({
       ...props,
-      label: ownerProps.comfirmUserAgreement && ownerProps.userAgreementLabel,
+      label: hostProps.comfirmUserAgreement && hostProps.userAgreementLabel,
     }),
   },
   {
-    presets: [FragmentPreset],
-    getProps: (props, { link: { ownerProps, linker } }) => ({
-      children: !ownerProps.comfirmUserAgreement && (ownerProps.userAgreementLabel),
+    presets: [createIgnoredPreset(React.Fragment)],
+    getProps: (props, { link: { hostProps, linker } }) => ({
+      children: !hostProps.comfirmUserAgreement && (hostProps.userAgreementLabel),
     }),
     options: { space: null },
   },
   {
-    presets: [SuccessBottonPreset],
-    extraGetProps: (props, { link: { owner, ownerProps, linker } }, { translate }) => ({
+    presets: [createIgnoredPreset(SuccessButton)],
+    extraGetProps: (props, { link: { host, hostProps, linker } }, { translate }) => ({
       variant: 'contained',
       fullWidth: true,
       color: 'primary',
-      className: ownerProps.classes.login,
-      onClick: owner.handleSubmit,
+      className: hostProps.classes.login,
+      onClick: host.handleSubmit,
       children: translate('createAccount'),
-      disabled: ownerProps.comfirmUserAgreement && !linker.getValue('agreed'),
+      disabled: hostProps.comfirmUserAgreement && !linker.getValue('agreed'),
     }),
     options: { space: <FormSpace variant="content1" /> },
   },

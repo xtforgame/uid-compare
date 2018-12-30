@@ -1,6 +1,7 @@
 import modelMap from '../modelMap';
 import handleSessionEpics from './handleSessionEpics';
 import handleUserSettingsEpics from './handleUserSettingsEpics';
+import handleDomainLogic from './handleDomainLogic';
 
 const {
   postSessionsEpic,
@@ -19,12 +20,22 @@ const {
   getMemosEpic,
   postMemosEpic,
   patchMemoEpic,
+
+  getOrganizationsEpic,
+  postOrganizationsEpic,
+  patchOrganizationEpic,
+
+  getProjectsEpic,
+  getProjectEpic,
+  postProjectsEpic,
+  patchProjectEpic,
 } = modelMap.epics;
 
 
 export default [
   ...handleSessionEpics,
   ...handleUserSettingsEpics,
+  ...handleDomainLogic,
 
   postSessionsEpic,
   getSessionsEpic,
@@ -43,4 +54,13 @@ export default [
   getMemosEpic,
   postMemosEpic,
   patchMemoEpic,
+
+  getOrganizationsEpic,
+  postOrganizationsEpic,
+  patchOrganizationEpic,
+
+  getProjectsEpic,
+  getProjectEpic,
+  postProjectsEpic,
+  patchProjectEpic,
 ];

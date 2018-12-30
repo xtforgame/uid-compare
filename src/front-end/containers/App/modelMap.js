@@ -157,6 +157,50 @@ const modelsDefine = {
       },
     },
   },
+  organizations: {
+    url: './api/organizations',
+    names: { model: 'organization', member: 'organization', collection: 'organizations' },
+    config: {
+      // actionNoRedundantBody: true,
+      getId: data => data.id,
+    },
+    extensionConfigs: {
+      waitableActions: { symbols },
+      epics,
+      selectors: {
+        createSelector,
+        baseSelector: state => state.get('global').organizations,
+      },
+    },
+  },
+  projects: {
+    url: './api/projects',
+    names: { model: 'project', member: 'project', collection: 'projects' },
+    config: {
+      // actionNoRedundantBody: true,
+      getId: data => data.id,
+    },
+    extensionConfigs: {
+      waitableActions: { symbols },
+      reducers: {
+        updateMembersByCollection: (collection) => {
+          if (collection) {
+            const byId = {};
+            Object.keys(collection).forEach((key) => {
+              byId[collection[key].id] = collection[key];
+            });
+            return byId;
+          }
+          return {};
+        },
+      },
+      epics,
+      selectors: {
+        createSelector,
+        baseSelector: state => state.get('global').projects,
+      },
+    },
+  },
 };
 
 const modelMap = new ModelMap('global', modelsDefine, defaultExtensions.concat([SelectorsCreator, EpicCreator, WaitableActionsCreator]));
