@@ -5,13 +5,20 @@ import FormTextInput from './FormTextInput';
 import FormPhoneOrEmailInput from './FormPhoneOrEmailInput';
 import FormPasswordInput from './FormPasswordInput';
 import FormCodeInput from './FormCodeInput';
+import FormNumberInput from './FormNumberInput';
 import FormCheckbox from './FormCheckbox';
 import FormSelect from './FormSelect';
 import FormOutlinedSelect from './FormOutlinedSelect';
 import FormAutocomplete from './FormAutocomplete';
 import FormFieldButton from './FormFieldButton';
 import FormFileInput from './FormFileInput';
+import FormFileInputWithMask from './FormFileInputWithMask';
+import FormImageButtonWithMask from './FormImageButtonWithMask';
+import FormSwitch from './FormSwitch';
+import NumberFormatInput from './NumberFormatInput';
+import ListInput from './ListInput';
 import InternalLink from './InternalLink';
+import HeaderSearchInput from './HeaderSearchInput';
 
 export {
   FormSpace,
@@ -21,11 +28,18 @@ export {
   FormPhoneOrEmailInput,
   FormPasswordInput,
   FormCodeInput,
+  FormNumberInput,
   FormCheckbox,
   FormSelect,
   FormOutlinedSelect,
   FormAutocomplete,
   FormFieldButton,
   FormFileInput,
+  FormFileInputWithMask,
+  FormImageButtonWithMask,
+  FormSwitch,
+  NumberFormatInput,
   InternalLink,
+  HeaderSearchInput,
+  ListInput,
 };

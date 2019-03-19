@@ -16,17 +16,14 @@ export default (defaultRememberMe = false) => [
   createSimpleAccountInput(),
   {
     ...createValidPasswordInput(),
-    options: {
-      space: <FormSpace variant="content2" />,
-    },
+    extraOptions: { space: <FormSpace variant="content2" /> },
   },
   {
     name: 'agreed',
     presets: [FormCheckboxPreset, addOnPressEnterEvent('handleSubmit')],
     props: { dense: 'true', color: 'primary' },
     defaultValue: false,
-    extraGetProps: (props, { link: { hostProps } }, { translate, userAgreementLabel }) => ({
-      ...props,
+    mwRender: ({ link: { hostProps }, options: { userAgreementLabel } }) => ({
       label: hostProps.comfirmUserAgreement && userAgreementLabel,
     }),
   },

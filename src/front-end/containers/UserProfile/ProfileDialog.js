@@ -1,9 +1,8 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { compose } from 'recompose';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { withTranslation } from 'react-i18next';
 import SimpleFullScreenDialog from '~/components/Dialogs/SimpleFullScreenDialog';
-import { messages } from '~/containers/App/translation';
 import Profile from './Profile';
 
 const styles = theme => ({
@@ -29,13 +28,14 @@ const styles = theme => ({
 class UserProfile extends React.PureComponent {
   render() {
     const {
+      t,
       classes,
       open,
       onClose,
     } = this.props;
     return (
       <SimpleFullScreenDialog
-        title={<FormattedMessage {...messages.profile} />}
+        title={t('profile')}
         open={open}
         onClose={onClose}
       >
@@ -50,6 +50,6 @@ class UserProfile extends React.PureComponent {
 }
 
 export default compose(
-  injectIntl,
   withStyles(styles),
+  withTranslation(['app-common']),
 )(UserProfile);

@@ -84,13 +84,12 @@ class FilterBar extends React.PureComponent {
                 {
                   presets: [FormTextFieldPreset, addOnPressEnterEvent('handleSubmit')],
                   name: 'searchText',
-                  extraGetProps: props => ({
-                    ...props,
+                  extraProps: {
                     label: 'Search Text',
                     margin: 'dense',
                     fullWidth: true,
                     autoFocus: true,
-                  }),
+                  },
                   // validate: value => value || new Error('Should not be empty'),
                 },
               ]}

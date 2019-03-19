@@ -4,7 +4,7 @@ import {
   propagateOnChangeEvent,
 } from '~/utils/InputLinker/helpers';
 
-export default class DialogLayout extends React.PureComponent {
+export default class LayoutBase extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = this.resetInputLinker(props);
@@ -14,15 +14,21 @@ export default class DialogLayout extends React.PureComponent {
     onInited(this.il);
   }
 
+  componentDidMount() {
+    const { onDidMount = () => {} } = this.props;
+    onDidMount(this.il);
+  }
+
   resetInputLinker = (props, state) => {
     const {
+      value,
       fields = [],
       namespace = '',
       defaultValues = {},
       ignoredUndefinedFromOutputs = true,
     } = props;
 
-    const il = new InputLinker(this, { namespace, ignoredUndefinedFromOutputs });
+    const il = new InputLinker(this, { namespace, ignoredUndefinedFromOutputs, controlled: !!value });
     il.add(...(fields.map(field => ({
       presets: [field, propagateOnChangeEvent()],
     }))));

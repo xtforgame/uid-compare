@@ -2,13 +2,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
-import { injectIntl } from 'react-intl';
+import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import jsonPtr from 'jsonpointer';
 import { withStyles } from '@material-ui/core/styles';
-import { messages } from '~/containers/App/translation';
-import translateMessages from '~/utils/translateMessages';
-
 import FormBaseType001 from '~/containers/LoginForms/FormBaseType001';
 import createSendRecoveryCodeInputConfigs from '~/containers/LoginForms/createSendRecoveryCodeInputConfigs';
 
@@ -100,12 +97,7 @@ class SendRecoveryCode extends React.PureComponent {
   }
 
   render() {
-    const { intl } = this.props;
-    const translated = translateMessages(intl, messages, [
-      'sendCode',
-      'enterCode',
-    ]);
-
+    const { t } = this.props;
     const { remainingTime = 0 } = this.state;
     const remainingSec = Math.round(remainingTime / 1000);
 
@@ -113,11 +105,10 @@ class SendRecoveryCode extends React.PureComponent {
       <FormBaseType001
         {...this.props}
         namespace="forgot-password"
-        countDownText={`${translated.sendCode}${remainingTime > 0 ? `, Remaining Time : ${remainingSec}` : ''}`}
+        countDownText={`${t('sendCode')}${remainingTime > 0 ? `, Remaining Time : ${remainingSec}` : ''}`}
         backToEnterTheCode={this.backToEnterTheCode}
         remainingTime={remainingTime}
-        enterCodeText={translated.enterCode}
-        i18nMessages={messages}
+        enterCodeText={t('enterCode')}
         onSubmit={this.recover}
         fields={createSendRecoveryCodeInputConfigs(this.recover)}
       />
@@ -130,6 +121,6 @@ export default compose(
   connect(null, {
     postRecoveryTokens,
   }),
-  injectIntl,
+  withTranslation(['app-common']),
   withStyles(styles),
 )(SendRecoveryCode);

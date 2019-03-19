@@ -1,13 +1,11 @@
 import React from 'react';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
-import { injectIntl } from 'react-intl';
-import formatMessage from '~/utils/formatMessage';
+import { withTranslation } from 'react-i18next';
 import { withStyles } from '@material-ui/core/styles';
 import Icon from '@material-ui/core/Icon';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
-import { messages } from '../App/translation';
 import SimpleMediaCard from './SimpleMediaCard';
 
 const styles = theme => ({
@@ -39,7 +37,7 @@ const styles = theme => ({
 class Home extends React.PureComponent {
   render() {
     const {
-      routeView, intl, greetName, classes,
+      routeView, t, greetName, classes,
     } = this.props;
 
     return (
@@ -51,7 +49,7 @@ class Home extends React.PureComponent {
         <div className={classes.placeholder} />
         { routeView }
         <Typography variant="h6">
-          {formatMessage(intl, messages.greetText, { user: greetName || 'user0001' })}
+          {t('greetText', { user: greetName || 'user0001' })}
         </Typography>
         <Typography variant="h6">
           <ruby>
@@ -273,6 +271,6 @@ export default compose(
       greetName: state.get('global').greetName,
     }),
   ),
-  injectIntl,
+  withTranslation(['app-common']),
   withStyles(styles),
 )(Home);

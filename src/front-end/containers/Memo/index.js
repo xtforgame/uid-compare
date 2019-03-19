@@ -2,9 +2,8 @@ import React from 'react';
 import classNames from 'classnames';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
-import { injectIntl } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
+import Fab from '@material-ui/core/Fab';
 import RestoreIcon from '@material-ui/icons/Restore';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import AddIcon from '@material-ui/icons/Add';
@@ -104,8 +103,7 @@ class Memo extends React.PureComponent {
     tabs.filter(tab => tab.fab).forEach((tab) => {
       const { fab } = tab;
       tab.fab = ( // eslint-disable-line no-param-reassign
-        <Button
-          variant="fab"
+        <Fab
           className={fab.className}
           color={fab.color}
           onClick={() => {
@@ -115,7 +113,7 @@ class Memo extends React.PureComponent {
           }}
         >
           {fab.fabIcon}
-        </Button>
+        </Fab>
       );
     });
 
@@ -145,7 +143,6 @@ class Memo extends React.PureComponent {
 
 export default compose(
   connect(null, { getMemos, push }),
-  injectIntl,
   withRouter,
   withStyles(styles),
 )(Memo);

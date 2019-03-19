@@ -2,12 +2,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
-import { injectIntl } from 'react-intl';
+import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-
-import { messages } from '~/containers/App/translation';
-import translateMessages from '~/utils/translateMessages';
 import FormBaseType001 from '~/containers/LoginForms/FormBaseType001';
 import createResetPasswordInputConfigs from '~/containers/LoginForms/createResetPasswordInputConfigs';
 
@@ -48,22 +45,17 @@ class ResetPassword extends React.PureComponent {
 
   render() {
     const {
-      intl,
+      t,
       classes,
       ...porps
       // recoveryCodeError,
     } = this.props;
 
-    const translated = translateMessages(intl, messages, [
-      'setNewPassword',
-    ]);
-
     return (
       <FormBaseType001
         {...porps}
         namespace="reset-password"
-        i18nMessages={messages}
-        setNewPasswordText={translated.setNewPassword}
+        setNewPasswordText={t('setNewPassword')}
         onSubmit={this.resetPassword}
         fields={createResetPasswordInputConfigs(classes)}
       />
@@ -76,6 +68,6 @@ export default compose(
   connect(null, {
     postRecoveryTokens,
   }),
-  injectIntl,
+  withTranslation(['app-common']),
   withStyles(styles),
 )(ResetPassword);

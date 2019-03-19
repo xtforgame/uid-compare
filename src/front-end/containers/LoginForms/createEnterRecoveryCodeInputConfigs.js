@@ -11,21 +11,21 @@ import {
 export default classes => [
   {
     presets: [createIgnoredPreset(React.Fragment)],
-    getProps: (props, { link: { hostProps } }) => ({
+    mwRender: ({ link: { hostProps } }) => ({
       children: hostProps.displayLabel,
     }),
-    options: { space: <FormSpace variant="content8" /> },
+    extraOptions: { space: <FormSpace variant="content8" /> },
   },
   createRecoveryCodeInput(),
   {
-    InputComponent: FormSpace,
+    component: FormSpace,
     ignoredFromOutputs: true,
     props: { variant: 'content1' },
   },
   {
-    InputComponent: 'div',
+    component: 'div',
     ignoredFromOutputs: true,
-    getProps: (props, { link: { host, hostProps, linker } }) => {
+    mwRender: ({ link: { host, hostProps, linker } }) => {
       const recoveryCode = linker.getOutput('recoveryCode');
       return {
         className: classes.flexContainer,
@@ -52,6 +52,6 @@ export default classes => [
         ),
       };
     },
-    options: { space: <FormSpace variant="content1" /> },
+    extraOptions: { space: <FormSpace variant="content1" /> },
   },
 ];

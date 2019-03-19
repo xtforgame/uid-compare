@@ -2,21 +2,9 @@
 // https://github.com/mui-org/material-ui/blob/master/docs/src/modules/components/AppWrapper.js
 import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import JssProvider from 'react-jss/lib/JssProvider';
-import LanguageProvider from '~/containers/LanguageProvider';
+import { StylesProvider, ThemeProvider } from '@material-ui/styles';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import getPageContext, { updatePageContext } from '../styles/getPageContext';
-
-// Inject the insertion-point-jss after docssearch
-if (process.browser && !global.__INSERTION_POINT__) {
-  global.__INSERTION_POINT__ = true;
-  const styleNode = document.createComment('insertion-point-jss');
-  const docsearchStylesSheet = document.querySelector('#insertion-point-jss');
-
-  if (document.head && docsearchStylesSheet) {
-    document.head.insertBefore(styleNode, docsearchStylesSheet.nextSibling);
-  }
-}
 
 export default function withRoot(BaseComponent) {
   class WithRoot extends React.PureComponent {
@@ -65,20 +53,21 @@ export default function withRoot(BaseComponent) {
     render() {
       const { pageContext } = this.state;
       return (
-        <JssProvider
-          jss={pageContext.jss}
-          registry={pageContext.sheetsRegistry}
+        <StylesProvider
           generateClassName={pageContext.generateClassName}
+          jss={pageContext.jss}
+          sheetsManager={pageContext.sheetsManager}
+          sheetsRegistry={pageContext.sheetsRegistry}
         >
-          <MuiThemeProvider theme={pageContext.theme} sheetsManager={pageContext.sheetsManager}>
-            <React.Fragment>
-              <CssBaseline />
-              <LanguageProvider messages={this.props.messages}>
+          <MuiThemeProvider theme={pageContext.theme}>
+            <ThemeProvider theme={pageContext.theme}>
+              <React.Fragment>
+                <CssBaseline />
                 <BaseComponent {...this.props} />
-              </LanguageProvider>
-            </React.Fragment>
+              </React.Fragment>
+            </ThemeProvider>
           </MuiThemeProvider>
-        </JssProvider>
+        </StylesProvider>
       );
     }
   }

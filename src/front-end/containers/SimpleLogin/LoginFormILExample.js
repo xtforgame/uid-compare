@@ -1,12 +1,10 @@
 import React from 'react';
 import { compose } from 'recompose';
-import { injectIntl } from 'react-intl';
+import { withTranslation } from 'react-i18next';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 
-import { messages } from '~/containers/App/translation';
-import translateMessages from '~/utils/translateMessages';
 import {
   FormSpace,
   FormContent,
@@ -18,7 +16,7 @@ import {
 import InputLinker from '~/utils/InputLinker';
 import {
   FormTextFieldPreset,
-  displayErrorFromPropsForTextField,
+  mwpDisplayErrorFromPropsForTextField,
   FormPasswordVisibilityPreset,
   FormCheckboxPreset,
   assert,
@@ -49,54 +47,32 @@ class LoginForm extends React.PureComponent {
           value: 'username',
           onChange: 'onUsernameChange',
         },
-        // getProps: cfg.getProps.concat([
-        //   displayErrorFromPropsForTextField('passwordError', () => undefined),
-        //   (props, { link: { host } }, { translate }) => ({
-        //     ...props,
-        //     onKeyPress: host.handleEnterForTextField,
-        //     label: translate('username'),
-        //     placeholder: translate('usernameEmptyError', {
-        //       emailAddress: { key: 'emailAddress' },
-        //       phoneNumber: { key: 'phoneNumber' },
-        //     }),
-        //   }),
-        // ]),
-        extraGetProps: [
-          displayErrorFromPropsForTextField('passwordError', () => undefined),
+        mwRender: [
+          mwpDisplayErrorFromPropsForTextField('passwordError', () => undefined),
           { onKeyPress: this.handleEnterForTextField },
-          (props, { link: { host } }, { translate }) => ({
-            ...props,
+          ({ options: { translate } }) => ({
             label: translate('username'),
             placeholder: translate('usernameEmptyError', {
-              emailAddress: { key: 'emailAddress' },
-              phoneNumber: { key: 'phoneNumber' },
+              emailAddress: '$t(emailAddress)',
+              phoneNumber: '$t(phoneNumber)',
             }),
           }),
         ],
         validate: value => assert(!!value, null, {
           key: 'usernameEmptyError',
           values: {
-            emailAddress: { key: 'emailAddress' },
-            phoneNumber: { key: 'phoneNumber' },
+            emailAddress: '$t(emailAddress)',
+            phoneNumber: '$t(phoneNumber)',
           },
         }),
       })],
       [FormTextFieldPreset, {
         name: 'password',
-        InputComponent: FormPasswordInput,
-        // getProps: cfg.getProps.concat([
-        //   displayErrorFromPropsForTextField('passwordError'),
-        //   (props, { link: { host } }, { translate }) => ({
-        //     ...props,
-        //     onKeyPress: host.handleEnterForTextField,
-        //     label: translate('password'),
-        //   }),
-        // ]),
-        extraGetProps: [
-          displayErrorFromPropsForTextField('passwordError'),
+        component: FormPasswordInput,
+        mwRender: [
+          mwpDisplayErrorFromPropsForTextField('passwordError'),
           { onKeyPress: this.handleEnterForTextField },
-          (props, { link: { host } }, { translate }) => ({
-            ...props,
+          ({ options: { translate } }) => ({
             label: translate('password'),
           }),
         ],
@@ -111,15 +87,7 @@ class LoginForm extends React.PureComponent {
         name: 'rememberMe',
         props: { dense: 'true', color: 'primary' },
         defaultValue: (this.props.defaultRememberMe !== undefined ? this.props.defaultRememberMe : false),
-        // getProps: cfg.getProps.concat([
-        //   (props, { link: { host } }, { translate }) => ({
-        //     ...props,
-        //     onKeyPress: host.handleEnterForTextField,
-        //     label: translate('rememberMe'),
-        //   }),
-        // ]),
-        extraGetProps: (props, { link: { host } }, { translate }) => ({
-          ...props,
+        mwRender: ({ link: { host }, options: { translate } }) => ({
           onKeyPress: host.handleEnterForTextField,
           label: translate('rememberMe'),
         }),
@@ -152,15 +120,12 @@ class LoginForm extends React.PureComponent {
 
   render() {
     const {
-      intl,
+      t,
       handleCreateAccount = () => {},
       classes,
     } = this.props;
-    const translate = translateMessages.bind(null, intl, messages);
-    const translated = translateMessages(intl, messages, [
-      'login',
-      'createAccount',
-    ]);
+    const translate = t;
+
 
     return (
       <div>
@@ -191,14 +156,14 @@ class LoginForm extends React.PureComponent {
             className={classes.loginBtn}
             onClick={this.handleSubmit}
           >
-            {translated.login}
+            {t('login')}
           </Button>
           <FormSpace variant="content1" />
         </FormContent>
         <Divider />
         <FormContent>
           <Button fullWidth className={classes.loginBtn} onClick={handleCreateAccount}>
-            {translated.createAccount}
+            {t('createAccount')}
           </Button>
         </FormContent>
       </div>
@@ -207,6 +172,6 @@ class LoginForm extends React.PureComponent {
 }
 
 export default compose(
-  injectIntl,
+  withTranslation(['app-common']),
   withStyles(styles),
 )(LoginForm);

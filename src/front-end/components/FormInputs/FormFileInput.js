@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types, react/forbid-prop-types, jsx-a11y/label-has-associated-control */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'recompose';
 import { withStyles } from '@material-ui/core/styles';
 import { readFile } from '~/utils/imageHelpers';
 
@@ -54,6 +53,4 @@ FormFileInput.propTypes = {
   id: PropTypes.string.isRequired,
 };
 
-export default compose(
-  withStyles(styles),
-)(FormFileInput);
+export default withStyles(styles)(FormFileInput);

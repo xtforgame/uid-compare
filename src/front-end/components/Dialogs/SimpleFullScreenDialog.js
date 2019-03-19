@@ -2,10 +2,7 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import CloseIcon from '@material-ui/icons/Close';
+import IconWithTextToolbar from '~/components/Toolbars/IconWithTextToolbar';
 import createCommonStyles from '~/styles/common';
 
 const styles = theme => ({
@@ -21,14 +18,17 @@ class SimpleFullScreenDialog extends React.PureComponent {
       classes,
       title,
       headerLeftButton,
+      headerLeftIcon,
       disableHeaderLeftButton,
       headerContent,
       children,
       open,
       onClose,
       className,
+      toolbar,
       appBarProps,
-      toolBarProps,
+      toolbarProps,
+      PaperProps,
       ...rest
     } = this.props;
 
@@ -38,25 +38,21 @@ class SimpleFullScreenDialog extends React.PureComponent {
         open={open}
         onClose={onClose}
         className={className}
+        PaperProps={{ square: true, ...PaperProps }}
         {...rest}
       >
         <AppBar className={classes.appBar} {...appBarProps}>
-          <Toolbar {...toolBarProps}>
-            {!disableHeaderLeftButton && (headerLeftButton || (
-              <IconButton color="inherit" className={classes.menuButton} onClick={onClose} aria-label="Close">
-                <CloseIcon />
-              </IconButton>
-            ))}
-            {title && (
-              <Typography variant="h6" color="inherit" className={classes.flex1}>
-                {title}
-              </Typography>
-            )}
-            {headerContent}
-            {/* <Button color="inherit" onClick={onClose}>
-              save
-            </Button> */}
-          </Toolbar>
+          {toolbar || (
+            <IconWithTextToolbar
+              title={title}
+              headerLeftButton={headerLeftButton}
+              headerLeftIcon={headerLeftIcon}
+              disableHeaderLeftButton={disableHeaderLeftButton}
+              headerContent={headerContent}
+              toolbarProps={toolbarProps}
+              onLeftButtonClick={onClose}
+            />
+          )}
         </AppBar>
         {children}
       </Dialog>

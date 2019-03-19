@@ -1,7 +1,5 @@
 import React from 'react';
-import { compose } from 'recompose';
-import { injectIntl } from 'react-intl';
-import translateMessages from '~/utils/translateMessages';
+import { withTranslation } from 'react-i18next';
 import {
   FormSpace,
   FormContent,
@@ -11,17 +9,13 @@ import LayoutBase from '~/components/FormLayouts/LayoutBase';
 class FormBaseType001 extends LayoutBase {
   render() {
     const {
-      intl,
+      t: translate,
       space: defaultSpace = <FormSpace variant="content1" />,
       topSpace = <FormSpace variant="top" />,
       Content = FormContent,
-      i18nMessages,
-      i18nTranslate,
       extraContents,
       children,
     } = this.props;
-    const translate = i18nTranslate
-      || (i18nMessages ? translateMessages.bind(null, intl, i18nMessages) : undefined);
 
     return (
       <React.Fragment>
@@ -46,6 +40,4 @@ class FormBaseType001 extends LayoutBase {
   }
 }
 
-export default compose(
-  injectIntl,
-)(FormBaseType001);
+export default withTranslation(['app-common'])(FormBaseType001);

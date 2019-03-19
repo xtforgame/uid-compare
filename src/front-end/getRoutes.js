@@ -9,6 +9,9 @@ import SubContent01 from '~/containers/Home/SubContent01';
 import SubContent02 from '~/containers/Home/SubContent02';
 import SubContent03 from '~/containers/Home/SubContent03';
 import SubContent04 from '~/containers/Home/SubContent04';
+import SubContent05 from '~/containers/Home/SubContent05';
+import SubContent06 from '~/containers/Home/SubContent06';
+import SubContent07 from '~/containers/Home/SubContent07';
 
 import UserProfile from '~/containers/UserProfile';
 
@@ -123,6 +126,30 @@ const globalRouteConfig = {
               component: SubContent04,
               navbar: {
                 title: 'Sub 04',
+              },
+            },
+            {
+              name: 'sub05',
+              path: '/home/sub05',
+              component: SubContent05,
+              navbar: {
+                title: 'Sub 05',
+              },
+            },
+            {
+              name: 'sub06',
+              path: '/home/sub06',
+              component: SubContent06,
+              navbar: {
+                title: 'Sub 06',
+              },
+            },
+            {
+              name: 'sub07',
+              path: '/home/sub07',
+              component: SubContent07,
+              navbar: {
+                title: 'Sub 07',
               },
             }],
           }],

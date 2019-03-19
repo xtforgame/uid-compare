@@ -1,10 +1,9 @@
 import React from 'react';
 import { compose } from 'recompose';
-import { injectIntl } from 'react-intl';
+import { withTranslation } from 'react-i18next';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
-import translateMessages from '~/utils/translateMessages';
 import {
   FormSpace,
   FormContent,
@@ -51,15 +50,11 @@ class SimpleLayout extends React.PureComponent {
 
   render() {
     const {
-      intl,
+      t: translate,
       classes,
-      i18nMessages,
-      i18nTranslate,
       submitButtonText,
       children,
     } = this.props;
-    const translate = i18nTranslate
-      || (i18nMessages ? translateMessages.bind(null, intl, i18nMessages) : undefined);
 
     return (
       <div>
@@ -94,6 +89,6 @@ class SimpleLayout extends React.PureComponent {
 }
 
 export default compose(
-  injectIntl,
+  withTranslation(['app-common']),
   withStyles(styles),
 )(SimpleLayout);

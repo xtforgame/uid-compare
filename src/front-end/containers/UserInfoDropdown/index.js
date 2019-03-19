@@ -10,10 +10,9 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import { connect } from 'react-redux';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { withTranslation } from 'react-i18next';
 import { compose } from 'recompose';
 import modelMap from '~/containers/App/modelMap';
-import { messages } from '~/containers/App/translation';
 import ProfileDialog from '~/containers/UserProfile/ProfileDialog';
 import UserSettingsDialog from '~/containers/UserSettingsDialog';
 import { push } from 'react-router-redux';
@@ -47,7 +46,7 @@ class UserInfoDropdown extends React.PureComponent {
   }
 
   getMenuItmes() {
-    const { classes, clearSessionCache/* , push */ } = this.props;
+    const { classes, t, clearSessionCache/* , push */ } = this.props;
     return [
       <MenuItem
         key="user-profile"
@@ -66,7 +65,7 @@ class UserInfoDropdown extends React.PureComponent {
         <ListItemText
           inset
           classes={{ primary: classes.primary }}
-          primary={<FormattedMessage {...messages.profile} />}
+          primary={t('profile')}
         />
       </MenuItem>,
       // <MenuItem
@@ -105,7 +104,7 @@ class UserInfoDropdown extends React.PureComponent {
         <ListItemText
           inset
           classes={{ primary: classes.primary }}
-          primary={<FormattedMessage {...messages.settings} />}
+          primary={t('settings')}
         />
       </MenuItem>,
       <Divider key="divider-1" />,
@@ -125,7 +124,7 @@ class UserInfoDropdown extends React.PureComponent {
         <ListItemText
           inset
           classes={{ primary: classes.primary }}
-          primary={<FormattedMessage {...messages.logout} />}
+          primary={t('logout')}
         />
       </MenuItem>,
     ];
@@ -151,7 +150,7 @@ class UserInfoDropdown extends React.PureComponent {
 
   render() {
     const {
-      classes, intl, clearSessionCache, push, ...props
+      classes, i18n, t, tReady, clearSessionCache, push, ...props
     } = this.props;
     return (
       <div>
@@ -197,6 +196,6 @@ export default compose(
       push,
     }
   ),
-  injectIntl,
+  withTranslation(['app-common']),
   withStyles(styles),
 )(UserInfoDropdown);

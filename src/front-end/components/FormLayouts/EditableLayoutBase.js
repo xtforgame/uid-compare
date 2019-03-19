@@ -2,11 +2,11 @@ import LayoutBase from '~/components/FormLayouts/LayoutBase';
 
 export default class EditableLayout extends LayoutBase {
   static getDerivedStateFromProps(props, prevState) {
-    const { editing } = props;
-    if (editing !== undefined && editing !== prevState.editing) {
+    const { isEditing } = props;
+    if (!!isEditing !== !!prevState.isEditing) {
       const nextState = {
         ...prevState,
-        editing,
+        isEditing,
       };
       return prevState.resetInputLinker(props, nextState);
     }

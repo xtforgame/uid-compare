@@ -3,7 +3,8 @@
 // https://github.com/mui-org/material-ui/blob/master/docs/src/modules/styles/getPageContext.js
 import { create, SheetsRegistry } from 'jss';
 import rtl from 'jss-rtl';
-import { createMuiTheme, createGenerateClassName, jssPreset } from '@material-ui/core/styles';
+import { createGenerateClassName, jssPreset } from '@material-ui/styles';
+import { createMuiTheme } from '@material-ui/core/styles';
 import {
   /* purple, */green, orange, red, blue, black, pink, grey, common,
 } from '@material-ui/core/colors';
@@ -90,7 +91,7 @@ export const defaultUiTheme = {
 
 // Configure JSS
 const jss = create({
-  insertionPoint: 'insertion-point-jss',
+  insertionPoint: document.getElementById('jss-insertion-point'),
   plugins: [...jssPreset().plugins, rtl()],
 });
 

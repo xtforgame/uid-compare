@@ -11,7 +11,7 @@ export default theme => ({
       height: 64,
     },
   },
-  toolBar: {
+  toolbar: {
     // minHeight: 48,
     // height: 48,
   },

@@ -1,7 +1,6 @@
 import React from 'react';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
-import { injectIntl } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
 import RestoreIcon from '@material-ui/icons/Restore';
 import ScheduleIcon from '@material-ui/icons/Schedule';
@@ -67,7 +66,6 @@ class Idle extends React.PureComponent {
 
 export default compose(
   connect(null, { push }),
-  injectIntl,
   withRouter,
   withStyles(styles),
 )(Idle);

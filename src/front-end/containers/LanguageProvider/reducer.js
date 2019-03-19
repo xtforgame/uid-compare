@@ -5,6 +5,7 @@
  */
 
 import { fromJS } from 'immutable';
+import i18next from '~/i18next';
 
 import {
   CHANGE_LOCALE,
@@ -18,6 +19,7 @@ const initialState = fromJS({
 function languageProviderReducer(state = initialState, action) {
   switch (action.type) {
     case CHANGE_LOCALE:
+      i18next.changeLanguage(action.locale);
       return state
         .set('locale', action.locale);
     default:

@@ -10,7 +10,7 @@ import {
 import {
   FormTextFieldPreset,
   createIgnoredPreset,
-  displayErrorFromPropsForTextField,
+  mwpDisplayErrorFromPropsForTextField,
   FormPasswordVisibilityPreset,
   assert,
   translateLabel,
@@ -22,14 +22,13 @@ import {
 
 export default classes => [
   {
-    InputComponent: FormSpace,
+    component: FormSpace,
     ignoredFromOutputs: true,
     props: { variant: 'content2' },
   },
   {
     presets: [createIgnoredPreset(React.Fragment)],
-    getProps: (props, { link: { host, hostProps, linker } }) => ({
-      ...props,
+    mwRender: ({ link: { hostProps } }) => ({
       children: (
         <React.Fragment>
           <Typography variant="body1" color="secondary">
@@ -44,8 +43,8 @@ export default classes => [
   {
     name: 'newPassword',
     presets: [FormTextFieldPreset, translateLabel('enterNewPassword'), addOnPressEnterEvent('resetPassword')],
-    InputComponent: FormPasswordInput,
-    extraGetProps: displayErrorFromPropsForTextField('passwordError'),
+    component: FormPasswordInput,
+    mwRender: mwpDisplayErrorFromPropsForTextField('passwordError'),
     validate: value => assert(isValidPassword(value), null, { key: 'wrongPasswordFormatError' }),
     childLinks: [
       {
@@ -54,13 +53,13 @@ export default classes => [
         defaultValue: false,
       },
     ],
-    options: { space: <FormSpace variant="content4" /> },
+    extraOptions: { space: <FormSpace variant="content4" /> },
   },
   {
     name: 'confrimPassword',
     presets: [FormTextFieldPreset, translateLabel('reenterNewPassword'), addOnPressEnterEvent('resetPassword')],
-    InputComponent: FormPasswordInput,
-    extraGetProps: displayErrorFromPropsForTextField('passwordError'),
+    component: FormPasswordInput,
+    mwRender: mwpDisplayErrorFromPropsForTextField('passwordError'),
     validate: (value, { link: { linker } }) => {
       const newPassword = linker.getOutput('newPassword');
       assert(newPassword === value, null, { key: 'confirmPasswordError' });
@@ -72,12 +71,11 @@ export default classes => [
         defaultValue: false,
       },
     ],
-    options: { space: <FormSpace variant="content4" /> },
+    extraOptions: { space: <FormSpace variant="content4" /> },
   },
   {
     presets: [createIgnoredPreset(React.Fragment)],
-    getProps: (props, { link: { host, hostProps, linker } }) => ({
-      ...props,
+    mwRender: ({ link: { host, hostProps, linker } }) => ({
       children: (
         <div className={classes.flexContainer}>
           <div className={classes.flex1} />

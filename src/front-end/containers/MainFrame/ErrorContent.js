@@ -1,13 +1,10 @@
 import React from 'react';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
-import { injectIntl } from 'react-intl';
+import { withTranslation } from 'react-i18next';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-
-import { messages } from '~/containers/App/translation';
-import translateMessages from '~/utils/translateMessages';
 import createCommonStyles from '~/styles/common';
 import {
   FormSpace,
@@ -29,14 +26,9 @@ class ErrorContent extends React.PureComponent {
   render() {
     const {
       classes,
-      intl,
+      t,
       clearSessionCache,
     } = this.props;
-
-    const translated = translateMessages(intl, messages, [
-      'failToGetUserData',
-      'login',
-    ]);
 
     return (
       <React.Fragment>
@@ -45,7 +37,7 @@ class ErrorContent extends React.PureComponent {
         <FormContent>
           <FormSpace variant="content8" />
           <Typography variant="body1">
-            {translated.failToGetUserData}
+            {t('failToGetUserData')}
           </Typography>
           <FormSpace variant="content8" />
           <div className={classes.flexContainer}>
@@ -58,7 +50,7 @@ class ErrorContent extends React.PureComponent {
                 clearSessionCache('me');
               }}
             >
-              {translated.login}
+              {t('login')}
             </Button>
           </div>
         </FormContent>
@@ -72,6 +64,6 @@ export default compose(
     null,
     { clearSessionCache }
   ),
-  injectIntl,
+  withTranslation(['app-common']),
   withStyles(styles),
 )(ErrorContent);

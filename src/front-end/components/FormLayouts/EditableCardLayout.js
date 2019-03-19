@@ -2,22 +2,15 @@
 import React from 'react';
 import { compose } from 'recompose';
 import { withStyles } from '@material-ui/core/styles';
-import { injectIntl } from 'react-intl';
-import translateMessages from '~/utils/translateMessages';
+import { withTranslation } from 'react-i18next';
 import EditableLayoutBase from '~/components/FormLayouts/EditableLayoutBase';
 
-import Card from '@material-ui/core/Card';
+import MuiCard from '@material-ui/core/Card';
 
 const styles = theme => ({
-  card: {
-    width: 300,
-    [theme.breakpoints.up('sm')]: {
-      width: 345,
-    },
-  },
 });
 
-class UserProfileCard extends EditableLayoutBase {
+class EditableCardLayout extends EditableLayoutBase {
   startEditing = () => {
     const { onStartEditing } = this.props;
     if (onStartEditing) {
@@ -33,17 +26,20 @@ class UserProfileCard extends EditableLayoutBase {
   };
 
   render() {
-    const { classes } = this.props;
     const {
-      intl,
-      i18nMessages,
-      i18nTranslate,
+      t: translate,
+      Card = MuiCard,
+      className,
+      cardProps,
     } = this.props;
-    const translate = i18nTranslate
-      || (i18nMessages ? translateMessages.bind(null, intl, i18nMessages) : undefined);
+
+    const extraProps = {};
+    if (className) {
+      extraProps.className = className;
+    }
 
     return (
-      <Card className={classes.card}>
+      <Card {...extraProps} {...cardProps}>
         {this.il.fieldLinks.map(filedLink => this.il.renderComponent(filedLink.name, { translate }))}
       </Card>
     );
@@ -51,6 +47,6 @@ class UserProfileCard extends EditableLayoutBase {
 }
 
 export default compose(
-  injectIntl,
+  withTranslation(['app-common']),
   withStyles(styles),
-)(UserProfileCard);
+)(EditableCardLayout);

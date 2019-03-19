@@ -3,7 +3,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import createCommonStyles from '~/styles/common';
 import SimpleLayout from '~/components/FormLayouts/SimpleLayout';
-import { messages } from '~/containers/App/translation';
 
 import {
   // FormSpace,
@@ -36,9 +35,8 @@ const fileds = [
       value: 'username',
       onChange: 'onUsernameChange',
     },
-    extraGetProps: [
-      (props, linkInfo, { translate }) => ({
-        ...props,
+    mwRender: [
+      ({ options: { translate } }) => ({
         placeholder: translate('usernameEmptyError', {
           emailAddress: { key: 'emailAddress' },
           phoneNumber: { key: 'phoneNumber' },
@@ -56,7 +54,7 @@ const fileds = [
   {
     name: 'password',
     presets: [FormTextFieldPreset, translateLabel('password')],
-    InputComponent: FormPasswordInput,
+    component: FormPasswordInput,
     validate: value => assert(value != null && value !== '', null, { key: 'passwordEmptyError' }),
     childLinks: [
       {
@@ -65,7 +63,7 @@ const fileds = [
         defaultValue: false,
       },
     ],
-    options: { space: <div /> },
+    extraOptions: { space: <div /> },
   },
   {
     name: 'rememberMe',
@@ -95,7 +93,6 @@ class SubContent05 extends React.PureComponent { // eslint-disable-line react/pr
           // onChange={(...agrs) => { console.log('agrs :', agrs); }}
           // onSubmit={(value) => { console.log('value :', value); }}
           submitButtonText="登入"
-          i18nMessages={messages}
         />
       </Paper>
     );

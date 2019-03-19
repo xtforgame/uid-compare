@@ -1,13 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { withTranslation } from 'react-i18next';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Paper from '@material-ui/core/Paper';
-import formatMessage from '~/utils/formatMessage';
-import translateMessages from '~/utils/translateMessages';
 import Typography from '@material-ui/core/Typography';
 import LocaleDropdown from '~/containers/LocaleDropdown';
 import IconButton from '@material-ui/core/IconButton';
@@ -15,11 +13,8 @@ import ArrowBack from '@material-ui/icons/ArrowBack';
 import createCommonStyles from '~/styles/common';
 import createFormPaperStyle from '~/styles/FormPaper';
 import RecoveryForm from '~/containers/Recovery/RecoveryForm';
-
 import ProgressWithMask from '~/components/Progress/ProgressWithMask';
-
 import { createStructuredSelector } from 'reselect';
-import { messages } from '../App/translation';
 import modelMap from '~/containers/App/modelMap';
 import {
   makeUserSessionSelector,
@@ -68,36 +63,35 @@ class Recovery extends React.PureComponent {
   }
 
   challenge = ({ username, code }) => {
-    const { postChallengeRecoveryTokens, intl } = this.props;
+    const { postChallengeRecoveryTokens, t } = this.props;
     this.setState({
       codeVerifyState: null,
       recoveryCodeError: null,
     });
-    const translated = translateMessages(intl, messages, [
-      'worngCodeFromUrl',
-    ]);
+
+    const worngCodeFromUrl = t('worngCodeFromUrl');
 
     postChallengeRecoveryTokens({ username, token: code })
     .then(({ data }) => {
       this.setState({
         codeVerifyState: data.passed ? 'passed' : 'wrong',
-        recoveryCodeError: data.passed ? null : translated.worngCodeFromUrl,
+        recoveryCodeError: data.passed ? null : worngCodeFromUrl,
       });
     })
     .catch((e) => {
       this.setState({
         codeVerifyState: 'error',
-        recoveryCodeError: translated.worngCodeFromUrl,
+        recoveryCodeError: worngCodeFromUrl,
       });
     });
   }
 
   render() {
     const {
-      match, intl, classes,
+      match, t, classes,
     } = this.props;
     const { recoveryCodeError } = this.state;
-    const usernameIsTaken = formatMessage(intl, messages.usernameIsTaken, {});
+    const usernameIsTaken = t('usernameIsTaken');
 
     const recoveringUsername = match.params.username && decodeURIComponent(match.params.username);
 
@@ -114,7 +108,7 @@ class Recovery extends React.PureComponent {
                   </IconButton>
                 )}
                 <Typography variant="h6" color="inherit" className={classes.flex1}>
-                  <FormattedMessage {...messages.resetPassword} />
+                  {t('resetPassword')}
                 </Typography>
                 <LocaleDropdown />
               </Toolbar>
@@ -163,6 +157,6 @@ export default compose(
       postChallengeRecoveryTokens,
     }
   ),
-  injectIntl,
+  withTranslation(['app-common']),
   withStyles(styles),
 )(Recovery);

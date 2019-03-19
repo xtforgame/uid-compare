@@ -8,10 +8,9 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
-import { injectIntl } from 'react-intl';
 import { changeLocale } from '~/containers/LanguageProvider/actions';
 import { makeSelectLocale } from '~/containers/LanguageProvider/selectors';
-import { appLocales, appLocaleNames, localeIndex } from '~/i18n';
+import { appLocales, appLocaleNames, localeIndex } from '~/i18next';
 import { compose } from 'recompose';
 
 const styles = theme => ({
@@ -104,6 +103,5 @@ function mapDispatchToProps(dispatch) {
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  injectIntl,
   withStyles(styles),
 )(LocaleDropdown);

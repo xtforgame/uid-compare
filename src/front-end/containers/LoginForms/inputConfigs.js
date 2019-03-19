@@ -10,7 +10,7 @@ import {
   assert,
   translateLabel,
   addOnPressEnterEvent,
-  displayErrorFromPropsForTextField,
+  mwpDisplayErrorFromPropsForTextField,
 } from '~/utils/InputLinker/helpers';
 
 import {
@@ -24,21 +24,20 @@ export const createSimpleAccountInput = () => ({
     value: 'username',
     onChange: 'onUsernameChange',
   },
-  extraGetProps: [
-    displayErrorFromPropsForTextField('passwordError', () => undefined),
-    (props, linkInfo, { translate }) => ({
-      ...props,
+  mwRender: [
+    mwpDisplayErrorFromPropsForTextField('passwordError', () => undefined),
+    ({ options: { translate } }) => ({
       placeholder: translate('usernameEmptyError', {
-        emailAddress: { key: 'emailAddress' },
-        phoneNumber: { key: 'phoneNumber' },
+        emailAddress: '$t(emailAddress)',
+        phoneNumber: '$t(phoneNumber)',
       }),
     }),
   ],
   validate: value => assert(!!value, null, {
     key: 'usernameEmptyError',
     values: {
-      emailAddress: { key: 'emailAddress' },
-      phoneNumber: { key: 'phoneNumber' },
+      emailAddress: '$t(emailAddress)',
+      phoneNumber: '$t(phoneNumber)',
     },
   }),
 });
@@ -50,21 +49,20 @@ export const createPhoneOrEmailAccountInput = () => ({
     value: 'username',
     onChange: 'onUsernameChange',
   },
-  extraGetProps: [
-    displayErrorFromPropsForTextField('passwordError', () => undefined),
-    (props, linkInfo, { translate }) => ({
-      ...props,
+  mwRender: [
+    mwpDisplayErrorFromPropsForTextField('passwordError', () => undefined),
+    ({ options: { translate } }) => ({
       placeholder: translate('usernameEmptyError', {
-        emailAddress: { key: 'emailAddress' },
-        phoneNumber: { key: 'phoneNumber' },
+        emailAddress: '$t(emailAddress)',
+        phoneNumber: '$t(phoneNumber)',
       }),
     }),
   ],
   validate: value => assert(value && value.type, null, {
     key: 'usernameEmptyError',
     values: {
-      emailAddress: { key: 'emailAddress' },
-      phoneNumber: { key: 'phoneNumber' },
+      emailAddress: '$t(emailAddress)',
+      phoneNumber: '$t(phoneNumber)',
     },
   }),
 });
@@ -72,8 +70,8 @@ export const createPhoneOrEmailAccountInput = () => ({
 export const createNonemptyPasswordInput = () => ({
   name: 'password',
   presets: [FormTextFieldPreset, translateLabel('password'), addOnPressEnterEvent('handleSubmit')],
-  InputComponent: FormPasswordInput,
-  extraGetProps: displayErrorFromPropsForTextField('passwordError'),
+  component: FormPasswordInput,
+  mwRender: mwpDisplayErrorFromPropsForTextField('passwordError'),
   validate: value => assert(value != null && value !== '', null, { key: 'passwordEmptyError' }),
   childLinks: [
     {
@@ -87,8 +85,8 @@ export const createNonemptyPasswordInput = () => ({
 export const createValidPasswordInput = () => ({
   name: 'password',
   presets: [FormTextFieldPreset, translateLabel('password'), addOnPressEnterEvent('handleSubmit')],
-  InputComponent: FormPasswordInput,
-  extraGetProps: displayErrorFromPropsForTextField('passwordError'),
+  component: FormPasswordInput,
+  mwRender: mwpDisplayErrorFromPropsForTextField('passwordError'),
   validate: value => assert(isValidPassword(value), null, { key: 'wrongPasswordFormatError' }),
   childLinks: [
     {
@@ -102,5 +100,5 @@ export const createValidPasswordInput = () => ({
 export const createRecoveryCodeInput = () => ({
   name: 'recoveryCode',
   presets: [FormCodeInputPreset, translateLabel('recoveryCode'), addOnPressEnterEvent('challengeRecoveryToken')],
-  extraGetProps: displayErrorFromPropsForTextField('recoveryCodeError'),
+  mwRender: mwpDisplayErrorFromPropsForTextField('recoveryCodeError'),
 });

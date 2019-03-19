@@ -1,7 +1,5 @@
 import React from 'react';
-import { compose } from 'recompose';
-import { injectIntl } from 'react-intl';
-import translateMessages from '~/utils/translateMessages';
+import { withTranslation } from 'react-i18next';
 import {
   FormSpace,
   FormContent,
@@ -11,17 +9,13 @@ import LayoutBase from '~/components/FormLayouts/LayoutBase';
 class DialogLayout extends LayoutBase {
   render() {
     const {
-      intl,
       space: defaultSpace = <FormSpace variant="content1" />,
       topSpace = <FormSpace variant="top" />,
       Content = FormContent,
-      i18nMessages,
-      i18nTranslate,
       extraContents,
       children,
+      t: translate,
     } = this.props;
-    const translate = i18nTranslate
-      || (i18nMessages ? translateMessages.bind(null, intl, i18nMessages) : undefined);
 
     return (
       <React.Fragment>
@@ -46,6 +40,4 @@ class DialogLayout extends LayoutBase {
   }
 }
 
-export default compose(
-  injectIntl,
-)(DialogLayout);
+export default withTranslation(['app-common'])(DialogLayout);

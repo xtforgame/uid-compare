@@ -8,9 +8,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Switch from '@material-ui/core/Switch';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { withTranslation } from 'react-i18next';
 import SimpleFullScreenDialog from '~/components/Dialogs/SimpleFullScreenDialog';
-import { messages } from '~/containers/App/translation';
 import {
   changeTheme,
 } from '~/containers/App/actions';
@@ -35,13 +34,14 @@ class UserSettingsDialog extends React.PureComponent {
 
   render() {
     const {
+      t,
       open,
       onClose,
       uiTheme,
     } = this.props;
     return (
       <SimpleFullScreenDialog
-        title={<FormattedMessage {...messages.settings} />}
+        title={t('settings')}
         open={open}
         onClose={onClose}
       >
@@ -78,6 +78,6 @@ export default compose(
       changeTheme,
     },
   ),
-  injectIntl,
+  withTranslation(['app-common']),
   withStyles(styles),
 )(UserSettingsDialog);

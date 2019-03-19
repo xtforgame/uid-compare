@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
-import { injectIntl } from 'react-intl';
+import { withTranslation } from 'react-i18next';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -36,7 +36,6 @@ import LoginForm from '~/containers/LoginForms/LoginForm';
 import RegistrationForm from '~/containers/LoginForms/RegistrationForm';
 import createLoginInputConfigs from '~/containers/LoginForms/createLoginInputConfigs';
 import createRegistrationInputConfigs from '~/containers/LoginForms/createRegistrationInputConfigs';
-import { messages } from '~/containers/App/translation';
 
 import modelMap from '~/containers/App/modelMap';
 import {
@@ -119,10 +118,10 @@ class Login extends React.PureComponent {
 
   render() {
     const {
-      location, intl, session, classes,
+      location, t, session, classes,
     } = this.props;
     let fromPath = location.state && location.state.from.pathname;
-    const translated = translateMessages(intl, messages, [
+    const translated = translateMessages(t, [
       'login',
       'wrongUsernameOrPassword',
       'usernameIsTaken',
@@ -163,7 +162,6 @@ class Login extends React.PureComponent {
             <LoginForm
               namespace="login"
               fields={createLoginInputConfigs()}
-              i18nMessages={messages}
               username={this.state.username}
               onUsernameChange={username => this.setState({ username })}
               usernameError={this.state.tabIndex === 0 && !!this.state.loginError}
@@ -194,7 +192,6 @@ class Login extends React.PureComponent {
             <RegistrationForm
               namespace="register"
               fields={createRegistrationInputConfigs()}
-              i18nMessages={messages}
               username={this.state.username}
               onUsernameChange={username => this.setState({ username })}
               usernameError={this.state.tabIndex === 1 && this.state.postUsersError && translated.usernameIsTaken}
@@ -233,6 +230,6 @@ export default compose(
       rememberMe,
     }
   ),
-  injectIntl,
+  withTranslation(['app-common']),
   withStyles(styles),
 )(Login);

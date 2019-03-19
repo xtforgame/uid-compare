@@ -9,16 +9,16 @@ export default class InputFormDialog extends React.PureComponent {
   handleClose = (_result) => {
     let result = _result;
     if (result === true) {
-      result = this.linker.component.handleSubmit();
+      result = this.linker.host.handleSubmit();
       if (!result) {
         return;
       }
       result = result.outputs;
-    }
-
-    const { onClose } = this.props;
-    if (onClose) {
-      onClose(result);
+    } else {
+      const { onClose } = this.props;
+      if (onClose) {
+        onClose(result);
+      }
     }
   }
 
@@ -51,7 +51,7 @@ export default class InputFormDialog extends React.PureComponent {
       >
         <DialogLayout
           Content={InputFormDialogContent}
-          topSpace={<FormSpace variant="content2" />}
+          topSpace={fullScreen ? <FormSpace variant="content2" /> : <FormSpace variant="content0" />}
           {...formProps}
           onInited={linker => (this.linker = linker)} // eslint-disable-line no-return-assign
           fields={fields}

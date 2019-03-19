@@ -1,7 +1,6 @@
 import React from 'react';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
-import { injectIntl } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
@@ -41,6 +40,5 @@ export default compose(
     }),
     {}
   ),
-  injectIntl,
   withStyles(styles),
 )(Test);

@@ -1,7 +1,6 @@
 import React from 'react';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
-import { injectIntl } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
@@ -35,6 +34,7 @@ class MobileTabsFrame extends React.Component {
     const {
       beforeRouteView,
       routeView,
+      routeViewProps,
       afterRouteView,
       classes,
       theme,
@@ -56,6 +56,7 @@ class MobileTabsFrame extends React.Component {
       newRouteView = newRouteView.map(v => React.cloneElement(v, {
         componentProps: {
           changeTab: this.changeTab,
+          ...routeViewProps,
         },
       }));
     }
@@ -109,6 +110,5 @@ class MobileTabsFrame extends React.Component {
 
 export default compose(
   connect(null, { push }),
-  injectIntl,
   withStyles(styles, { withTheme: true }),
 )(MobileTabsFrame);

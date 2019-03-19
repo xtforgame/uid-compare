@@ -4,7 +4,6 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import createCommonStyles from '~/styles/common';
 import EditableLayout from '~/components/FormLayouts/EditableLayout';
-import { messages } from '~/containers/App/translation';
 import {
   FormTextFieldPreset,
 } from '~/utils/InputLinker/helpers';
@@ -21,28 +20,28 @@ const fileds = [
   {
     name: 'tempData',
     presets: [FormTextFieldPreset],
-    extraGetProps: { label: 'Temp Data' },
+    extraProps: { label: 'Temp Data' },
   },
   {
     name: 'persistentData',
     presets: [FormTextFieldPreset],
-    extraGetProps: { label: 'Persistent Data' },
-    options: { space: <div /> },
+    extraProps: { label: 'Persistent Data' },
+    extraOptions: { space: <div /> },
   },
 ];
 
 class SubContent06 extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
-  state = { username: '', persistentData: '', editing: false };
+  state = { username: '', persistentData: '', isEditing: false };
 
   render() {
     const { classes } = this.props;
-    const { username, persistentData, editing } = this.state;
+    const { username, persistentData, isEditing } = this.state;
     return (
       <Paper className={classes.root}>
         <Button
           variant="contained"
           color="primary"
-          onClick={() => this.setState({ editing: !editing })}
+          onClick={() => this.setState({ isEditing: !isEditing })}
         >
           Modify
         </Button>
@@ -55,13 +54,12 @@ class SubContent06 extends React.PureComponent { // eslint-disable-line react/pr
             password: 'password',
             passwordVisibility: true,
           }}
-          editing={editing}
+          isEditing={isEditing}
           username={username}
           onUsernameChange={username => this.setState({ username })}
           // onChange={(...agrs) => { console.log('agrs :', agrs); }}
-          onSubmit={value => this.setState({ editing: !editing, persistentData: value.persistentData })}
+          onSubmit={value => this.setState({ isEditing: !isEditing, persistentData: value.persistentData })}
           submitButtonText="登入"
-          i18nMessages={messages}
         />
       </Paper>
     );

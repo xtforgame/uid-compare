@@ -3,15 +3,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import { push } from 'react-router-redux';
-import { injectIntl } from 'react-intl';
+import { withTranslation } from 'react-i18next';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import SendRecoveryCode from './SendRecoveryCode';
 import EnterRecoveryCode from './EnterRecoveryCode';
 import ResetCompleted from './ResetCompleted';
 import ResetPassword from './ResetPassword';
-import { messages } from '~/containers/App/translation';
-import translateMessages from '~/utils/translateMessages';
 
 import {
   clearSensitiveData,
@@ -86,7 +84,7 @@ class RecoveryForm extends React.PureComponent {
   }
 
   handleChallenge = ({ username, code }) => {
-    const { postChallengeRecoveryTokens, intl } = this.props;
+    const { postChallengeRecoveryTokens, t } = this.props;
     postChallengeRecoveryTokens({ username, token: code })
     .then(({ data }) => {
       if (data.passed) {
@@ -95,19 +93,16 @@ class RecoveryForm extends React.PureComponent {
           recoveryCodeError: null,
         });
       } else {
-        const translated = translateMessages(intl, messages, [
-          'worngCode',
-        ]);
         this.setState({
           recoveringCode: null,
-          recoveryCodeError: translated.worngCode,
+          recoveryCodeError: t('worngCode'),
         });
       }
     });
   }
 
   handleResetPassword = ({ username, code, newPassword }) => {
-    const { postResetPasswordRequests, intl } = this.props;
+    const { postResetPasswordRequests, t } = this.props;
     postResetPasswordRequests({
       username,
       token: code,
@@ -120,11 +115,8 @@ class RecoveryForm extends React.PureComponent {
           resetCompleted: data.passed,
         });
       } else {
-        const translated = translateMessages(intl, messages, [
-          'worngCodeFromUrl',
-        ]);
         this.setState({
-          recoveryCodeError: translated.worngCodeFromUrl,
+          recoveryCodeError: t('worngCodeFromUrl'),
         });
       }
     });
@@ -206,6 +198,6 @@ export default compose(
     push,
     clearSensitiveData,
   }),
-  injectIntl,
+  withTranslation(['app-common']),
   withStyles(styles),
 )(RecoveryForm);

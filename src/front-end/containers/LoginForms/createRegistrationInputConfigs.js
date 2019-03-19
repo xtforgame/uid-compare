@@ -18,31 +18,30 @@ export default (defaultRememberMe = false) => [
   createPhoneOrEmailAccountInput(),
   {
     ...createValidPasswordInput(),
-    options: {
-      space: <FormSpace variant="content2" />,
-    },
+    extraOptions: { space: <FormSpace variant="content2" /> },
   },
   {
     name: 'agreed',
     presets: [FormCheckboxPreset, addOnPressEnterEvent('handleSubmit')],
     props: { dense: 'true', color: 'primary' },
     defaultValue: false,
-    getVisibility: ({ link: { hostProps } }) => hostProps.comfirmUserAgreement,
-    extraGetProps: (props, { link: { hostProps } }, { translate }) => ({
-      ...props,
+    mwPreRender: ({ link: { hostProps } }) => [null, {
+      shouldRender: !!hostProps.comfirmUserAgreement,
+    }],
+    mwRender: ({ link: { hostProps } }) => ({
       label: hostProps.comfirmUserAgreement && hostProps.userAgreementLabel,
     }),
   },
   {
     presets: [createIgnoredPreset(React.Fragment)],
-    getProps: (props, { link: { hostProps, linker } }) => ({
+    mwRender: ({ link: { hostProps } }) => ({
       children: !hostProps.comfirmUserAgreement && (hostProps.userAgreementLabel),
     }),
-    options: { space: null },
+    extraOptions: { space: null },
   },
   {
     presets: [createIgnoredPreset(SuccessButton)],
-    extraGetProps: (props, { link: { host, hostProps, linker } }, { translate }) => ({
+    mwRender: ({ link: { host, hostProps, linker }, options: { translate } }) => ({
       variant: 'contained',
       fullWidth: true,
       color: 'primary',
@@ -51,6 +50,6 @@ export default (defaultRememberMe = false) => [
       children: translate('createAccount'),
       disabled: hostProps.comfirmUserAgreement && !linker.getValue('agreed'),
     }),
-    options: { space: <FormSpace variant="content1" /> },
+    extraOptions: { space: <FormSpace variant="content1" /> },
   },
 ];

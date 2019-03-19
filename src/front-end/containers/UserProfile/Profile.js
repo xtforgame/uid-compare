@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control, no-underscore-dangle */
 import React from 'react';
-import classNames from 'classnames';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -8,33 +7,28 @@ import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
-import Button from '@material-ui/core/Button';
 import SuccessButton from '~/components/Buttons/SuccessButton';
-import IconButton from '@material-ui/core/IconButton';
-import PhotoCamera from '@material-ui/icons/PhotoCamera';
-import EditIcon from '@material-ui/icons/Edit';
-import CloseIcon from '@material-ui/icons/Close';
-import Avatar from '@material-ui/core/Avatar';
 import grey from '@material-ui/core/colors/grey';
 import Centered from '~/components/Layout/Centered';
-import UserProfileCard from '~/components/Cards/UserProfileCard';
+import EditableCardLayout from '~/components/FormLayouts/EditableCardLayout';
 import {
   FormSpace,
-  FormFileInput,
 } from '~/components/FormInputs';
 import {
   createIgnoredPreset,
   FormTextFieldPreset,
-  ListItemDisplayerPreset,
+  mwpListItemDisplayer,
   addOnPressEnterEvent,
 } from '~/utils/InputLinker/helpers';
 import {
   ContainerConfig,
   EditableConfig,
-} from '~/components/LinkerPresets/ConfigCreators';
+  EditableCardMediaPreset,
+  EditableAvatarPreset,
+  EditableFabButtonPreset,
+} from '~/components/LinkerPresets';
 import bgImg from './StockSnap_3FOSIEZDTW.jpg';
 
 import {
@@ -48,36 +42,11 @@ const {
 } = modelMap.waitableActions;
 
 const styles = theme => ({
-  halfHeight: {
-    height: '50%',
-  },
   spaceAfterMedia: {
     height: 55,
   },
   mainContainer: {
     width: '100%',
-  },
-
-  media: {
-    position: 'relative',
-    height: 150,
-  },
-  absolute: {
-    position: 'absolute',
-    top: 0,
-  },
-  mask: {
-    width: '100%',
-    height: '100%',
-  },
-  editBanner: {
-    color: theme.palette.common.white,
-    margin: 'auto',
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    width: 56,
-    height: 56,
   },
 
   avatarContainer: {
@@ -93,186 +62,93 @@ const styles = theme => ({
     right: 8,
   },
 
-  avatar: {
+  bigAvatar: {
     // margin: 10,
     color: '#fff',
     backgroundColor: grey[500],
-  },
-  bigAvatar: {
     width: 96,
     height: 96,
   },
 
-  avatarImage: {
-    width: '100%',
-    height: '100%',
-    textAlign: 'center',
-    objectFit: 'cover',
-  },
-
-  editPhoto: {
-    color: theme.palette.common.white,
-    margin: 'auto',
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    right: 0,
-    left: 0,
+  card: {
+    width: 300,
+    [theme.breakpoints.up('sm')]: {
+      width: 345,
+    },
   },
 });
 
 const createTextInputPreset = (name, label) => ({
   presets: [FormTextFieldPreset, addOnPressEnterEvent('handleSubmit')],
   name,
-  extraGetProps: {
+  extraProps: {
     label,
     fullWidth: true,
   },
 });
 
+const editableGetSpace = ({ link: { hostProps: { isEditing } }, key }) => (isEditing ? <FormSpace key={key} variant="content2" /> : <FormSpace key={key} variant="content0" />);
+
 const getFields = classes => [
-  new EditableConfig({
+  {
+    presets: [EditableCardMediaPreset(150)],
     name: 'bannerImg',
-    InputComponent: CardMedia,
-    converter: {
-      fromView: ([v]) => v,
-    },
-    extraGetProps: (props, { value, handleChange }) => ({
-      ...props,
-      className: classes.media,
-      image: value,
-      title: '',
-      children: [<div key="space" className={classes.halfHeight} />],
-    }),
     extraChildElements: [
       new ContainerConfig([
-        new EditableConfig({
-          presets: [createIgnoredPreset(Button)],
-          extraGetProps: (props, { link: { host } }) => ({
-            ...props,
-            variant: 'fab',
-            className: classes.editButton,
-          }),
+        {
+          presets: [EditableFabButtonPreset],
+          mwRender: { className: classes.editButton },
         },
-        null, (props, { link: { host } }) => ({
-          ...props,
-          color: 'secondary',
-          'aria-label': 'edit',
-          onClick: host.startEditing,
-          children: <EditIcon />,
-        }),
-        null, (props, { link: { host } }) => ({
-          ...props,
-          color: 'default',
-          'aria-label': 'cancel',
-          onClick: host.cancelEditing,
-          children: <CloseIcon />,
-        })),
-        new EditableConfig({
+        {
+          presets: [EditableAvatarPreset],
           name: 'avatarImg',
-          InputComponent: Avatar,
-          converter: {
-            fromView: ([v]) => v,
-          },
-          extraGetProps: (props, { value }) => ({
-            ...props,
-            className: classNames(classes.avatar, classes.bigAvatar),
-            children: [
-              <img key="avatar-img" alt="me" src={value} className={classes.avatarImage} />,
-            ],
-          }),
-        }, () => Avatar, null, null, (props, { handleChange }) => ({
-          ...props,
-          children: props.children.concat([
-            <div
-              key="avatar-mask"
-              className={classNames(classes.absolute, classes.mask)}
-              style={{ backgroundColor: 'rgba(0, 0, 0, 0.35)' }}
-            />,
-            <FormFileInput
-              key="avatar-input"
-              id="avatar-input"
-              accept="image/*"
-              onLoadEnd={(fileInfo) => {
-                handleChange(fileInfo.dataURL);
-              }}
-            >
-              <IconButton component="span" className={classNames(classes.editPhoto)}>
-                <PhotoCamera />
-              </IconButton>
-            </FormFileInput>,
-          ]),
-        })),
+          mwRender: { className: classes.bigAvatar },
+        },
       ], {
-        getInputComponent: () => Centered,
-        extraGetProps: { className: classes.avatarContainer },
+        component: Centered,
+        mwRender: { className: classes.avatarContainer },
       }, () => undefined),
     ],
-  }, null, null, null, (props, { value, handleChange }) => ({
-    ...props,
-    className: classes.media,
-    image: value,
-    title: '',
-    children: props.children.concat([
-      <div
-        key="avatar-mask"
-        className={classNames(classes.absolute, classes.mask)}
-        style={{ backgroundColor: 'rgba(0, 0, 0, 0.35)' }}
-      />,
-      <FormFileInput
-        key="avatar-input"
-        id="icon-button-file"
-        accept="image/*"
-        onLoadEnd={(fileInfo) => {
-          handleChange(fileInfo.dataURL);
-        }}
-      >
-        <IconButton component="span" className={classNames(classes.editBanner)}>
-          <PhotoCamera />
-        </IconButton>
-      </FormFileInput>,
-    ]),
-  })),
+  },
   {
     presets: [createIgnoredPreset('div')],
-    extraGetProps: { className: classes.spaceAfterMedia },
+    mwRender: { className: classes.spaceAfterMedia },
   },
   new ContainerConfig([
-    new ContainerConfig([
-      new EditableConfig(createTextInputPreset('name', 'Name'), () => Centered, (props, { value, link: { name, hostProps } }) => ({
+    new EditableConfig(createTextInputPreset('name', 'Name'), () => Centered, (ctx) => {
+      const { props, link: { name, hostProps } } = ctx;
+      ctx.props = {
         key: props.key,
         children: (
           <Typography gutterBottom variant="h5" component="h2">
             {hostProps.defaultValues[name]}
           </Typography>
         ),
-      })),
-      new EditableConfig(
-        new ContainerConfig([
-          new EditableConfig(createTextInputPreset('email', 'Email'), () => ListItem, ListItemDisplayerPreset),
-          new EditableConfig(createTextInputPreset('bio', 'Bio'), () => ListItem, ListItemDisplayerPreset, null, p => ({
-            ...p,
-            multiline: true,
-            rows: 1,
-            rowsMax: 10,
-          })),
-        ]),
-        () => List, null, () => React.Fragment
-      ),
-    ], { InputComponent: CardContent }),
-  ]),
+      };
+    }),
+    new EditableConfig(
+      new ContainerConfig([
+        new EditableConfig(createTextInputPreset('email', 'Email'), () => ListItem, mwpListItemDisplayer),
+        new EditableConfig(createTextInputPreset('bio', 'Bio'), () => ListItem, mwpListItemDisplayer, null, () => ({
+          multiline: true,
+          rows: 1,
+          rowsMax: 10,
+        })),
+      ], {}, editableGetSpace),
+      () => List, null, () => React.Fragment
+    ),
+  ], { component: CardContent }, editableGetSpace),
   new EditableConfig(
-    { presets: [createIgnoredPreset(FormSpace)] },
-    () => React.Fragment, null,
-    null, props => ({ ...props, variant: 'content2' })
+    { presets: [createIgnoredPreset(React.Fragment)] },
+    null, null,
+    () => FormSpace, { variant: 'content2' }
   ),
   new EditableConfig(
     new ContainerConfig([
       new EditableConfig(
         createIgnoredPreset(SuccessButton),
-        () => React.Fragment, ({ key }) => ({ key }),
-        null, (props, { link: { host } }) => ({
-          ...props,
+        () => React.Fragment, (ctx) => { ctx.props = { key: ctx.props.key }; },
+        null, ({ link: { host } }) => ({
           size: 'small',
           variant: 'contained',
           fullWidth: true,
@@ -281,13 +157,13 @@ const getFields = classes => [
           children: 'Save',
         })
       ),
-    ]),
+    ], {}, editableGetSpace),
     () => React.Fragment, null, () => CardActions
   ),
 ];
 
 class Profile extends React.PureComponent {
-  state = { editing: false };
+  state = { isEditing: false };
 
   submit = (values) => {
     const {
@@ -323,7 +199,7 @@ class Profile extends React.PureComponent {
     }
     p.then(() => {
       this.setState({
-        editing: false,
+        isEditing: false,
       });
     })
     .catch((e) => {
@@ -337,7 +213,7 @@ class Profile extends React.PureComponent {
       user,
     } = this.props;
 
-    const { editing } = this.state;
+    const { isEditing } = this.state;
 
     const {
       name,
@@ -350,7 +226,8 @@ class Profile extends React.PureComponent {
 
     return (
       <Centered className={classes.mainContainer}>
-        <UserProfileCard
+        <EditableCardLayout
+          className={classes.card}
           user={user}
           bgImg={bgImg}
           fields={getFields(classes)}
@@ -361,9 +238,9 @@ class Profile extends React.PureComponent {
             bio,
             email,
           }}
-          editing={editing}
-          onStartEditing={() => this.setState({ editing: true })}
-          onCancelEditing={() => this.setState({ editing: false })}
+          isEditing={isEditing}
+          onStartEditing={() => this.setState({ isEditing: true })}
+          onCancelEditing={() => this.setState({ isEditing: false })}
           onSubmit={this.submit}
         />
       </Centered>

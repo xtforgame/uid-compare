@@ -1,11 +1,10 @@
 /* eslint-disable react/prop-types, react/forbid-prop-types, jsx-a11y/anchor-is-valid */
 import React from 'react';
 import { compose } from 'recompose';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { withTranslation, Trans } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import { messages } from '~/containers/App/translation';
 import translateMessages from '~/utils/translateMessages';
 import FormBaseType001 from '~/containers/LoginForms/FormBaseType001';
 import createEnterRecoveryCodeInputConfigs from '~/containers/LoginForms/createEnterRecoveryCodeInputConfigs';
@@ -46,9 +45,9 @@ class EnterRecoveryCode extends React.PureComponent {
   }
 
   render() {
-    const { intl, classes, onResend } = this.props;
+    const { t, classes, onResend } = this.props;
 
-    const translated = translateMessages(intl, messages, [
+    const translated = translateMessages(t, [
       'username',
       'sendCode',
       'resendCode',
@@ -56,33 +55,24 @@ class EnterRecoveryCode extends React.PureComponent {
     ]);
 
     const label = (
-      <FormattedMessage
-        {...messages.enterRecoveryCodeFor}
-        values={{
-          accountName: (
-            <a key="accountName" className={classes.link}>
-              {this.props.recoveringUsername}
-            </a>
-          ),
+      <Typography
+        variant="body1"
+        className={classes.textContainer}
+        onClick={(event) => {
+          event.stopPropagation();
+          event.preventDefault();
+        }}
+        onMouseDown={(event) => {
+          event.stopPropagation();
+          event.preventDefault();
         }}
       >
-        {(...parts) => (
-          <Typography
-            variant="body1"
-            className={classes.textContainer}
-            onClick={(event) => {
-              event.stopPropagation();
-              event.preventDefault();
-            }}
-            onMouseDown={(event) => {
-              event.stopPropagation();
-              event.preventDefault();
-            }}
-          >
-            {parts}
-          </Typography>
-        )}
-      </FormattedMessage>
+        <Trans
+          i18nKey="react-common:enterRecoveryCodeFor"
+          values={{ accountName: this.props.recoveringUsername }}
+          components={[<a key="accountName" className={classes.link}>accountName</a>]}
+        />
+      </Typography>
     );
 
     return (
@@ -92,7 +82,6 @@ class EnterRecoveryCode extends React.PureComponent {
         resendText={translated.resendCode}
         enterCodeText={translated.enterCode}
         onResend={onResend}
-        i18nMessages={messages}
         onSubmit={this.challengeRecoveryToken}
         fields={createEnterRecoveryCodeInputConfigs(classes)}
       />
@@ -102,6 +91,6 @@ class EnterRecoveryCode extends React.PureComponent {
 
 
 export default compose(
-  injectIntl,
+  withTranslation(['app-common', 'react-common']),
   withStyles(styles),
 )(EnterRecoveryCode);

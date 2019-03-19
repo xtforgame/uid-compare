@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import { compose } from 'recompose';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { withTranslation, Trans } from 'react-i18next';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
@@ -19,44 +19,43 @@ const styles = theme => ({
 class RegistrationForm extends React.PureComponent {
   render() {
     const {
-      intl,
+      t,
       classes,
-      i18nMessages,
       fields,
       comfirmUserAgreement,
     } = this.props;
-    const translated = translateMessages(intl, i18nMessages, [
+    const translated = translateMessages(t, [
       'terms',
       'createAccountV',
       'privacyPolicy',
     ]);
 
     const userAgreementLabel = (
-      <FormattedMessage
-        {...i18nMessages.userAgreement}
-        values={{
-          createAccountV: translated.createAccountV,
-          terms: (<Link key="terms" text={translated.terms} />),
-          privacyPolicy: (<Link key="privacyPolicy" text={translated.privacyPolicy} />),
+      <Typography
+        variant="body1"
+        className={classes.textContainer}
+        onClick={(event) => {
+          event.stopPropagation();
+          event.preventDefault();
+        }}
+        onMouseDown={(event) => {
+          event.stopPropagation();
+          event.preventDefault();
         }}
       >
-        {(...parts) => (
-          <Typography
-            variant="body1"
-            className={classes.textContainer}
-            onClick={(event) => {
-              event.stopPropagation();
-              event.preventDefault();
-            }}
-            onMouseDown={(event) => {
-              event.stopPropagation();
-              event.preventDefault();
-            }}
-          >
-            {parts}
-          </Typography>
-        )}
-      </FormattedMessage>
+        <Trans
+          i18nKey="react-common:userAgreement"
+          values={{
+            createAccountV: translated.createAccountV,
+            terms: '',
+            privacyPolicy: '',
+          }}
+          components={[
+            <Link key="terms" text={translated.terms} />,
+            <Link key="privacyPolicy" text={translated.privacyPolicy} />,
+          ]}
+        />
+      </Typography>
     );
 
     return (
@@ -71,6 +70,6 @@ class RegistrationForm extends React.PureComponent {
 }
 
 export default compose(
-  injectIntl,
+  withTranslation(['app-common', 'react-common']),
   withStyles(styles),
 )(RegistrationForm);

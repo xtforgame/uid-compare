@@ -6,7 +6,7 @@ import {
 import {
   FormPhoneOrEmailInputPreset,
   createIgnoredPreset,
-  displayErrorFromPropsForTextField,
+  mwpDisplayErrorFromPropsForTextField,
   assert,
   translateLabel,
   addOnPressEnterEvent,
@@ -20,28 +20,27 @@ export default recover => ([
       value: 'username',
       onChange: 'onUsernameChange',
     },
-    extraGetProps: [
-      displayErrorFromPropsForTextField('passwordError', () => undefined),
-      (props, linkInfo, { translate }) => ({
-        ...props,
+    mwRender: [
+      mwpDisplayErrorFromPropsForTextField('passwordError', () => undefined),
+      ({ options: { translate } }) => ({
         placeholder: translate('usernameEmptyError', {
-          emailAddress: { key: 'emailAddress' },
-          phoneNumber: { key: 'phoneNumber' },
+          emailAddress: '$t(emailAddress)',
+          phoneNumber: '$t(phoneNumber)',
         }),
       }),
     ],
     validate: value => assert(value && value.type, null, {
       key: 'usernameEmptyError',
       values: {
-        emailAddress: { key: 'emailAddress' },
-        phoneNumber: { key: 'phoneNumber' },
+        emailAddress: '$t(emailAddress)',
+        phoneNumber: '$t(phoneNumber)',
       },
     }),
-    options: { space: <FormSpace variant="content8" /> },
+    extraOptions: { space: <FormSpace variant="content8" /> },
   },
   {
     presets: [createIgnoredPreset(Button)],
-    getProps: (props, { link: { host, hostProps, linker } }) => ({
+    mwRender: ({ link: { host, hostProps, linker } }) => ({
       variant: 'contained',
       fullWidth: true,
       color: 'secondary',
@@ -50,18 +49,20 @@ export default recover => ([
       onClick: host.handleSubmit,
       children: hostProps.countDownText,
     }),
-    options: { space: <FormSpace variant="content4" /> },
+    extraOptions: { space: <FormSpace variant="content4" /> },
   },
   {
     presets: [createIgnoredPreset(Button)],
-    getProps: (props, { link: { hostProps, linker } }) => ({
+    mwPreRender: ({ link: { linker, hostProps: { lastSentUsername } } }) => [null, {
+      shouldRender: lastSentUsername && lastSentUsername === linker.getOutput('username'),
+    }],
+    mwRender: ({ link: { hostProps, linker } }) => ({
       fullWidth: true,
       disabled: !linker.getOutput('username'),
       className: hostProps.classes.loginBtn,
       onClick: hostProps.backToEnterTheCode,
       children: hostProps.enterCodeText,
     }),
-    getVisibility: ({ link: { host, linker, hostProps: { lastSentUsername } } }) => lastSentUsername && lastSentUsername === linker.getOutput('username'),
-    options: { space: <FormSpace variant="content1" /> },
+    extraOptions: { space: <FormSpace variant="content1" /> },
   },
 ]);

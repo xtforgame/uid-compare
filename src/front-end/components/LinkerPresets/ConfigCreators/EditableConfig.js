@@ -1,29 +1,25 @@
 /* eslint-disable  no-underscore-dangle */
 export default class EditableConfig {
-  constructor(presets, getDisplayComponent, displayGetExtraConfig, getInputComponent, inputGetExtraConfig) {
-    this.editingPropName = 'editing';
+  constructor(presets, getDisplayComponent, displayMwRender, getComponent, inputMwRender) {
+    this.isEditingPropName = 'isEditing';
     this.presets = presets;
-    this._getDisplayComponent = getDisplayComponent || (({ InputComponent }) => InputComponent);
-    this._displayGetExtraConfig = displayGetExtraConfig || (p => p);
-    this._getInputComponent = getInputComponent || (({ InputComponent }) => InputComponent);
-    this._inputGetExtraConfig = inputGetExtraConfig || (p => p);
+    this._getDisplayComponent = getDisplayComponent || (({ component }) => component);
+    this._displayMwRender = displayMwRender;
+    this._getComponent = getComponent || (({ component }) => component);
+    this._inputMwRender = inputMwRender;
   }
 
-  getInputComponent = (linkInfo) => {
-    const { link, link: { hostProps } } = linkInfo;
-    return hostProps[this.editingPropName] ? this._getInputComponent(link) : this._getDisplayComponent(link);
-  };
+  mwRender = (ctx) => {
+    const {
+      link, link: { hostProps },
+    } = ctx;
+    const middlewares = hostProps[this.isEditingPropName]
+      ? this._inputMwRender
+      : this._displayMwRender;
 
-  extraGetPropsWrapper = (props, linkInfo, options) => {
-    const { link: { hostProps } } = linkInfo;
-    return hostProps[this.editingPropName]
-      ? this._inputGetExtraConfig(props, linkInfo, options)
-      : this._displayGetExtraConfig(props, linkInfo, options);
+    const component = hostProps[this.isEditingPropName]
+      ? this._getComponent(link) : this._getDisplayComponent(link);
+    link.runMiddlewares(ctx, middlewares);
+    ctx.nonProps.component = component;
   };
-
-  evaluate = props => ({
-    ...props,
-    getInputComponent: this.getInputComponent,
-    extraGetProps: this.extraGetPropsWrapper,
-  });
 }

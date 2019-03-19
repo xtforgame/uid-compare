@@ -1,10 +1,9 @@
 import React from 'react';
 import { compose } from 'recompose';
-import { injectIntl } from 'react-intl';
+import { withTranslation } from 'react-i18next';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
-import translateMessages from '~/utils/translateMessages';
 import {
   FormSpace,
   FormContent,
@@ -18,28 +17,13 @@ const styles = theme => ({
 });
 
 class EditableLayout extends EditableLayoutBase {
-  static getDerivedStateFromProps(props, prevState) {
-    if (props.editing !== undefined && props.editing !== prevState.editing) {
-      const nextState = {
-        ...prevState,
-        editing: props.editing,
-      };
-      return prevState.resetInputLinker(props, nextState);
-    }
-    return null;
-  }
-
   render() {
     const {
-      intl,
+      t: translate,
       classes,
-      i18nMessages,
-      i18nTranslate,
       submitButtonText,
       children,
     } = this.props;
-    const translate = i18nTranslate
-      || (i18nMessages ? translateMessages.bind(null, intl, i18nMessages) : undefined);
 
     return (
       <div>
@@ -74,6 +58,6 @@ class EditableLayout extends EditableLayoutBase {
 }
 
 export default compose(
-  injectIntl,
+  withTranslation(['app-common']),
   withStyles(styles),
 )(EditableLayout);

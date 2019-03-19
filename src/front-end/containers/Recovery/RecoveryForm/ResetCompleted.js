@@ -2,13 +2,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
-import { injectIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { messages } from '~/containers/App/translation';
-import translateMessages from '~/utils/translateMessages';
+import { withTranslation } from 'react-i18next';
 import {
   FormSpace,
   FormContent,
@@ -32,15 +30,10 @@ class ResetPassword extends React.PureComponent {
 
   render() {
     const {
-      intl,
+      t,
       classes,
       onBackToLogin,
     } = this.props;
-
-    const translated = translateMessages(intl, messages, [
-      'passwordResetCompleteMessage',
-      'login',
-    ]);
 
     return (
       <div>
@@ -48,7 +41,7 @@ class ResetPassword extends React.PureComponent {
         <FormContent>
           <FormSpace variant="content8" />
           <Typography variant="body1">
-            {translated.passwordResetCompleteMessage}
+            {t('passwordResetCompleteMessage')}
           </Typography>
           <FormSpace variant="content8" />
           <div className={classes.flexContainer}>
@@ -60,7 +53,7 @@ class ResetPassword extends React.PureComponent {
               className={classes.actionBtn}
               onClick={onBackToLogin}
             >
-              {translated.login}
+              {t('login')}
             </Button>
           </div>
         </FormContent>
@@ -72,6 +65,6 @@ class ResetPassword extends React.PureComponent {
 
 export default compose(
   connect(null, {}),
-  injectIntl,
+  withTranslation(['app-common']),
   withStyles(styles),
 )(ResetPassword);

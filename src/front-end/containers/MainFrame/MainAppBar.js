@@ -12,8 +12,7 @@ import UserInfoDropdown from '~/containers/UserInfoDropdown';
 
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
-import { messages } from '../App/translation';
+import { withTranslation } from 'react-i18next';
 import createCommonStyles from '~/styles/common';
 
 const styles = theme => ({
@@ -27,6 +26,7 @@ const styles = theme => ({
 class MainAppBar extends React.PureComponent {
   render() {
     const {
+      t,
       classes,
       isUserLoggedIn = true,
       onToggleMenu = () => {},
@@ -41,7 +41,7 @@ class MainAppBar extends React.PureComponent {
               </IconButton>
             )}
             <Typography variant="h6" color="inherit" className={classes.flex1}>
-              <FormattedMessage {...messages.appTitle} />
+              {t('appTitle')}
             </Typography>
             <LocaleDropdown />
             {/* <Button color="inherit" onClick={() => clearSessionCache('me')}>
@@ -63,5 +63,6 @@ export default compose(
     state => ({}),
     {}
   ),
+  withTranslation(['app-common']),
   withStyles(styles),
 )(MainAppBar);

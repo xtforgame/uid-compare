@@ -2,7 +2,6 @@ import React from 'react';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { injectIntl } from 'react-intl';
 import { push } from 'react-router-redux';
 import { withStyles } from '@material-ui/core/styles';
 import Fade from '@material-ui/core/Fade';
@@ -135,7 +134,8 @@ class MainFrame extends React.PureComponent {
 
     return (
       <div className={classes.verticalFlexContainerFWFH}>
-        {loadUserError ? (<ErrorContent />) : this.renderMainContent()}
+        {loadUserError && (<ErrorContent />)}
+        {(userLoaded && !loadUserError) && this.renderMainContent()}
         <Fade
           in={!userLoaded && !loadUserError}
           timeout={{
@@ -164,6 +164,5 @@ export default compose(
     mapStateToProps,
     { push }
   ),
-  injectIntl,
   withStyles(styles),
 )(MainFrame);

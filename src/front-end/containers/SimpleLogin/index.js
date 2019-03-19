@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
-import { injectIntl } from 'react-intl';
+import { withTranslation } from 'react-i18next';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -117,10 +117,10 @@ class Login extends React.PureComponent {
 
   render() {
     const {
-      location, intl, session, classes,
+      location, t, session, classes,
     } = this.props;
     let fromPath = location.state && location.state.from.pathname;
-    const translated = translateMessages(intl, messages, [
+    const translated = translateMessages(t, [
       'login',
       'wrongUsernameOrPassword',
       'usernameIsTaken',
@@ -161,7 +161,6 @@ class Login extends React.PureComponent {
             <LoginForm
               namespace="login"
               fields={createSimpleLoginInputConfigs()}
-              i18nMessages={messages}
               username={this.state.username}
               onUsernameChange={username => this.setState({ username })}
               usernameError={this.state.tabIndex === 0 && !!this.state.loginError}
@@ -209,6 +208,6 @@ export default compose(
       rememberMe,
     }
   ),
-  injectIntl,
+  withTranslation(['app-common']),
   withStyles(styles),
 )(Login);

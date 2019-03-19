@@ -1,8 +1,9 @@
 /* eslint-disable global-require */
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { install } from '@material-ui/styles';
 import { Provider } from 'react-redux';
-import createHistory from 'history/createHashHistory';
+import { createHashHistory } from 'history';
 import { MuiPickersUtilsProvider } from 'material-ui-pickers';
 import MomentUtils from '@date-io/moment';
 
@@ -14,15 +15,17 @@ import {
   makeUserSessionSelector,
 } from '~/containers/App/selectors';
 
-import { getTranslationMessages } from './i18n';
 import App from '~/containers/App';
 import {
   sessionVerified,
 } from '~/containers/App/actions';
+import { i18nextInited } from './i18next';
 import './main.css';
 
+install();
+
 // Create a history of your choosing (we're using a browser history in this case)
-const history = createHistory();
+const history = createHashHistory();
 
 const initialState = {
   ...loadState(),
@@ -52,7 +55,7 @@ class AppWrapper extends React.PureComponent {
     fontLoader().min
     .then(() => {
       this.setState({
-        app: <App history={history} routes={getRoutes()} messages={this.props.messages} />,
+        app: <App history={history} routes={getRoutes()} />,
       });
     });
   }
@@ -69,20 +72,9 @@ class AppWrapper extends React.PureComponent {
   }
 }
 
-const render = (messages) => {
+i18nextInited.then(() => {
   ReactDOM.render(
-    <AppWrapper messages={messages} />,
+    <AppWrapper />,
     document.getElementById('page_main')
   );
-};
-
-// Chunked polyfill for browsers without Intl support
-if (!window.Intl) {
-  require('intl');
-  require('intl/locale-data/jsonp/en.js');
-  require('intl/locale-data/jsonp/de.js');
-  require('intl/locale-data/jsonp/zh.js');
-  render(getTranslationMessages());
-} else {
-  render(getTranslationMessages());
-}
+});
