@@ -7,10 +7,7 @@ import {
 } from '~/utils/InputLinker/helpers';
 
 export const defaultIlOnInit = props => (il) => {
-  const {
-    fields,
-    defaultValues,
-  } = props;
+  const { fields, defaultValues } = props;
 
   il.add(...(fields.map(field => ({
     presets: [field, propagateOnChangeEvent()],
@@ -21,40 +18,41 @@ export const defaultIlOnInit = props => (il) => {
 
 export default (props, ilOnInit) => {
   const {
+    value,
     namespace,
-    ignoredUndefinedFromOutputs,
+    ignoredUndefinedFromOutputs = true,
 
-    i18nNs,
-    styleNs,
+    i18nNs = [],
+    styleNs = [],
     onInited = () => undefined,
     onDidMount = () => undefined,
     onSubmit = () => undefined,
   } = props;
 
-  const tData = useTranslation(i18nNs);
-  const classes = useStylesByNs(styleNs);
+  if (!Array.isArray(i18nNs)) {
+    throw new Error(`Expect i18nNs as an Array, got: ${i18nNs}`);
+  }
 
-  const createInitFunc = firstTime => (il) => {
+  if (!Array.isArray(styleNs)) {
+    throw new Error(`Expect styleNs as an Array, got: ${styleNs}`);
+  }
+
+  const tData = useTranslation(i18nNs);
+  const classesByNs = useStylesByNs(styleNs);
+
+  const createInitFunc = (il, { reset }) => {
     (ilOnInit || defaultIlOnInit(props))(il);
-    if (firstTime) {
+    if (!reset) {
       onInited(il);
     }
   };
 
-  const [il, resetInputLinker] = useInputLinker(
+  const ilResults = useInputLinker(
     {/* props */},
-    { namespace, ignoredUndefinedFromOutputs },
-    createInitFunc(true),
+    { namespace, ignoredUndefinedFromOutputs, controlled: !!value },
+    createInitFunc,
   );
-
-  const resetIl = (host, options) => {
-    Object.values(il.fieldMap).forEach((f) => {
-      f.setValue(f.defaultValue);
-      f.setError();
-    });
-    const newIl = resetInputLinker(host, options, createInitFunc());
-    return newIl;
-  };
+  const { il } = ilResults;
 
   const host = {
     handleSubmit: () => {
@@ -68,15 +66,17 @@ export default (props, ilOnInit) => {
       }
       return null;
     },
-    props: { ...props, classes },
+    props: {
+      ...props,
+      classesByNs,
+    },
   };
 
   useEffect(() => { onDidMount(il); }, []);
 
   return {
-    il,
-    resetIl,
-    classes,
+    ...ilResults,
+    classesByNs,
     tData,
     host,
   };

@@ -10,11 +10,15 @@ export default class PropsProxy {
     if (this.linker.options.controlled) {
       this.handledByProps = {
         value: ({ link: { hostProps } }) => hostProps.value && hostProps.value[this.name],
-        onChange: ({ value, rawArgs }, { link, link: { hostProps } }) => {
+        onChange: ({ value, rawArgs }, { link, link: { hostProps, linker } }) => {
           if (hostProps.onChange) {
             hostProps.onChange(value, rawArgs, link, {
               ...this.linker.getValues(),
               [this.name]: value,
+            });
+          } else if (hostProps.onChanges) {
+            linker.addPendingChange(hostProps.onChanges, {
+              value, rawArgs, link,
             });
           }
         },

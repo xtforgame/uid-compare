@@ -3,23 +3,36 @@ import { useState } from 'react';
 import InputLinker from './Linker';
 
 const ilCreator = (
-  host, options = {}, cb = () => undefined
+  host, options = {}, createOptions = {}, cb = () => undefined
 ) => () => {
   const {
     Linker = InputLinker,
     ...rest
   } = options;
   const il = new Linker(host, { ...rest, stateMode: 'hook' });
-  cb(il);
+  cb(il, createOptions);
   return il;
 };
 
 export default (host, options, cb) => {
-  const [il, setIl] = useState(ilCreator(host, options, cb));
+  const [il, setIl] = useState(ilCreator(host, options, { reset: false }, cb));
 
-  return [il, (_host = host, _options = options, cb) => {
-    const il = ilCreator(_host, _options, cb)();
-    setIl(il);
-    return il;
-  }];
+  return {
+    il,
+    setIl,
+    resetIl: (resetOptions = {}) => {
+      if (resetOptions.defaultValues) {
+        il.setDefaultValues(resetOptions.defaultValues);
+      }
+      if (!resetOptions.ignoreResetValues) {
+        Object.values(il.fieldMap).forEach((f) => {
+          f.setValue(f.defaultValue);
+          f.setError();
+        });
+      }
+      const newIl = ilCreator(host, options, { ...resetOptions, reset: true }, cb)();
+      setIl(newIl);
+      return newIl;
+    },
+  };
 };

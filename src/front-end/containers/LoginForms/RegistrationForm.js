@@ -23,6 +23,8 @@ class RegistrationForm extends React.PureComponent {
       classes,
       fields,
       comfirmUserAgreement,
+      styleNs = [],
+      i18nNs = [],
     } = this.props;
     const translated = translateMessages(t, [
       'terms',
@@ -61,6 +63,8 @@ class RegistrationForm extends React.PureComponent {
     return (
       <FormBaseType001
         {...this.props}
+        styleNs={[...styleNs, 'login']}
+        i18nNs={[...i18nNs, 'app-common']}
         comfirmUserAgreement={comfirmUserAgreement}
         userAgreementLabel={userAgreementLabel}
         fields={fields}

@@ -1,6 +1,6 @@
 import LayoutBase from '~/components/FormLayouts/LayoutBase';
 
-export default class EditableLayout extends LayoutBase {
+export default class EditableLayoutBase extends LayoutBase {
   static getDerivedStateFromProps(props, prevState) {
     const { isEditing } = props;
     if (!!isEditing !== !!prevState.isEditing) {

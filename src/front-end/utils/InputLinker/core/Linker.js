@@ -31,6 +31,31 @@ export default class InputLinker {
     this.fieldLinks = [];
     this.fieldMap = {};
     this._idCounter = 0;
+    this._pendingChanges = { changes: [] };
+  }
+
+  get hostProps() { return this.host.props; }
+
+  addPendingChange = (cb, change) => {
+    if (!this._pendingChanges.nextTick) {
+      this._pendingChanges.nextTick = setTimeout(this.resolvePendingChanges, 0);
+    }
+    if (!this._pendingChanges.cb) {
+      this._pendingChanges.cb = cb;
+    }
+    this._pendingChanges.changes.push(change);
+  }
+
+  resolvePendingChanges = () => {
+    this._pendingChanges.cb(
+      this._pendingChanges.changes,
+      this,
+      this._pendingChanges.changes.reduce((v, change) => ({
+        ...v,
+        [change.link.name]: change.value,
+      }), this.getValues()),
+    );
+    this._pendingChanges = { changes: [] };
   }
 
   getUniqueName = () => (this.namespace ? `${this.namespace}-unnamed-${++this._idCounter}` : `unnamed-${++this._idCounter}`);

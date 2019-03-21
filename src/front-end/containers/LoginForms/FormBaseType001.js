@@ -1,43 +1,6 @@
-import React from 'react';
-import { withTranslation } from 'react-i18next';
-import {
-  FormSpace,
-  FormContent,
-} from '~/components/FormInputs';
-import LayoutBase from '~/components/FormLayouts/LayoutBase';
+import BasicFormLayout from '~/components/FormLayouts/BasicFormLayout';
 
-class FormBaseType001 extends LayoutBase {
-  render() {
-    const {
-      t: translate,
-      space: defaultSpace = <FormSpace variant="content1" />,
-      topSpace = <FormSpace variant="top" />,
-      Content = FormContent,
-      extraContents,
-      children,
-    } = this.props;
+const FormBaseType001 = (...args) => BasicFormLayout(...args);
+FormBaseType001.displayName = 'FormBaseType001';
 
-    return (
-      <React.Fragment>
-        {topSpace}
-        <Content>
-          {
-            this.il.fieldLinks.map((filedLink) => {
-              const space = 'space' in filedLink.options ? filedLink.options.space : defaultSpace;
-              return (
-                <React.Fragment key={filedLink.name}>
-                  {this.il.renderComponent(filedLink.name, { translate })}
-                  {space}
-                </React.Fragment>
-              );
-            })
-          }
-          {extraContents}
-        </Content>
-        {children}
-      </React.Fragment>
-    );
-  }
-}
-
-export default withTranslation(['app-common'])(FormBaseType001);
+export default FormBaseType001;

@@ -10,7 +10,7 @@ const SimpleHookLayout = (props) => {
   } = props;
 
   const {
-    il, resetIl, classes, tData: { t/* , i18n, ready */ }, host,
+    il, resetIl, classesByNs, tData: { t/* , i18n, ready */ }, host,
   } = useLayoutFeatures({
     ...props,
     onDidMount: (il) => { console.warn('il :', il); },
@@ -44,7 +44,7 @@ const SimpleHookLayout = (props) => {
           variant="contained"
           fullWidth
           color="primary"
-          className={classes.login.loginBtn}
+          className={classesByNs.login.loginBtn}
           onClick={host.handleSubmit}
         >
           {submitButtonText}

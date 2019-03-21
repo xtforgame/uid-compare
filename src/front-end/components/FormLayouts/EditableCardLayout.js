@@ -1,52 +1,46 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
-import { compose } from 'recompose';
-import { withStyles } from '@material-ui/core/styles';
-import { withTranslation } from 'react-i18next';
-import EditableLayoutBase from '~/components/FormLayouts/EditableLayoutBase';
-
+import useLayoutFeatures from '~/hooks/useLayoutFeatures';
 import MuiCard from '@material-ui/core/Card';
 
-const styles = theme => ({
-});
+const EditableCardLayout = (props) => {
+  const {
+    Card = MuiCard,
+    className,
+    cardProps,
+    onStartEditing,
+    onCancelEditing,
+  } = props;
 
-class EditableCardLayout extends EditableLayoutBase {
-  startEditing = () => {
-    const { onStartEditing } = this.props;
-    if (onStartEditing) {
-      onStartEditing();
-    }
-  };
-
-  cancelEditing = () => {
-    const { onCancelEditing } = this.props;
-    if (onCancelEditing) {
-      onCancelEditing();
-    }
-  };
-
-  render() {
-    const {
-      t: translate,
-      Card = MuiCard,
-      className,
-      cardProps,
-    } = this.props;
-
-    const extraProps = {};
-    if (className) {
-      extraProps.className = className;
-    }
-
-    return (
-      <Card {...extraProps} {...cardProps}>
-        {this.il.fieldLinks.map(filedLink => this.il.renderComponent(filedLink.name, { translate }))}
-      </Card>
-    );
+  const extraProps = {};
+  if (className) {
+    extraProps.className = className;
   }
-}
 
-export default compose(
-  withTranslation(['app-common']),
-  withStyles(styles),
-)(EditableCardLayout);
+  const {
+    il, resetIl, classesByNs, tData: { t/* , i18n, ready */ }, host,
+  } = useLayoutFeatures(props);
+
+  il.updateHost({
+    ...host,
+    startEditing: () => {
+      if (onStartEditing) {
+        onStartEditing();
+      }
+    },
+    cancelEditing: () => {
+      if (onCancelEditing) {
+        onCancelEditing();
+      }
+    },
+  });
+
+  return (
+    <Card {...extraProps} {...cardProps}>
+      {il.fieldLinks.map(filedLink => il.renderComponent(filedLink.name, { translate: t }))}
+    </Card>
+  );
+};
+EditableCardLayout.displayName = 'EditableCardLayout';
+
+export default EditableCardLayout;

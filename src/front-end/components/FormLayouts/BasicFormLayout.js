@@ -1,22 +1,16 @@
 import React from 'react';
-import useEditableLayoutFeatures from '~/hooks/useEditableLayoutFeatures';
-import Button from '@material-ui/core/Button';
+import useLayoutFeaturesEx from '~/hooks/useLayoutFeaturesEx';
 
-const EditableLayout = (props) => {
+const BasicFormLayout = (props) => {
   const {
     extraContents,
     children,
-    submitButtonText,
-    styleNs = [],
   } = props;
 
   const {
     il, resetIl, classesByNs, tData: { t/* , i18n, ready */ }, host,
     Content, space, topSpace,
-  } = useEditableLayoutFeatures({
-    ...props,
-    styleNs: [...styleNs, 'login'],
-  });
+  } = useLayoutFeaturesEx(props);
 
   il.updateHost(host);
 
@@ -36,20 +30,11 @@ const EditableLayout = (props) => {
           })
         }
         {extraContents}
-        <Button
-          variant="contained"
-          fullWidth
-          color="primary"
-          className={classesByNs.login.loginBtn}
-          onClick={host.handleSubmit}
-        >
-          {submitButtonText}
-        </Button>
       </Content>
       {children}
     </React.Fragment>
   );
 };
-EditableLayout.displayName = 'EditableLayout';
+BasicFormLayout.displayName = 'BasicFormLayout';
 
-export default EditableLayout;
+export default BasicFormLayout;

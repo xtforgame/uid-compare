@@ -20,11 +20,15 @@ class LoginForm extends React.PureComponent {
     const {
       t,
       fields,
+      styleNs = [],
+      i18nNs = [],
     } = this.props;
 
     return (
       <FormBaseType001
         {...this.props}
+        styleNs={[...styleNs, 'login']}
+        i18nNs={[...i18nNs, 'app-common']}
         fields={[
           ...fields,
           {
@@ -33,7 +37,7 @@ class LoginForm extends React.PureComponent {
               variant: 'contained',
               fullWidth: true,
               color: 'primary',
-              className: hostProps.classes.loginBtn,
+              className: hostProps.classesByNs.login.loginBtn,
               onClick: host.handleSubmit,
               children: t('login'),
             }),

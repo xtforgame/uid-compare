@@ -45,7 +45,7 @@ export default (defaultRememberMe = false) => [
       variant: 'contained',
       fullWidth: true,
       color: 'primary',
-      className: hostProps.classes.login,
+      className: hostProps.classesByNs.loginBtn,
       onClick: host.handleSubmit,
       children: translate('createAccount'),
       disabled: hostProps.comfirmUserAgreement && !linker.getValue('agreed'),

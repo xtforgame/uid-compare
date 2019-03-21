@@ -45,7 +45,7 @@ export default recover => ([
       fullWidth: true,
       color: 'secondary',
       disabled: !linker.getOutput('username') || hostProps.remainingTime > 0,
-      className: hostProps.classes.loginBtn,
+      className: hostProps.classesByNs.loginBtn,
       onClick: host.handleSubmit,
       children: hostProps.countDownText,
     }),
@@ -59,7 +59,7 @@ export default recover => ([
     mwRender: ({ link: { hostProps, linker } }) => ({
       fullWidth: true,
       disabled: !linker.getOutput('username'),
-      className: hostProps.classes.loginBtn,
+      className: hostProps.classesByNs.loginBtn,
       onClick: hostProps.backToEnterTheCode,
       children: hostProps.enterCodeText,
     }),
