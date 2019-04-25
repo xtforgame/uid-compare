@@ -1,7 +1,7 @@
 {
-  "name": "az-fullstack-sequelize",
+  "name": "az-react-material-dev",
   "version": "1.0.0",
-  "description": "A fullstack sequelize seed project",
+  "description": "A react material ui seed project",
   "main": "dist/server/index.js",
   "repository": {
     "type": "git"
