@@ -224,7 +224,7 @@ export const DatePickerWithoutYearPreset = {
 export const createMenuItemConfig = (name, children) => ({
   ignoredFromOutputs: true,
   component: MenuItem,
-  name,
+  // name,
   extraProps: {
     value: name,
   },

@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
+import global from '../common/global';
 import login from '../FormPaper/login';
 import flex from '../common/flex';
 import appBar from '../common/appBar';
@@ -8,6 +9,7 @@ import mobile from '../common/mobile';
 import genderColors from '../common/genderColors';
 
 const stylesNsMap = {
+  global,
   login,
   flex,
   appBar,

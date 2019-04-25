@@ -29,6 +29,27 @@ const styles = theme => ({
     height: theme.spacing.unit * 8,
     flexShrink: 0,
   },
+
+  'h-content0': {
+    width: 0,
+    flexShrink: 0,
+  },
+  'h-content1': {
+    width: theme.spacing.unit,
+    flexShrink: 0,
+  },
+  'h-content2': {
+    width: theme.spacing.unit * 2,
+    flexShrink: 0,
+  },
+  'h-content4': {
+    width: theme.spacing.unit * 4,
+    flexShrink: 0,
+  },
+  'h-content8': {
+    width: theme.spacing.unit * 8,
+    flexShrink: 0,
+  },
 });
 
 const FormSpace = (props) => {
@@ -39,7 +60,7 @@ const FormSpace = (props) => {
 };
 
 FormSpace.propTypes = {
-  variant: PropTypes.oneOf(['top', 'content0', 'content1', 'content2', 'content4', 'content8']),
+  variant: PropTypes.oneOf(['top', 'content0', 'content1', 'content2', 'content4', 'content8', 'h-content0', 'h-content1', 'h-content2', 'h-content4', 'h-content8']),
 };
 
 export default compose(

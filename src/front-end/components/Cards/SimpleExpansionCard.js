@@ -32,6 +32,7 @@ const styles = theme => ({
   expandOpen: {
     transform: 'rotate(180deg)',
   },
+  headerRoot: {},
   headerAction: {
     // marginTop: 'unset',
     marginTop: 'auto',
@@ -58,7 +59,10 @@ const styles = theme => ({
 });
 
 class SimpleExpansionCard extends React.PureComponent {
-  state = { expanded: false };
+  constructor(props) {
+    super(props);
+    this.state = { expanded: 'defaultExpanded' in props ? props.defaultExpanded : false };
+  }
 
   handleExpandClick = () => {
     this.setState(state => ({ expanded: !state.expanded }));
@@ -71,10 +75,23 @@ class SimpleExpansionCard extends React.PureComponent {
       title,
       subheader,
       children,
+      cardClassName,
+      headerClassName,
+      withoutCardContent,
     } = this.props;
 
+    const content = withoutCardContent ? children : (
+      <CardContent
+        classes={{
+          root: classes.contentRoot,
+        }}
+      >
+        {children}
+      </CardContent>
+    );
+
     return (
-      <Card className={classes.card}>
+      <Card className={classnames(classes.card, cardClassName)}>
         <CardHeader
           avatar={avatar}
           classes={{
@@ -82,6 +99,7 @@ class SimpleExpansionCard extends React.PureComponent {
             action: classes.headerAction,
             content: classes.headerContent,
           }}
+          className={headerClassName}
           action={(
             <IconButton
               className={classnames(classes.expand, {
@@ -98,13 +116,7 @@ class SimpleExpansionCard extends React.PureComponent {
           subheader={subheader}
         />
         <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
-          <CardContent
-            classes={{
-              root: classes.contentRoot,
-            }}
-          >
-            {children}
-          </CardContent>
+          {content}
         </Collapse>
       </Card>
     );

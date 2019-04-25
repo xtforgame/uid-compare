@@ -45,6 +45,8 @@ class MobileTabsFrame extends React.Component {
       children,
     } = this.props;
 
+    const fabTab = tabs.filter(tab => tab.fab).find(({ name, fab }) => pathname === `${parentUrl}/${name}`);
+
     const transitionDuration = {
       enter: theme.transitions.duration.enteringScreen,
       exit: theme.transitions.duration.leavingScreen,
@@ -66,7 +68,7 @@ class MobileTabsFrame extends React.Component {
         { beforeRouteView }
         <div className={classes.mobileContent}>
           { newRouteView }
-          <div className={classes.spaceForFab} />
+          { fabTab && <div className={classes.spaceForFab} /> }
         </div>
         { afterRouteView }
         <div className={classes.spacing} />

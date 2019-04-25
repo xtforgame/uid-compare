@@ -218,7 +218,7 @@ class EnhancedTable extends React.PureComponent { // eslint-disable-line react/p
                       return (
                         <TableCell
                           key={column.id}
-                          numeric={column.numeric}
+                          align={column.numeric ? 'right' : 'left'}
                           padding={column.padding || 'default'}
                           className={column.cellClassName}
                         >
