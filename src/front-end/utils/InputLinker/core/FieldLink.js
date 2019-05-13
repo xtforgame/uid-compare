@@ -21,6 +21,10 @@ export default class FieldLink {
     this.ignoredFromOutputs = config.ignoredFromOutputs;
     this._mergeChildren = config.mergeChildren || ((children1, children2) => children1.concat(children2));
     this.options = config.options;
+    if (this.options.unmountWhileReset) {
+      this.key = `${this.key}${Math.random()}`;
+    }
+    this.dirty = false;
 
     this.converter = {
       fromView: config.converter.fromView || (([event]) => event.target.value),
@@ -33,7 +37,7 @@ export default class FieldLink {
     this._renderMiddlewares = config.mwRenderArray;
     this._preRenderMiddlewares = config.mwPreRenderArray;
     this.props = config.props;
-    this.data = config.data;
+    this.data = config.data || {};
 
     this.onChange = config.onChange || (() => {});
     this.onValidateError = config.onValidateError || (() => {});
@@ -59,7 +63,7 @@ export default class FieldLink {
 
     this.getNormalizedValue = () => this.converter.normalize(this.getValue(), { ...linkInfo });
     this.getOutput = () => this.converter.toOutput(this.getNormalizedValue(), { ...linkInfo });
-    this.getViewValue = () => this.converter.toView(this.getNormalizedValue(), { ...linkInfo });
+    this.getViewValue = () => this.converter.toView(this.getValue(), { ...linkInfo });
     this.validate = () => this._validate(this.getNormalizedValue(), { ...linkInfo });
   }
 
@@ -104,6 +108,7 @@ export default class FieldLink {
     const linkInfo = { storedValue, link: this };
     const value = getValue(rawArgs, linkInfo);
     this.onChange(value, rawArgs, linkInfo);
+    this.linker.onFieldValueChange(this, value, rawArgs, linkInfo);
     this.setValue(value, rawArgs);
   };
 

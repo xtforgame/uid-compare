@@ -27,31 +27,36 @@ export const assert = (condition, message, i18n) => {
   }
 };
 
-export const FormTextFieldPreset = cfg => ({
-  ...cfg,
+export const FormTextFieldLikePreset = {
   component: FormTextField,
-  mwRender: ({
-    props,
-    value,
-    link,
-    handleChange,
-    validateError,
-    options: { translate },
-  }) => {
-    const validateErrorMessage = validateError && (
-      (validateError.i18n && translate(validateError.i18n.key, validateError.i18n.values))
-      || validateError.message
-    );
+  cfgMiddlewares: {
+    last: {
+      mwRender: ({
+        props,
+        value,
+        link,
+        handleChange,
+        validateError,
+        options: { translate },
+      }) => {
+        const validateErrorMessage = validateError && (
+          (validateError.i18n && translate(validateError.i18n.key, validateError.i18n.values))
+          || validateError.message
+        );
 
-    return {
-      id: link.key,
-      value,
-      onChange: handleChange,
-      error: !!validateErrorMessage,
-      helperText: validateErrorMessage || props.helperText, // helperMessage,
-    };
+        return {
+          id: link.key,
+          value,
+          onChange: handleChange,
+          error: !!validateErrorMessage,
+          helperText: validateErrorMessage || props.helperText, // helperMessage,
+        };
+      },
+    },
   },
-});
+};
+
+export const FormTextFieldPreset = FormTextFieldLikePreset;
 
 export const createFormNumberInputPreset = (currency = false) => cfg => ({
   ...cfg,
@@ -103,47 +108,49 @@ export const mwpDisplayErrorFromPropsForTextField = (propKey, getMessageFunc = e
 };
 
 const InputTypePreset = {
-  mwRender: ({
-    props,
-    value,
-    link,
-    handleChange,
-    validateError,
-    options: { translate },
-  }) => {
-    const validateErrorMessage = validateError && (
-      (validateError.i18n && translate(validateError.i18n.key, validateError.i18n.values))
-      || validateError.message
-    );
-
-    return {
-      id: link.key,
-      value,
-      onChange: handleChange,
-      formProps: {
-        ...props.formProps,
-        error: validateErrorMessage,
-      },
-      helperText: validateErrorMessage || props.helperText, // helperMessage,
-    };
-  },
   cfgMiddlewares: {
     last: cfg => ({
       ...cfg,
-      mwRender: ({ props }) => {
-        const formProps = props.formProps || {};
-        const style = { ...formProps.style };
-        if (props.fullWidth && !('width' in style)) {
-          style.width = '100%';
-        }
+      mwRender: [
+        ({
+          props,
+          value,
+          link,
+          handleChange,
+          validateError,
+          options: { translate },
+        }) => {
+          const validateErrorMessage = validateError && (
+            (validateError.i18n && translate(validateError.i18n.key, validateError.i18n.values))
+            || validateError.message
+          );
 
-        return {
-          formProps: {
-            ...formProps,
-            style,
-          },
-        };
-      },
+          return {
+            id: link.key,
+            value,
+            onChange: handleChange,
+            formProps: {
+              ...props.formProps,
+              error: validateErrorMessage,
+            },
+            helperText: validateErrorMessage || props.helperText, // helperMessage,
+          };
+        },
+        ({ props }) => {
+          const formProps = props.formProps || {};
+          const style = { ...formProps.style };
+          if (props.fullWidth && !('width' in style)) {
+            style.width = '100%';
+          }
+
+          return {
+            formProps: {
+              ...formProps,
+              style,
+            },
+          };
+        },
+      ],
     }),
   },
 };
@@ -317,11 +324,19 @@ export const mwpListItemDisplayer = (ctx) => {
   };
 };
 
-export const translateLabel = i18nKey => ({
-  mwRender: ({ options: { translate } }) => ({
-    label: i18nKey && translate(i18nKey),
-  }),
-});
+export const translateProp = (propName, i18nKey, i8nValues = {}) => {
+  let iV = i8nValues;
+  if (typeof iV === 'string') {
+    iV = JSON.parse(iV);
+  }
+  return {
+    mwRender: ({ options: { translate } }) => ({
+      [propName]: i18nKey && translate(i18nKey, iV),
+    }),
+  };
+};
+
+export const translateLabel = (i18nKey, i8nValues) => translateProp('label', i18nKey, i8nValues);
 
 export const addOnPressEnterEvent = (onPressEnter = undefined) => ({
   mwRender: ({ link: { host } }) => {
@@ -344,6 +359,19 @@ export const propagateOnChangeEvent = (parentOnChangePropName = 'onChange') => (
       const { link: { name, linker, hostProps } } = linkInfo;
       const onChange = hostProps[parentOnChangePropName] || (() => {});
       onChange(name, value, rawArgs, linker);
+    },
+  };
+};
+
+export const raiseDirtyFlagOnChangeEvent = (cfg) => {
+  const originalOnChange = cfg.onChange || (() => {});
+  return {
+    ...cfg,
+    onChange: (value, rawArgs, linkInfo) => {
+      originalOnChange(value, rawArgs, linkInfo);
+      const { link } = linkInfo;
+      console.log('link :', link);
+      link.dirty = true;
     },
   };
 };

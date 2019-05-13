@@ -36,7 +36,7 @@
     "node": ">=10.0"
   },
   "dependencies": {
-    "@date-io/moment": "^0.0.2",
+    "@date-io/moment": "1.1.0",
     "@material-ui/core": "3.9.2",
     "@material-ui/icons": "3.0.2",
     "@material-ui/lab": "3.0.0-alpha.29",
@@ -66,12 +66,13 @@
     "koa": "^2.5.0",
     "koa-bodyparser": "^4.2.0",
     "lodash": "^4.17.4",
-    "material-ui-pickers": "2.0.5",
+    "material-ui-pickers": "2.2.2",
     "moment": "^2.22.2",
     "numeral": "^2.0.6",
     "pngjs": "^3.3.3",
     "prop-types": "^15.6.0",
     "react": "^16.8.2",
+    "react-color": "^2.17.3",
     "react-dom": "^16.8.2",
     "react-flip-move": "^3.0.2",
     "react-i18next": "^10.2.0",
