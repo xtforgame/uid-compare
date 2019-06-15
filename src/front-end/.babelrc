@@ -15,12 +15,12 @@
     "development": {
       "plugins": [
         ["module-resolver", {
-          "extensions": [".js", ".ts"],
+          "extensions": [".js", ".ts", ".jsx", ".tsx"],
           "alias": {
-            "~": "./src/test-data",
+            "~": "./src/front-end",
+            "common/config": "./src/common/configs/development",
             "common": "./src/common",
-            "server": "./src/server",
-            "test-utils": "./src/test-utils"
+            "config": "./src/front-end/configs/development",
           }
         }]
       ]
@@ -28,12 +28,12 @@
     "production": {
       "plugins": [
         ["module-resolver", {
-          "extensions": [".js", ".ts"],
+          "extensions": [".js", ".ts", ".jsx", ".tsx"],
           "alias": {
-            "~": "./src/test-data",
+            "~": "./src/front-end",
+            "common/config": "./src/common/configs/production",
             "common": "./src/common",
-            "server": "./src/server",
-            "test-utils": "./src/test-utils"
+            "config": "./src/front-end/configs/production",
           }
         }]
       ]
@@ -41,12 +41,12 @@
     "test": {
       "plugins": [
         ["module-resolver", {
-          "extensions": [".js", ".ts"],
+          "extensions": [".js", ".ts", ".jsx", ".tsx"],
           "alias": {
-            "~": "./src/test-data",
+            "~": "./src/front-end",
+            "common/config": "./src/common/configs/test",
             "common": "./src/common",
-            "server": "./src/server",
-            "test-utils": "./src/test-utils"
+            "config": "./src/front-end/configs/test",
           }
         }]
       ]

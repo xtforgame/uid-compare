@@ -16,17 +16,6 @@ var frontEndJsEntryFilename = frontEndConfig.joinPathByKeys(['entry', 'js', 'fil
 var frontEndJsPublicFolder = frontEndConfig.joinPathByKeys(['entry', 'static']);
 var frontEndJsOutputFolder = frontEndConfig.joinPathByKeys(['output', 'default']);
 
-var frontEndCommonLibraryRelativePath = frontEndConfig.joinPathByKeys(['useCommonLibrary', 'relativePath']);
-
-var webpackResolveAlias = {
-  '~': path.resolve(projRoot, frontEndJsEntryFolder),
-  'config': path.resolve(projRoot, frontEndJsEntryFolder, 'configs', process.env.NODE_ENV ? process.env.NODE_ENV : 'production'),
-};
-
-if(frontEndCommonLibraryRelativePath && commonConfigJsEntryFolder){
-  webpackResolveAlias[frontEndCommonLibraryRelativePath] = path.resolve(projRoot, commonConfigJsEntryFolder);
-}
-
 module.exports = function({ mode }) {
   return {
     mode,
@@ -45,7 +34,7 @@ module.exports = function({ mode }) {
     },
     resolve: {
       // extensions: ['', '.jsx', '.js', '.scss', '.css', '.json', '.md'],
-      alias: webpackResolveAlias,
+      alias: {},
       extensions: ['.js', '.jsx', '.ts', '.tsx'],
     },
     module: {
@@ -76,13 +65,6 @@ module.exports = function({ mode }) {
             },
           }],
           exclude: /node_modules/,
-        },
-        {
-          test: /\.json$/,
-          type: 'javascript/auto',
-          use: [{
-            loader: 'file-loader',
-          }],
         },
         {
           test: /\.css$/,

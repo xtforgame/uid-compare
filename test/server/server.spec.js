@@ -7,7 +7,7 @@ import { httpsPort } from 'server/core/config';
 import Server from 'server';
 import {
   runningMode,
-} from 'common/core/config';
+} from 'common/config';
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 

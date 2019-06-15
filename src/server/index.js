@@ -8,7 +8,7 @@ import RouterManager from '~/services/router-manager';
 import Mailer from '~/services/mailer';
 import {
   runningMode,
-} from 'common/core/config';
+} from 'common/config';
 
 class Server {
   constructor() {
