@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default function withOnPressEnterEvent(TextFieldComponent) {
-  return class extends React.Component {
+  return class extends React.PureComponent {
     state = {
       isOnComposition: false,
     };

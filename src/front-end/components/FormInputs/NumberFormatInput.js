@@ -1,7 +1,7 @@
 import React from 'react';
 import NumberFormat from 'react-number-format';
 
-export default class NumberFormatInput extends React.Component {
+export default class NumberFormatInput extends React.PureComponent {
   render() {
     const { inputRef, onChange, ...other } = this.props;
 

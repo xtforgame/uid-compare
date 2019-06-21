@@ -27,7 +27,7 @@ const styles = theme => ({
   ...createCommonStyles(theme, ['flex', 'mobile']),
 });
 
-class MobileTabsFrame extends React.Component {
+class MobileTabsFrame extends React.PureComponent {
   changeTab = tabName => this.props.handleTabChange(undefined, `${this.props.parentUrl}/${tabName}`);
 
   render() {

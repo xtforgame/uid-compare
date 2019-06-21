@@ -49,7 +49,7 @@ const styles = theme => ({
   },
 });
 
-class HeaderSearchInput extends React.Component {
+class HeaderSearchInput extends React.PureComponent {
   render() {
     const {
       classes,

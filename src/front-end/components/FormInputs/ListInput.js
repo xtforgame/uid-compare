@@ -23,7 +23,7 @@ const styles = theme => ({
   },
 });
 
-class ListInput extends React.Component {
+class ListInput extends React.PureComponent {
   render() {
     const {
       classes,

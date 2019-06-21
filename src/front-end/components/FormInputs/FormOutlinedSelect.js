@@ -13,7 +13,7 @@ import Select from '@material-ui/core/Select';
 const styles = theme => ({
 });
 
-class FormOutlinedSelect extends React.Component {
+class FormOutlinedSelect extends React.PureComponent {
   state = {
     labelWidth: 0,
   };

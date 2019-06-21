@@ -1,5 +1,4 @@
 /* eslint-disable no-param-reassign */
-// import Sequelize from 'sequelize';
 import {
   // RestfulResponse,
   RestfulError,
@@ -8,18 +7,6 @@ import RouterBase from '../core/router-base';
 import fakeUserManager from '../utils/fakeUserManager';
 
 export default class UserRouter extends RouterBase {
-  // findUserSettings(userId, type) {
-  //   const UserSetting = this.resourceManager.getSqlzModel('userSetting');
-
-  //   return UserSetting.findAll({
-  //     attributes: { exclude: ['created_at', 'updated_at', 'deleted_at'] },
-  //     where: {
-  //       user_id: userId,
-  //       // type,
-  //     },
-  //   });
-  // }
-
   setupRoutes({ router }) {
     router.get('/api/userSettings', fakeUserManager.getIdentity, (ctx, next) => {
       // console.log('ctx.local.user.userSettings :', ctx.local.user.userSettings);

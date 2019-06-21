@@ -16,7 +16,7 @@ const styles = theme => ({
   ...createCommonStyles(theme, ['flex']),
 });
 
-class CrudDialog extends React.Component {
+class CrudDialog extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = { isSearching: false };

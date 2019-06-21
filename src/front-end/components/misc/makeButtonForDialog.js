@@ -10,7 +10,7 @@ export default (options = {}) => (Dialog, Button = MuiButton) => {
     buttonProps: staticButtonProps,
     dialogProps: staticDialogProps,
   } = options;
-  const DialogButtonHoc = class DialogButtonHoc extends React.Component {
+  const DialogButtonHoc = class DialogButtonHoc extends React.PureComponent {
     static displayName = `makeButtonForDialog(${getDisplayName(Dialog)})`;
 
     state = {
