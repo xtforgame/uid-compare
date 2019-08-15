@@ -88,6 +88,7 @@
     "redux": "^3.7.2",
     "redux-immutable": "^4.0.0",
     "redux-observable": "^0.16.0",
+    "redux-react-hook": "^3.3.2",
     "redux-wait-for-action": "^0.0.7",
     "reduxtful": "git+https://github.com/xtforgame/reduxtful.git#v0.3.1",
     "reselect": "^3.0.1",

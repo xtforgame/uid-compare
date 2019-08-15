@@ -2,6 +2,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { StoreContext } from 'redux-react-hook';
 import { createHashHistory } from 'history';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
@@ -61,9 +62,11 @@ class AppWrapper extends React.PureComponent {
     const { app } = this.state;
     return (
       <Provider store={store}>
-        <MuiPickersUtilsProvider utils={MomentUtils}>
-          {app}
-        </MuiPickersUtilsProvider>
+        <StoreContext.Provider value={store}>
+          <MuiPickersUtilsProvider utils={MomentUtils}>
+            {app}
+          </MuiPickersUtilsProvider>
+        </StoreContext.Provider>
       </Provider>
     );
   }
