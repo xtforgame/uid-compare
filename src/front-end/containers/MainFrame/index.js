@@ -2,7 +2,7 @@ import React from 'react';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import { withStyles } from '@material-ui/core/styles';
 import Fade from '@material-ui/core/Fade';
 import Drawer from '@material-ui/core/Drawer';
@@ -58,10 +58,6 @@ class MainFrame extends React.PureComponent {
     };
   }
 
-  // componentWillMount() {
-  //   console.log('MainFrame componentWillMount');
-  // }
-
   closeDrawer = () => {
     this.setState({
       drawerOpened: false,
@@ -97,7 +93,7 @@ class MainFrame extends React.PureComponent {
         <MainAppBar
           onToggleMenu={this.toggleDrawer(true)}
         />
-        <div className={classes.appBarPlaceholder} />
+        <div className={classes.appBarPlaceholder}>DDDD</div>
         <div className={classes.verticalFlexContainerFWF1}>
           <div className={classes.mainContent}>
             {routeView}

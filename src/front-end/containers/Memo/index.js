@@ -9,11 +9,11 @@ import ScheduleIcon from '@material-ui/icons/Schedule';
 import AddIcon from '@material-ui/icons/Add';
 import UpIcon from '@material-ui/icons/KeyboardArrowUp';
 import green from '@material-ui/core/colors/green';
-import createCommonStyles from '~/styles/common';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import {
   withRouter,
 } from 'react-router-dom';
+import createCommonStyles from '~/styles/common';
 
 import modelMap from '~/containers/App/modelMap';
 import FilterBar from './FilterBar';

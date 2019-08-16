@@ -45,7 +45,7 @@ const makeMyUserSelector = () => createSelector(
   }
 );
 
-const persistenceSelector = state => state.get('global').persistence;
+const persistenceSelector = state => state.global.persistence;
 const makeRememberUserSelector = () => createSelector(
   persistenceSelector,
   persistence => persistence.rememberUser
@@ -57,7 +57,7 @@ const makeUiThemeSelector = () => createSelector(
 );
 
 
-const appTempStateSelector = state => state.get('global').appTempState;
+const appTempStateSelector = state => state.global.appTempState;
 
 const makeSelectedNodeSelector = hierarchySelector => createSelector(
   makeOrganizationSelectionSelector(),

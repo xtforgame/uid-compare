@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import RestoreIcon from '@material-ui/icons/Restore';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import {
   withRouter,
 } from 'react-router-dom';

@@ -4,7 +4,6 @@
  *
  */
 
-import { fromJS } from 'immutable';
 import moment from 'moment';
 import i18next from '~/i18next';
 
@@ -13,9 +12,9 @@ import {
   DEFAULT_LOCALE,
 } from './constants';
 
-const initialState = fromJS({
+const initialState = {
   locale: DEFAULT_LOCALE,
-});
+};
 
 moment.locale(DEFAULT_LOCALE);
 

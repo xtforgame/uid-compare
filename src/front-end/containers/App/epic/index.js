@@ -7,6 +7,5 @@ export default [
   ...handleSessionEpics,
   ...handleUserSettingsEpics,
   ...handleDomainLogic,
-
   ...Object.values(modelMap.epics),
 ];

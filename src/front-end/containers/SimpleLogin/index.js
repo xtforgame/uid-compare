@@ -68,7 +68,7 @@ class Login extends React.PureComponent {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { location, session } = this.props;
     const fromPath = location.state && location.state.from.pathname;
     if (!session && fromPath) {

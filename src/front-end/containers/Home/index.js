@@ -268,7 +268,7 @@ class Home extends React.PureComponent {
 export default compose(
   connect(
     state => ({
-      greetName: state.get('global').greetName,
+      greetName: state.global.greetName,
     }),
   ),
   withTranslation(['app-common']),

@@ -2,7 +2,7 @@ import React from 'react';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { ConnectedRouter } from 'react-router-redux';
+import { ConnectedRouter } from 'connected-react-router';
 import useStylesByNs from '~/styles/useStylesByNs';
 import withRoot from '../../components/withRoot';
 

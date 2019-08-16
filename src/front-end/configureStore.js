@@ -1,8 +1,6 @@
 /* eslint-disable no-underscore-dangle, no-param-reassign, no-return-assign */
 import { compose } from 'redux';
-import { routerReducer, routerMiddleware } from 'react-router-redux';
-import { Map as ImmutableMap } from 'immutable';
-
+import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { configureStore } from 'rrw-module';
 import RrwExEpic from 'rrw-module/extensions/epic';
 import createReduxWaitForMiddleware from 'redux-wait-for-action';
@@ -17,11 +15,13 @@ import appEpic from '~/containers/App/epic';
 
 import { middleware as localStorageMiddleware } from './localStorage';
 
-const staticReducers = {
+let staticReducers = null;
+
+const getStaticReducers = history => staticReducers = ({
   global: appReducer,
-  router: routerReducer,
+  router: connectRouter(history),
   language: languageProviderReducer,
-};
+});
 
 let composeEnhancers;
 
@@ -33,13 +33,15 @@ let store = null;
 
 export const getStore = () => store;
 
-export default (initialState, history) => store = configureStore(staticReducers, ImmutableMap(initialState), {
+export default (initialState, history) => store = configureStore(getStaticReducers(history), initialState, {
   reducerOptions: {
     createRootReducer: (rootReducer => (state, action) => {
       if (action.type === CLEAR_SENSITIVE_DATA) {
         // leave keys belong to staticReducers after logout
-        state = state.filter((v, k) => staticReducers[k] !== undefined);
-        state = state.update('global', ({ persistence }) => ({ persistence }));
+        state = Object.keys(state)
+        .filter(k => staticReducers[k] !== undefined)
+        .reduce((s, k) => ({ ...s, [k]: state[k] }), {});
+        state.global = { persistence: state.global.persistence };
       }
 
       return rootReducer(state, action);

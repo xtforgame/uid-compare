@@ -5,8 +5,8 @@ import { withStyles } from '@material-ui/core/styles';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import Zoom from '@material-ui/core/Zoom';
+import { push } from 'connected-react-router';
 import createCommonStyles from '~/styles/common';
-import { push } from 'react-router-redux';
 // import NewProjectDialog from './tabs/Projects/NewProjectDialog';
 
 const styles = theme => ({

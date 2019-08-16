@@ -7,6 +7,7 @@ export default theme => ({
   },
   appBarPlaceholder: {
     height: 56,
+    flexShrink: 0,
     [theme.breakpoints.up('sm')]: {
       height: 64,
     },

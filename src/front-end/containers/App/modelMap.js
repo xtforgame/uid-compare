@@ -10,7 +10,8 @@ import WaitableActionsCreator from 'reduxtful/extensions/WaitableActionsCreator'
 
 
 import axios from 'axios';
-import { Observable } from 'rxjs/Observable';
+import * as rxjs from 'rxjs';
+import * as operators from 'rxjs/operators';
 import { createSelector } from 'reselect';
 import * as symbols from 'redux-wait-for-action';
 
@@ -24,7 +25,8 @@ const responseMiddleware = (response, info, next) => {
 
 const epics = {
   axios,
-  Observable,
+  rxjs,
+  operators,
   getHeaders,
   middlewares: {
     response: [responseMiddleware],
@@ -57,7 +59,7 @@ const modelsDefine = {
       epics,
       selectors: {
         createSelector,
-        baseSelector: state => state.get('global').sessions,
+        baseSelector: state => state.global.sessions,
       },
     },
   },
@@ -73,7 +75,7 @@ const modelsDefine = {
       epics,
       selectors: {
         createSelector,
-        baseSelector: state => state.get('global').users,
+        baseSelector: state => state.global.users,
       },
     },
   },
@@ -89,7 +91,7 @@ const modelsDefine = {
       epics,
       selectors: {
         createSelector,
-        baseSelector: state => state.get('global').userSettings,
+        baseSelector: state => state.global.userSettings,
       },
     },
   },
@@ -105,7 +107,7 @@ const modelsDefine = {
       epics,
       selectors: {
         createSelector,
-        baseSelector: state => state.get('global').recoveryTokens,
+        baseSelector: state => state.global.recoveryTokens,
       },
     },
   },
@@ -121,7 +123,7 @@ const modelsDefine = {
       epics,
       selectors: {
         createSelector,
-        baseSelector: state => state.get('global').challengeRecoveryTokens,
+        baseSelector: state => state.global.challengeRecoveryTokens,
       },
     },
   },
@@ -137,7 +139,7 @@ const modelsDefine = {
       epics,
       selectors: {
         createSelector,
-        baseSelector: state => state.get('global').resetPasswordRequests,
+        baseSelector: state => state.global.resetPasswordRequests,
       },
     },
   },
@@ -153,7 +155,7 @@ const modelsDefine = {
       epics,
       selectors: {
         createSelector,
-        baseSelector: state => state.get('global').memos,
+        baseSelector: state => state.global.memos,
       },
     },
   },
@@ -169,7 +171,7 @@ const modelsDefine = {
       epics,
       selectors: {
         createSelector,
-        baseSelector: state => state.get('global').organizations,
+        baseSelector: state => state.global.organizations,
       },
     },
   },
@@ -197,7 +199,7 @@ const modelsDefine = {
       epics,
       selectors: {
         createSelector,
-        baseSelector: state => state.get('global').projects,
+        baseSelector: state => state.global.projects,
       },
     },
   },

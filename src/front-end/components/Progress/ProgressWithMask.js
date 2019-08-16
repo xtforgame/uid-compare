@@ -44,7 +44,7 @@ class ProgressWithMask extends React.PureComponent {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { delay } = this.props;
 
     if (delay) {

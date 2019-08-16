@@ -12,10 +12,10 @@ import Divider from '@material-ui/core/Divider';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import { compose } from 'recompose';
+import { push } from 'connected-react-router';
 import modelMap from '~/containers/App/modelMap';
 import ProfileDialog from '~/containers/UserProfile/ProfileDialog';
 import UserSettingsDialog from '~/containers/UserSettingsDialog';
-import { push } from 'react-router-redux';
 
 const {
   clearSessionCache,

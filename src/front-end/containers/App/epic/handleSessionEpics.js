@@ -1,5 +1,8 @@
 /* eslint-disable no-nested-ternary */
-import { Observable } from 'rxjs/Observable';
+import { from } from 'rxjs';
+import {
+  mergeMap, take, switchMap, catchError, /* auditTime */
+} from 'rxjs/operators';
 import HeaderManager from '~/utils/HeaderManager';
 import modelMap from '../modelMap';
 import {
@@ -29,10 +32,12 @@ const {
   selectOrganizationPath,
 } = modelMap.actions;
 
-const dispatchSessionVerifiedAfterPostedSession = (action$, store) => action$.ofType(types.respondPostSessions)
-  .mergeMap(action => [
-    sessionVerified(action.data),
-  ]);
+const dispatchSessionVerifiedAfterPostedSession = (action$, state$) => action$.ofType(types.respondPostSessions)
+  .pipe(
+    mergeMap(action => [
+      sessionVerified(action.data),
+    ])
+  );
 
 const autoSelectDefaultOrganization = (organizations) => {
   let array = organizations.filter(org => org.name === 'default');
@@ -40,43 +45,54 @@ const autoSelectDefaultOrganization = (organizations) => {
   return array.map(org => selectOrganizationPath(org.id));
 };
 
-const fetchDataAfterSessionVerified = (action$, store) => action$.ofType(SESSION_VERIFIED)
-  .mergeMap((action) => {
-    HeaderManager.set('Authorization', `${action.session.token_type} ${action.session.token}`);
-    return Observable.fromPromise(
-      Promise.all([
-        store.dispatch(getUser(action.session.user_id)),
-        store.dispatch(getUserSettings()),
-        store.dispatch(getOrganizations()),
-        store.dispatch(getProjects()),
-      ])
-      .then(
-        ([_, { data: userSettings }, { data: organizations }]) => userSettings
-        .filter(setting => setting.type === 'preference' && setting.data)
-        .map(setting => changeTheme(setting.data.uiTheme, false))
-        .concat(autoSelectDefaultOrganization(organizations))
+const fetchDataAfterSessionVerified = (action$, state$, { getStore }) => action$.ofType(SESSION_VERIFIED)
+  .pipe(
+    mergeMap((action) => {
+      HeaderManager.set('Authorization', `${action.session.token_type} ${action.session.token}`);
+      const store = getStore();
+      return from(
+        Promise.all([
+          store.dispatch(getUser(action.session.user_id)),
+          store.dispatch(getUserSettings()),
+          store.dispatch(getOrganizations()),
+          store.dispatch(getProjects()),
+        ])
+        .then(
+          ([_, { data: userSettings }, { data: organizations }]) => userSettings
+          .filter(setting => setting.type === 'preference' && setting.data)
+          .map(setting => changeTheme(setting.data.uiTheme, false))
+          .concat(autoSelectDefaultOrganization(organizations))
+        )
+      )
+      .pipe(
+        mergeMap(result => result.concat([userLoaded()])),
+        catchError((error) => {
+          console.error('fetch data failed :', error);
+          return [failToLoadUser(error)];
+        })
+      );
+    })
+  );
+
+const clearAuthorizationHeaderAfterClearSession = (action$, state$) => action$.ofType(types.clearSessionCache)
+  .pipe(
+    mergeMap((action) => {
+      HeaderManager.delete('Authorization');
+      return [
+        clearSensitiveData(),
+      ];
+    })
+  );
+
+const autologinAfterRegistration = (action$, state$) => action$.ofType(types.postUsers)
+  .pipe(
+    switchMap(
+      startAction => action$.ofType(types.respondPostUsers)
+      .pipe(
+        take(1), // don't listen forever! IMPORTANT!
+        switchMap(() => [postSessions(startAction.data.accountLinks[0])])
       )
     )
-    .mergeMap(result => result.concat([userLoaded()]))
-    .catch((error) => {
-      console.error('fetch data failed :', error);
-      return [failToLoadUser(error)];
-    });
-  });
-
-const clearAuthorizationHeaderAfterClearSession = (action$, store) => action$.ofType(types.clearSessionCache)
-  .mergeMap((action) => {
-    HeaderManager.delete('Authorization');
-    return [
-      clearSensitiveData(),
-    ];
-  });
-
-const autologinAfterRegistration = (action$, store) => action$.ofType(types.postUsers)
-  .switchMap(
-    startAction => action$.ofType(types.respondPostUsers)
-    .take(1) // don't listen forever! IMPORTANT!
-    .switchMap(() => [postSessions(startAction.data.accountLinks[0])])
   );
 
 export default [

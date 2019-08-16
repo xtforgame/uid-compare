@@ -43,7 +43,7 @@ export const clearState = () => {
 
 const delaySave = throttle((store) => {
   const state = store.getState();
-  const persistedData = state.get('global');
+  const persistedData = state.global;
 
   if (rememberUserSelector(state) && userSessionSelector(state)) {
     const {
