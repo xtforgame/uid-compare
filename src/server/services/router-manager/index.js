@@ -8,6 +8,7 @@ import RecoveryRouter from '~/routers/RecoveryRouter';
 import OrganizationRouter from '~/routers/OrganizationRouter';
 import ProjectRouter from '~/routers/ProjectRouter';
 import MemoRouter from '~/routers/MemoRouter';
+import ModuleComplierRouter from '~/routers/ModuleComplierRouter';
 
 export default class RouterManager extends ServiceBase {
   static $name = 'routerManager';
@@ -16,9 +17,10 @@ export default class RouterManager extends ServiceBase {
 
   static $inject = ['httpApp', 'mailer'];
 
-  constructor(httpApp, mailer) {
+  constructor(httpApp, mailer, zcfService) {
     super();
     this.mailer = mailer;
+    this.zcfService = zcfService;
 
     this.routers = [
       MainRouter,
@@ -29,12 +31,17 @@ export default class RouterManager extends ServiceBase {
       OrganizationRouter,
       ProjectRouter,
       MemoRouter,
+      ModuleComplierRouter,
     ]
     .map(Router => new Router({
       mailer: this.mailer,
+      zcfService: this.zcfService,
     }).setupRoutes(httpApp.appConfig));
   }
 
   onStart() {
+  }
+
+  onDestroy() {
   }
 }

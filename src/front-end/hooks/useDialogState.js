@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+export const Cancel = Symbol('Cancel');
+
 export default ({
   open: openFunc = () => {},
   close: closeFunc = () => {},
@@ -8,16 +10,16 @@ export default ({
   const [open, setOpen] = useState(false);
   const [exited, setExited] = useState(true);
 
-  const handleOpen = () => {
+  const handleOpen = (...args) => {
     if (exited) {
       setOpen(true);
       setExited(false);
-      openFunc();
+      openFunc(...args);
     }
   };
 
-  const handleClose = (v) => {
-    const result = closeFunc(v);
+  const handleClose = (...args) => {
+    const result = closeFunc(...args);
     if (result !== false) {
       setOpen(false);
     }

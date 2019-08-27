@@ -68,7 +68,7 @@ export default {
   namespace: 'form1',
   preRender,
   globalValidator,
-  fileds: [
+  fields: [
     {
       name: 'username',
       type: 'text',

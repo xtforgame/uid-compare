@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign */
+import { IFieldLink, FieldConfig } from '~/utils/InputLinker/core/interfaces';
 import Button from '@material-ui/core/Button';
 import {
   // FormSpace,
@@ -30,8 +31,9 @@ import {
   // translateLabel,
 } from '~/utils/InputLinker/helpers';
 
-
-export default {
+const _ = <
+  FieldLink extends IFieldLink<FieldLink>
+>() : { [s : string] : FieldConfig<FieldLink> } => ({
   text: {
     presets: [FormTextFieldPreset],
     // validate: value => assert(!!value, null, {
@@ -45,7 +47,11 @@ export default {
   password: {
     presets: [FormTextFieldPreset],
     component: FormPasswordInput,
-    // validate: value => assert(value != null && value !== '', null, { key: 'passwordEmptyError' }),
+    // validate: value => assert(
+    //   value != null && value !== '',
+    //   null,
+    //   { key: 'passwordEmptyError' },
+    // ),
     cfgMiddlewares: {
       last: cfg => ({
         ...cfg,
@@ -99,7 +105,7 @@ export default {
     }),
   },
   dateRange: {
-    presets: [DateRangePreset],
+    presets: [DateRangePreset<FieldLink>()],
   },
   time: {
     component: FormTimePicker,
@@ -117,7 +123,7 @@ export default {
     }),
   },
   timeRange: {
-    presets: [TimeRangePreset],
+    presets: [TimeRangePreset<FieldLink>()],
   },
   dateTime: {
     component: FormDateTimePicker,
@@ -135,7 +141,7 @@ export default {
     }),
   },
   dateTimeRange: {
-    presets: [DateTimeRangePreset],
+    presets: [DateTimeRangePreset<FieldLink>()],
   },
   submit: {
     presets: ['button'],
@@ -152,5 +158,7 @@ export default {
   },
   // =========================
   translateProp,
-  autoCalculable: autoCalculablePreset,
-};
+  autoCalculable: autoCalculablePreset(),
+});
+
+export default _();

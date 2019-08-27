@@ -25,11 +25,11 @@ const EditableLayout = (props) => {
       {topSpace}
       <Content>
         {
-          il.fieldLinks.map((filedLink) => {
-            const defaultSpace = 'space' in filedLink.options ? filedLink.options.space : space;
+          il.fieldLinks.map((fieldLink) => {
+            const defaultSpace = 'space' in fieldLink.options ? fieldLink.options.space : space;
             return (
-              <React.Fragment key={filedLink.name}>
-                {il.renderComponent(filedLink.name, { translate: t })}
+              <React.Fragment key={fieldLink.name}>
+                {il.renderComponent(fieldLink.name, { translate: t })}
                 {defaultSpace}
               </React.Fragment>
             );

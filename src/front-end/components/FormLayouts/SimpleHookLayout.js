@@ -30,11 +30,11 @@ const SimpleHookLayout = (props) => {
       <FormSpace variant="top" />
       <FormContent>
         {
-          il.fieldLinks.map((filedLink) => {
-            const space = 'space' in filedLink.options ? filedLink.options.space : <FormSpace variant="content1" />;
+          il.fieldLinks.map((fieldLink) => {
+            const space = 'space' in fieldLink.options ? fieldLink.options.space : <FormSpace variant="content1" />;
             return (
-              <React.Fragment key={filedLink.name}>
-                {il.renderComponent(filedLink.name, { translate: t })}
+              <React.Fragment key={fieldLink.name}>
+                {il.renderComponent(fieldLink.name, { translate: t })}
                 {space}
               </React.Fragment>
             );

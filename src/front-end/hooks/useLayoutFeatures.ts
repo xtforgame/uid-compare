@@ -1,23 +1,45 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useInputLinker } from '~/utils/InputLinker';
+import InputLinker, { useInputLinker } from '~/utils/InputLinker';
 import useStylesByNs from '~/styles/useStylesByNs';
 import {
   propagateOnChangeEvent,
 } from '~/utils/InputLinker/helpers';
+import { IFieldLink, IInputLinker, FieldValue, FieldConfig } from '~/utils/InputLinker/core/interfaces';
 
-export const defaultIlOnInit = props => (il) => {
-  const { fields, defaultValues } = props;
+export const defaultIlOnInit = <
+  FieldLink extends IFieldLink<FieldLink>,
+  LinkerType extends IInputLinker<FieldLink>
+>(props : any) => (il : LinkerType) => {
+  const { fields = [], defaultValues } : {
+    fields?: FieldConfig<FieldLink>[];
+    defaultValues?: { [s : string] : FieldValue };
+  } = props;
 
-  il.add(...(fields.map(field => ({
-    presets: [field, propagateOnChangeEvent()],
-  }))));
+  il.add(...(
+    fields.map(field => ({
+      presets: [field, propagateOnChangeEvent()],
+    }))
+  ));
 
   il.setDefaultValues(defaultValues || {});
   il.resetDirtyFlags();
 };
 
-export default (props, ilOnInit) => {
+export type OnSubmitFunction<LinkerType> = (
+  outputs: { [s : string] : any },
+  il: LinkerType,
+) => any;
+
+export type LayoutFeatureProps<LinkerType> = {
+  onSubmit?: OnSubmitFunction<LinkerType>;
+  [s : string] : any;
+};
+
+export default <
+  FieldLink extends IFieldLink<FieldLink>,
+  LinkerType extends IInputLinker<FieldLink>
+>(props : LayoutFeatureProps<LinkerType>, ilOnInit?: Function) => {
   const {
     value,
     namespace,
@@ -43,17 +65,17 @@ export default (props, ilOnInit) => {
   const tData = useTranslation(i18nNs);
   const classesByNs = useStylesByNs(styleNs);
 
-  const createInitFunc = (il, { reset }) => {
-    (ilOnInit || defaultIlOnInit(props))(il);
+  const createInitFunc = (il : LinkerType, { reset } : any) => {
+    (ilOnInit || defaultIlOnInit<FieldLink, LinkerType>(props))(il);
     if (!reset) {
       onInited(il);
     }
   };
 
-  const ilResults = useInputLinker(
+  const ilResults = useInputLinker<FieldLink, LinkerType>(
     {/* props */},
+    Linker || InputLinker,
     {
-      Linker,
       ...linkerOptions,
       namespace,
       ignoredUndefinedFromOutputs,

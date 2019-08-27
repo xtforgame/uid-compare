@@ -1,8 +1,11 @@
 /* eslint-disable no-param-reassign */
+import { IFieldLink, IInputLinker, LinkerNamespace, FieldConfig } from '~/utils/InputLinker/core/interfaces';
 import AutoCalculable, { defaultIsEqual } from '~/components/AutoCalculable';
 import resetableInputPreset from '../resetableInputPreset';
 
-const autoCalculableBasePreset = {
+const autoCalculableBasePreset = <
+  FieldLink extends IFieldLink<FieldLink>
+>() : FieldConfig<FieldLink> => ({
   extraConverter: {
     normalize: ((v, { link }) => {
       if (link.data.autoCalc) {
@@ -22,27 +25,31 @@ const autoCalculableBasePreset = {
       });
     },
   ],
-};
+});
 
-const autoCalculableDefaultPrerenderPreset = {
+const autoCalculableDefaultPrerenderPreset = <
+  FieldLink extends IFieldLink<FieldLink>
+>() : FieldConfig<FieldLink> => ({
   mwPreRender: ({ nonProps }) => [{
     Component: nonProps.component,
   }, {
     component: AutoCalculable,
     shouldRender: true,
   }],
-};
+});
 
-const autoCalculableLastPreset = {
+const autoCalculableLastPreset = <
+  FieldLink extends IFieldLink<FieldLink>
+>() : FieldConfig<FieldLink> => ({
   presets: [
     resetableInputPreset,
-    autoCalculableBasePreset,
-    autoCalculableDefaultPrerenderPreset,
+    autoCalculableBasePreset<FieldLink>(),
+    autoCalculableDefaultPrerenderPreset<FieldLink>(),
   ],
   evaluate: cfg => ({
     ...cfg,
     extraOptions: {
-      isEqual: (calculated, input) => !input || (calculated === input),
+      isEqual: (calculated : any, input : any) => !input || (calculated === input),
       // unmountWhileReset: true
     },
     mwRender: [
@@ -51,7 +58,7 @@ const autoCalculableLastPreset = {
         return ({
           acOptions: {
             isEqual: link.options.isEqual,
-            getExtraProps: (autoCalc) => {
+            getExtraProps: (autoCalc : any) => {
               if (!autoCalc) {
                 return {
                   // error: true,
@@ -66,10 +73,12 @@ const autoCalculableLastPreset = {
       },
     ],
   }),
-};
+});
 
-export default {
+export default <
+  FieldLink extends IFieldLink<FieldLink>
+>() : FieldConfig<FieldLink> => ({
   cfgMiddlewares: {
-    last: [autoCalculableLastPreset],
+    last: [autoCalculableLastPreset<FieldLink>()],
   },
-};
+});

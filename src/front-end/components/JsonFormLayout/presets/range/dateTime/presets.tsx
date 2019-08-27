@@ -1,5 +1,7 @@
 /* eslint-disable no-param-reassign */
 import React from 'react';
+import { IFieldLink, FieldObjectConfig } from '~/utils/InputLinker/core/interfaces';
+import FieldLink from '~/utils/InputLinker/core/FieldLink';
 import FormDialogInput from '~/components/FormInputs/FormDialogInput';
 import {
   getDateDisplayFuncFromProps,
@@ -12,7 +14,7 @@ import TimeRange from './components/TimeRange';
 import DateTimeRange from './components/DateTimeRange';
 import RangeDialog from '../RangeDialog';
 
-const normalizeDateTime = ([startTime, endTime]) => {
+const normalizeDateTime = ([startTime, endTime] : [any, any]) => {
   if (
     startTime
     && endTime
@@ -23,7 +25,7 @@ const normalizeDateTime = ([startTime, endTime]) => {
   return [startTime || null, endTime || null];
 };
 
-const getDateRangeDisplayFunc = displayFunc => (range) => {
+const getDateRangeDisplayFunc = (displayFunc : Function) => (range : any) => {
   const [
     startTime = null,
     endTime = null,
@@ -40,14 +42,21 @@ const getDateRangeDisplayFunc = displayFunc => (range) => {
   return '';
 };
 
-const DateTimeRangePresetBase = {
+export const DateTimeRangePresetBase = <
+  FieldLink extends IFieldLink<FieldLink>
+>() : FieldObjectConfig<FieldLink> => ({
   converter: { fromView: ([v]) => v },
-};
+});
 
-export const DateRangePreset = {
-  presets: [DateTimeRangePresetBase],
+export const DateRangePreset = <
+  FieldLink extends IFieldLink<FieldLink>
+>() : FieldObjectConfig<FieldLink> => ({
+  presets: [DateTimeRangePresetBase()],
   component: FormDialogInput,
   extraProps: {
+    buttonProps: {
+      fullWidth: true,
+    },
     renderDialog: ({
       label,
       title,
@@ -55,7 +64,7 @@ export const DateRangePreset = {
       handleClose,
       value,
       dialogProps,
-    }) => (
+    } : any) => (
       <RangeDialog
         title={title != null ? title : label}
         normalize={normalizeDateTime}
@@ -79,12 +88,17 @@ export const DateRangePreset = {
       }),
     }),
   },
-};
+});
 
-export const TimeRangePreset = {
-  presets: [DateTimeRangePresetBase],
+export const TimeRangePreset = <
+  FieldLink extends IFieldLink<FieldLink>
+>() : FieldObjectConfig<FieldLink> => ({
+  presets: [DateTimeRangePresetBase()],
   component: FormDialogInput,
   extraProps: {
+    buttonProps: {
+      fullWidth: true,
+    },
     renderDialog: ({
       label,
       title,
@@ -92,7 +106,7 @@ export const TimeRangePreset = {
       handleClose,
       value,
       dialogProps,
-    }) => (
+    } : any) => (
       <RangeDialog
         title={title != null ? title : label}
         normalize={normalizeDateTime}
@@ -116,12 +130,17 @@ export const TimeRangePreset = {
       }),
     }),
   },
-};
+});
 
-export const DateTimeRangePreset = {
-  presets: [DateTimeRangePresetBase],
+export const DateTimeRangePreset = <
+FieldLink extends IFieldLink<FieldLink>
+>() : FieldObjectConfig<FieldLink> => ({
+  presets: [DateTimeRangePresetBase()],
   component: FormDialogInput,
   extraProps: {
+    buttonProps: {
+      fullWidth: true,
+    },
     renderDialog: ({
       label,
       title,
@@ -129,7 +148,7 @@ export const DateTimeRangePreset = {
       handleClose,
       value,
       dialogProps,
-    }) => (
+    } : any) => (
       <RangeDialog
         title={title != null ? title : label}
         normalize={normalizeDateTime}
@@ -145,7 +164,7 @@ export const DateTimeRangePreset = {
     last: cfg => ({
       ...cfg,
       mwRender: ({
-        props, value, handleChange, link: { host, hostProps, linker },
+        props, value, handleChange,
       }) => ({
         displayValue: getDateRangeDisplayFunc(getDateTimeDisplayFuncFromProps(props)),
         value,
@@ -153,6 +172,4 @@ export const DateTimeRangePreset = {
       }),
     }),
   },
-};
-
-export const x = 1;
+});

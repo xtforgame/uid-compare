@@ -27,7 +27,7 @@ const styles = theme => ({
   },
 });
 
-const fileds = [
+const fields = [
   {
     name: 'username',
     presets: [FormTextFieldPreset, translateLabel('username')],
@@ -83,7 +83,7 @@ class SubContent05 extends React.PureComponent { // eslint-disable-line react/pr
       <Paper className={classes.root}>
         <SimpleLayout
           namespace="form1"
-          fields={fileds}
+          fields={fields}
           defaultValues={{
             password: 'password',
             passwordVisibility: true,

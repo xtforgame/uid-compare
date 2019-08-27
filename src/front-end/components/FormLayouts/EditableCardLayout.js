@@ -37,7 +37,7 @@ const EditableCardLayout = (props) => {
 
   return (
     <Card {...extraProps} {...cardProps}>
-      {il.fieldLinks.map(filedLink => il.renderComponent(filedLink.name, { translate: t }))}
+      {il.fieldLinks.map(fieldLink => il.renderComponent(fieldLink.name, { translate: t }))}
     </Card>
   );
 };

@@ -61,11 +61,11 @@ class SimpleLayout extends React.PureComponent {
         <FormSpace variant="top" />
         <FormContent>
           {
-            this.il.fieldLinks.map((filedLink) => {
-              const space = 'space' in filedLink.options ? filedLink.options.space : <FormSpace variant="content1" />;
+            this.il.fieldLinks.map((fieldLink) => {
+              const space = 'space' in fieldLink.options ? fieldLink.options.space : <FormSpace variant="content1" />;
               return (
-                <React.Fragment key={filedLink.name}>
-                  {this.il.renderComponent(filedLink.name, { translate })}
+                <React.Fragment key={fieldLink.name}>
+                  {this.il.renderComponent(fieldLink.name, { translate })}
                   {space}
                 </React.Fragment>
               );

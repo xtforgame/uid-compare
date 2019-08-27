@@ -16,7 +16,7 @@ const styles = theme => ({
   },
 });
 
-const fileds = [
+const fields = [
   {
     name: 'tempData',
     presets: [FormTextFieldPreset],
@@ -47,7 +47,7 @@ class SubContent06 extends React.PureComponent { // eslint-disable-line react/pr
         </Button>
         <EditableLayout
           namespace="form1"
-          fields={fileds}
+          fields={fields}
           defaultValues={{
             persistentData,
             rememberMe: false,

@@ -73,7 +73,7 @@
     "./**/*.ts",
     "./**/*.tsx",
     "./**/*.js",
-    "../tsd/node.d.ts",
-    "../tsd/front-end/**/*"
+    // "../tsd/node.d.ts",
+    // "../tsd/front-end/**/*"
   ],
 }

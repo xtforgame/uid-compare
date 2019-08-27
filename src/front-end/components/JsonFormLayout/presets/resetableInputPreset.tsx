@@ -1,10 +1,13 @@
 /* eslint-disable react/prop-types, react/forbid-prop-types */
+import { IFieldLink, IInputLinker, LinkerNamespace, FieldConfig, FieldObjectConfig } from '~/utils/InputLinker/core/interfaces';
 import React from 'react';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import Clear from '@material-ui/icons/Clear';
 
-export default cfg => ({
+export default <
+  FieldLink extends IFieldLink<FieldLink>
+>(cfg : FieldObjectConfig<FieldLink>) : FieldObjectConfig<FieldLink> => ({
   ...cfg,
   extraChildLinks: [
     {
@@ -14,7 +17,7 @@ export default cfg => ({
         ({
           link: { linker }, value, handleChange, props,
         }) => {
-          const p = {
+          const p : any = {
             acOptions: {
               ...props.acOptions,
               onAutoCalcChanged: handleChange,
@@ -24,7 +27,7 @@ export default cfg => ({
             const endAdornment = (
               <InputAdornment position="end">
                 <IconButton
-                  tabIndex="-1"
+                  tabIndex={-1}
                   onClick={() => {
                     linker.changeValue(cfg.name, props.calculatedValue);
                   }}
