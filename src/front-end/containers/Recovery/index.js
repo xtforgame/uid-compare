@@ -7,30 +7,23 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import LocaleDropdown from '~/containers/LocaleDropdown';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBack from '@material-ui/icons/ArrowBack';
+import { createStructuredSelector } from 'reselect';
+import LocaleDropdown from '~/containers/LocaleDropdown';
 import createCommonStyles from '~/styles/common';
 import createFormPaperStyle from '~/styles/FormPaper';
 import RecoveryForm from '~/containers/Recovery/RecoveryForm';
 import ProgressWithMask from '~/components/Progress/ProgressWithMask';
-import { createStructuredSelector } from 'reselect';
-import modelMap from '~/containers/App/modelMap';
+import modelMapEx from '~/containers/App/modelMapEx';
 import {
-  makeUserSessionSelector,
   makeRememberUserSelector,
 } from '~/containers/App/selectors';
 import EnterRecoveryCode from './RecoveryForm/EnterRecoveryCode';
 
 const {
-  postSessions,
-  postRecoveryTokens,
-  postChallengeRecoveryTokens,
-} = modelMap.waitableActions;
-
-const {
-  cancelPostSessions,
-} = modelMap.actions;
+  challengeRecoveryToken,
+} = modelMapEx.querchy.promiseActionCreatorSets;
 
 const styles = theme => ({
   ...createFormPaperStyle(theme),
@@ -63,7 +56,7 @@ class Recovery extends React.PureComponent {
   }
 
   challenge = ({ username, code }) => {
-    const { postChallengeRecoveryTokens, t } = this.props;
+    const { t } = this.props;
     this.setState({
       codeVerifyState: null,
       recoveryCodeError: null,
@@ -71,8 +64,8 @@ class Recovery extends React.PureComponent {
 
     const worngCodeFromUrl = t('worngCodeFromUrl');
 
-    postChallengeRecoveryTokens({ username, token: code })
-    .then(({ data }) => {
+    challengeRecoveryToken.create({ username, token: code })
+    .then(({ response: { data } }) => {
       this.setState({
         codeVerifyState: data.passed ? 'passed' : 'wrong',
         recoveryCodeError: data.passed ? null : worngCodeFromUrl,
@@ -143,19 +136,14 @@ class Recovery extends React.PureComponent {
 }
 
 const mapStateToProps = createStructuredSelector({
-  session: makeUserSessionSelector(),
+  session: modelMapEx.cacher.selectorCreatorSet.session.selectMe(),
   rememberUser: makeRememberUserSelector(),
 });
 
 export default compose(
   connect(
     mapStateToProps,
-    {
-      postSessions,
-      cancelPostSessions,
-      postRecoveryTokens,
-      postChallengeRecoveryTokens,
-    }
+    {}
   ),
   withTranslation(['app-common']),
   withStyles(styles),

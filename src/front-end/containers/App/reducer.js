@@ -5,20 +5,13 @@ import {
   USER_LOADED,
   FAIL_TO_LOAD_USER,
 } from './constants';
-import modelMap from './modelMap';
+
+import { createModelMapEx } from './modelMapEx';
 
 const {
-  sessionReducer,
-  userReducer,
-  userSettingReducer,
-  recoveryTokenReducer,
-
-  challengeRecoveryTokenReducer,
-  resetPasswordRequestReducer,
-  memoReducer,
-  organizationReducer,
-  projectReducer,
-} = modelMap.reducers;
+  // querchy,
+  cacher,
+} = createModelMapEx();
 
 const persistence = (state = { rememberUser: false }, action) => {
   switch (action.type) {
@@ -68,15 +61,7 @@ const appTempState = (state = {}, action) => {
 };
 
 export default combineReducers({
-  sessions: sessionReducer,
-  users: userReducer,
-  userSettings: userSettingReducer,
-  recoveryTokens: recoveryTokenReducer,
-  challengeRecoveryTokens: challengeRecoveryTokenReducer,
-  resetPasswordRequests: resetPasswordRequestReducer,
-  memos: memoReducer,
-  organizations: organizationReducer,
-  projects: projectReducer,
+  cache: cacher.rootReducer,
   persistence,
   appTempState,
 });

@@ -1,11 +1,18 @@
-import modelMap from '../modelMap';
+import { createModelMapEx } from '../modelMapEx';
 import handleSessionEpics from './handleSessionEpics';
 import handleUserSettingsEpics from './handleUserSettingsEpics';
 import handleDomainLogic from './handleDomainLogic';
+
+const {
+  querchy,
+  cacher,
+} = createModelMapEx();
 
 export default [
   ...handleSessionEpics,
   ...handleUserSettingsEpics,
   ...handleDomainLogic,
-  ...Object.values(modelMap.epics),
+
+  querchy.getRootEpic(),
+  cacher.getRootEpic(),
 ];
