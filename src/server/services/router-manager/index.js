@@ -17,10 +17,9 @@ export default class RouterManager extends ServiceBase {
 
   static $inject = ['httpApp', 'mailer'];
 
-  constructor(httpApp, mailer, zcfService) {
+  constructor(httpApp, mailer) {
     super();
     this.mailer = mailer;
-    this.zcfService = zcfService;
 
     this.routers = [
       MainRouter,
