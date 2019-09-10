@@ -23,8 +23,10 @@ function languageProviderReducer(state = initialState, action) {
     case CHANGE_LOCALE:
       i18next.changeLanguage(action.locale);
       moment.locale(action.locale);
-      return state
-        .set('locale', action.locale);
+      return {
+        ...state,
+        locale: action.locale,
+      };
     default:
       return state;
   }
