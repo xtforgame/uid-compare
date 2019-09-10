@@ -7,10 +7,10 @@ import {
 } from 'querchy';
 
 import {
-  QuerchyX1,
-  AxiosRunnerX1,
-  CacherX1,
-} from './typesX1';
+  QuerchyDS,
+  AxiosRunnerDS,
+  CacherDS,
+} from './typesDS';
 
 import CrudT1 from 'querchy/exports/features/CrudT1';
 import UpdateCacheT1 from 'querchy/exports/features/UpdateCacheT1';
@@ -20,7 +20,7 @@ export const crudT1 = new CrudT1();
 export const updateCacheT1 = new UpdateCacheT1();
 export const collectionT1 = new CollectionT1();
 
-export const crudUpdateCacheCollectionT1 = createFeatureGroup(
+export const crudUpdateCacheCollectionDS = createFeatureGroup(
   crudT1,
   updateCacheT1,
   collectionT1,
@@ -32,7 +32,7 @@ const getSharedInfo = (url : string) => ({
   url,
   queryInfos: {},
   actionInfos: {},
-  feature: crudUpdateCacheCollectionT1,
+  feature: crudUpdateCacheCollectionDS,
   featureDeps: {
     getId: (action) => {
       return (
@@ -55,15 +55,15 @@ const getSharedInfo = (url : string) => ({
 });
 
 let modelMapEx : {
-  querchy : QuerchyX1,
-  cacher : CacherX1,
+  querchy : QuerchyDS,
+  cacher : CacherDS,
 };
 
 export const createModelMapEx = () => {
   if (modelMapEx) {
     return modelMapEx;
   }
-  const querchy = new QuerchyX1({
+  const querchy = new QuerchyDS({
     commonConfig: {
       defaultBuildUrl: (modelBaseUrl, action) => {
         if (action.crudType === 'create' || action.crudType === 'getCollection') {
@@ -71,7 +71,7 @@ export const createModelMapEx = () => {
         }
         return `${modelBaseUrl}/${action.resourceId}`;
       },
-      defaultQueryRunner: new AxiosRunnerX1(
+      defaultQueryRunner: new AxiosRunnerDS(
         (config, cancelTokenSource) => axios
         .request({
           ...config.rawConfigs,
@@ -150,7 +150,7 @@ export const createModelMapEx = () => {
             }
             return nextCfg;
           },
-          crudUpdateCacheCollectionT1.getBuildRequestConfigMiddleware(),
+          crudUpdateCacheCollectionDS.getBuildRequestConfigMiddleware(),
         ],
       },
       forExtra: {
@@ -163,7 +163,7 @@ export const createModelMapEx = () => {
       actionInfos: {},
     },
   });
-  const cacher = new CacherX1(querchy, {
+  const cacher = new CacherDS(querchy, {
     session: {
       selectMe: {
         creatorCreator: (baseSelector, builtinSelectorCreators) => {
