@@ -3,14 +3,6 @@ import {
   QueryBuilderDefinition,
   QcStore,
 
-  SimpleQueryRunner,
-
-  ResourceModelQueryActionOptions,
-  QueryInfo,
-  ActionInfo,
-  ExtraQueryInfo,
-  ExtraActionInfo,
-
   BaseSelector,
   BuiltinSelectorCreators,
   BuiltinSelectors,
@@ -28,108 +20,38 @@ import {
   TypeHelperClass,
 } from 'querchy/exports/type-helpers';
 
-type CrudUpdateCacheTypesT1 = FeatureGroupTypes<
-  CrudT1,
-  UpdateCacheT1
->;
-
 type CrudUpdateCacheTypesCollectionT1 = FeatureGroupTypes<
-  FeatureGroup<
-    CrudUpdateCacheTypesT1
-  >,
+  CrudT1,
+  UpdateCacheT1,
   CollectionT1
 >;
-// // or use this way
-// type CrudUpdateCacheTypesCollectionT1 = FeatureGroupTypes<
-//   CrudT1,
-//   UpdateCacheT1,
-//   CollectionT1
-// >;
 
 export type MyStateX1 = any;
 
-export interface CommonConfigX1 extends CommonConfig {
-  queryRunners: {
-    runnerFor200Error: SimpleQueryRunner;
-  };
-}
+export interface CommonConfigX1 extends CommonConfig {}
 
-export type RawActionCreatorUpdateCacheX1 = (
-  cacheChange: any, options?: ResourceModelQueryActionOptions,
-) => {
-  cacheChange: any;
-  options?: ResourceModelQueryActionOptions;
-  [s : string] : any;
-};
+export type CommonResourceModelT1 = MakeResourceModelType<
+  CommonConfigX1,
+  FeatureGroup<CrudUpdateCacheTypesCollectionT1>
+>;
 
 export type ModelMapX1 = {
-  session: MakeResourceModelType<
-    CommonConfigX1,
-    FeatureGroup<CrudUpdateCacheTypesCollectionT1>
-  >;
-  user: MakeResourceModelType<
-    CommonConfigX1,
-    FeatureGroup<CrudUpdateCacheTypesCollectionT1>
-  >;
-  userSetting: MakeResourceModelType<
-    CommonConfigX1,
-    FeatureGroup<CrudUpdateCacheTypesCollectionT1>
-  >;
-  recoveryToken: MakeResourceModelType<
-    CommonConfigX1,
-    FeatureGroup<CrudUpdateCacheTypesCollectionT1>
-  >;
-  challengeRecoveryToken: MakeResourceModelType<
-    CommonConfigX1,
-    FeatureGroup<CrudUpdateCacheTypesCollectionT1>
-  >;
-  resetPasswordRequest: MakeResourceModelType<
-    CommonConfigX1,
-    FeatureGroup<CrudUpdateCacheTypesCollectionT1>
-  >;
-  organization: MakeResourceModelType<
-    CommonConfigX1,
-    FeatureGroup<CrudUpdateCacheTypesCollectionT1>
-  >;
-  project: MakeResourceModelType<
-    CommonConfigX1,
-    FeatureGroup<CrudUpdateCacheTypesCollectionT1>
-  >;
-  memo: MakeResourceModelType<
-    CommonConfigX1,
-    FeatureGroup<CrudUpdateCacheTypesCollectionT1>
-  >;
+  session: CommonResourceModelT1;
+  user: CommonResourceModelT1;
+  userSetting: CommonResourceModelT1;
+  recoveryToken: CommonResourceModelT1;
+  challengeRecoveryToken: CommonResourceModelT1;
+  resetPasswordRequest: CommonResourceModelT1;
+  organization: CommonResourceModelT1;
+  project: CommonResourceModelT1;
+  memo: CommonResourceModelT1;
 };
 
 export type QueryBuilderMapX1 = {
   defaultBuilder : QueryBuilderDefinition<CommonConfigX1, ModelMapX1>;
-  forSession : QueryBuilderDefinition<CommonConfigX1, ModelMapX1>;
   forExtra : QueryBuilderDefinition<CommonConfigX1, ModelMapX1>;
 } & {
   [s : string] : QueryBuilderDefinition<CommonConfigX1, ModelMapX1>;
-};
-
-export type RawActionCreatorExtraQueryX1 = (
-  options?: ResourceModelQueryActionOptions,
-) => {
-  options?: ResourceModelQueryActionOptions;
-  [s : string] : any;
-};
-
-export type RawActionCreatorExtraActionX1 = (
-  cacheChange: any, options?: ResourceModelQueryActionOptions,
-) => {
-  cacheChange: any;
-  options?: ResourceModelQueryActionOptions;
-  [s : string] : any;
-};
-
-export type ExtraQueryInfosX1 = {
-  extraQuery1: ExtraQueryInfo<ModelMapX1, RawActionCreatorExtraQueryX1>;
-};
-
-export type ExtraActionInfosX1 = {
-  extraAction1: ExtraActionInfo<ModelMapX1, RawActionCreatorExtraActionX1>;
 };
 
 // ===========================================
@@ -163,17 +85,15 @@ export const typeHelperClassX1 = new TypeHelperClass<
   CommonConfigX1,
   ModelMapX1,
   QueryBuilderMapX1,
-  ExtraQueryInfosX1,
-  ExtraActionInfosX1,
+  {}, // ExtraQueryInfosX1,
+  {}, // ExtraActionInfosX1,
 
   any, // ExtraDependenciesX1,
   MyStateX1,
   ExtraSelectorInfosForModelX1
 >();
 
-export type Types = (typeof typeHelperClassX1)['Types'];
-
-export type StoreX1 = QcStore<Types['StateType']>;
+export type StoreX1 = QcStore<MyStateX1>;
 
 // ===========================================
 
