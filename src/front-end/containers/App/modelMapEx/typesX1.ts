@@ -50,8 +50,6 @@ export type ModelMapX1 = {
 export type QueryBuilderMapX1 = {
   defaultBuilder : QueryBuilderDefinition<CommonConfigX1, ModelMapX1>;
   forExtra : QueryBuilderDefinition<CommonConfigX1, ModelMapX1>;
-} & {
-  [s : string] : QueryBuilderDefinition<CommonConfigX1, ModelMapX1>;
 };
 
 // ===========================================
@@ -97,14 +95,9 @@ export type StoreX1 = QcStore<MyStateX1>;
 
 // ===========================================
 
-// just for demonstrating how to do inheritance
-
+// you can do inheritance here
 export class AxiosRunnerX1 extends typeHelperClassX1.GetAxiosRunnerClass() {}
 
 export class QuerchyX1 extends typeHelperClassX1.GetQuerchyClass() {}
 
-export class CacherX1 extends typeHelperClassX1.GetCacherClass() {
-  // reduce(action: QcAction, state: any) : any {
-  //   return super.reduce(action, state);
-  // }
-}
+export class CacherX1 extends typeHelperClassX1.GetCacherClass() {}
