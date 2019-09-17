@@ -2,11 +2,11 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "allowJs": false,
-    "declaration": true,
+    "declaration": true
   },
   "include": [
     "./**/*.ts",
     "../tsd/node.d.ts",
     "../tsd/server/**/*"
-  ],
+  ]
 }

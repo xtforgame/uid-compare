@@ -20,7 +20,7 @@
             "~": "./src/front-end",
             "common/config": "./src/common/configs/development",
             "common": "./src/common",
-            "config": "./src/front-end/configs/development",
+            "config": "./src/front-end/configs/development"
           }
         }]
       ]
@@ -33,7 +33,7 @@
             "~": "./src/front-end",
             "common/config": "./src/common/configs/production",
             "common": "./src/common",
-            "config": "./src/front-end/configs/production",
+            "config": "./src/front-end/configs/production"
           }
         }]
       ]
@@ -46,7 +46,7 @@
             "~": "./src/front-end",
             "common/config": "./src/common/configs/test",
             "common": "./src/common",
-            "config": "./src/front-end/configs/test",
+            "config": "./src/front-end/configs/test"
           }
         }]
       ]

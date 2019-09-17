@@ -8,6 +8,7 @@
     "@babel/typescript"
   ],
   "plugins": [
+    ["@babel/proposal-decorators", { "decoratorsBeforeExport": true }],
     "@babel/proposal-class-properties",
     "@babel/proposal-object-rest-spread"
   ],
@@ -20,6 +21,8 @@
             "~": "./src/test-data",
             "common": "./src/common",
             "server": "./src/server",
+            "common-config": "./src/common/configs/development",
+            "server-config": "./src/server/configs/development",
             "test-utils": "./src/test-utils"
           }
         }]
@@ -33,6 +36,8 @@
             "~": "./src/test-data",
             "common": "./src/common",
             "server": "./src/server",
+            "common-config": "./src/common/configs/production",
+            "server-config": "./src/server/configs/production",
             "test-utils": "./src/test-utils"
           }
         }]
@@ -46,6 +51,8 @@
             "~": "./src/test-data",
             "common": "./src/common",
             "server": "./src/server",
+            "common-config": "./src/common/configs/test",
+            "server-config": "./src/server/configs/test",
             "test-utils": "./src/test-utils"
           }
         }]
