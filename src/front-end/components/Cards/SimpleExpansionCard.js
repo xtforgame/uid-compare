@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import React, { useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -8,29 +8,20 @@ import CardContent from '@material-ui/core/CardContent';
 import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import useExpansion from '~/components/Card/useExpansion';
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   card: {
     marginTop: 8,
     marginBottom: 8,
     maxWidth: 400,
   },
   expand: {
-    transform: 'rotate(0deg)',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
     marginLeft: 'auto',
-    // [theme.breakpoints.up('sm')]: {
-    //   marginRight: -8,
-    // },
-    marginRight: 8,
+    marginRight: -8,
     [theme.breakpoints.up('sm')]: {
       marginRight: 0,
     },
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)',
   },
   headerRoot: {},
   headerAction: {
@@ -56,71 +47,66 @@ const styles = theme => ({
       },
     },
   },
-});
+}));
 
-class SimpleExpansionCard extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = { expanded: 'defaultExpanded' in props ? props.defaultExpanded : false };
-  }
+export default (props) => {
+  const {
+    avatar,
+    title,
+    subheader,
+    children,
+    cardClassName,
+    headerClassName,
+    withoutCardContent,
+  } = props;
 
-  handleExpandClick = () => {
-    this.setState(state => ({ expanded: !state.expanded }));
-  };
+  const classes = useStyles();
 
-  render() {
-    const {
-      classes,
-      avatar,
-      title,
-      subheader,
-      children,
-      cardClassName,
-      headerClassName,
-      withoutCardContent,
-    } = this.props;
+  const {
+    iconButtonClassName,
+    expanded,
+    toggleExpanded,
+  } = useExpansion({
+    defaultExpanded: 'defaultExpanded' in props ? props.defaultExpanded : false,
+    iconButtonClassName: classes.expand,
+  });
 
-    const content = withoutCardContent ? children : (
-      <CardContent
+  const content = withoutCardContent ? children : (
+    <CardContent
+      classes={{
+        root: classes.contentRoot,
+      }}
+    >
+      {children}
+    </CardContent>
+  );
+
+  return (
+    <Card className={classnames(classes.card, cardClassName)}>
+      <CardHeader
+        avatar={avatar}
         classes={{
-          root: classes.contentRoot,
+          root: classes.headerRoot,
+          action: classes.headerAction,
+          content: classes.headerContent,
         }}
-      >
-        {children}
-      </CardContent>
-    );
-
-    return (
-      <Card className={classnames(classes.card, cardClassName)}>
-        <CardHeader
-          avatar={avatar}
-          classes={{
-            root: classes.headerRoot,
-            action: classes.headerAction,
-            content: classes.headerContent,
-          }}
-          className={headerClassName}
-          action={(
-            <IconButton
-              className={classnames(classes.expand, {
-                [classes.expandOpen]: this.state.expanded,
-              })}
-              onClick={this.handleExpandClick}
-              aria-expanded={this.state.expanded}
-              aria-label="Show more"
-            >
-              <ExpandMoreIcon />
-            </IconButton>
-          )}
-          title={title}
-          subheader={subheader}
-        />
-        <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
-          {content}
-        </Collapse>
-      </Card>
-    );
-  }
-}
-
-export default withStyles(styles)(SimpleExpansionCard);
+        className={headerClassName}
+        action={(
+          <IconButton
+            className={iconButtonClassName}
+            onClick={toggleExpanded}
+            aria-expanded={expanded}
+            aria-label="Show more"
+          >
+            <ExpandMoreIcon />
+          </IconButton>
+        )}
+        title={title}
+        subheader={subheader}
+      />
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
+        {content}
+      </Collapse>
+    </Card>
+  );
+};

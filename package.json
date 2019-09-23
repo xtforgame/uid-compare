@@ -86,6 +86,7 @@
     "react-router-dom": "^5.0.1",
     "react-sticky": "^6.0.3",
     "react-swipeable-views": "^0.13.0",
+    "react-swipeable-views-utils": "^0.13.3",
     "recompose": "^0.26.0",
     "redux": "^4.0.4",
     "redux-observable": "^1.1.0",

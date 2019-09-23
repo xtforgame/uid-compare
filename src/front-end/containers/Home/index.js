@@ -7,6 +7,7 @@ import Icon from '@material-ui/core/Icon';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import SimpleMediaCard from './SimpleMediaCard';
+import SimpleMediaCard2 from './SimpleMediaCard2';
 
 const styles = theme => ({
   placeholder: {
@@ -248,13 +249,13 @@ class Home extends React.PureComponent {
             <SimpleMediaCard />
           </div>
           <div className={classes.cardWrapper}>
-            <SimpleMediaCard />
+            <SimpleMediaCard2 />
           </div>
           <div className={classes.cardWrapper}>
             <SimpleMediaCard />
           </div>
           <div className={classes.cardWrapper}>
-            <SimpleMediaCard />
+            <SimpleMediaCard2 />
           </div>
           <div className={classes.cardWrapper}>
             <SimpleMediaCard />
