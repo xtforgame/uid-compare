@@ -13,6 +13,7 @@ import SubContent05 from '~/containers/Home/SubContent05';
 import SubContent06 from '~/containers/Home/SubContent06';
 import SubContent07 from '~/containers/Home/SubContent07';
 import SubContent08 from '~/containers/Home/SubContent08';
+import SubContent09 from '~/containers/Home/SubContent09';
 
 import UserProfile from '~/containers/UserProfile';
 
@@ -159,6 +160,14 @@ const globalRouteConfig = {
               component: SubContent08,
               navbar: {
                 title: 'Sub 08',
+              },
+            },
+            {
+              name: 'sub09',
+              path: '/home/sub09',
+              component: SubContent09,
+              navbar: {
+                title: 'Sub 09',
               },
             }],
           }],

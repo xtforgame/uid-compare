@@ -19,10 +19,11 @@ class CrudDialogEx extends React.PureComponent {
       formKey: 0,
       viewIndex: props.withoutList ? 1 : 0,
       editingSource: null,
+      editingIndex: null,
     };
   }
 
-  handleItemClick = (value) => {
+  handleItemClick = (value, index) => {
     const {
       picker,
       // editor,
@@ -37,6 +38,7 @@ class CrudDialogEx extends React.PureComponent {
         formKey: this.state.formKey + 1,
         viewIndex: 1,
         editingSource: value,
+        editingIndex: index,
       });
     }
   };
@@ -44,6 +46,7 @@ class CrudDialogEx extends React.PureComponent {
   startCreate = otherEditingParams => this.setState({
     viewIndex: 1,
     editingSource: null,
+    editingIndex: null,
     formKey: this.state.formKey + 1,
     otherEditingParams,
   });
@@ -51,6 +54,7 @@ class CrudDialogEx extends React.PureComponent {
   switchToList = () => this.setState({
     viewIndex: 0,
     editingSource: null,
+    editingIndex: null,
     // formKey: this.state.formKey + 1,
   });
 
@@ -72,10 +76,14 @@ class CrudDialogEx extends React.PureComponent {
       onSubmit = () => {},
     } = this.props;
 
+    const {
+      editingIndex,
+    } = this.state;
+
     if (!picker && !withoutList) {
       this.switchToList();
     }
-    onSubmit(result, editingParams);
+    onSubmit(result, editingParams, editingIndex);
   };
 
   handleSearchTextChange = cbType => (e, ...args) => {
@@ -85,7 +93,7 @@ class CrudDialogEx extends React.PureComponent {
     });
     const cb = this.props[cbType];
     if (cb) {
-      cb(e, ...args);
+      cb(searchText, e, ...args);
     }
   };
 
@@ -162,7 +170,7 @@ class CrudDialogEx extends React.PureComponent {
             { addItemPlacement === 'start' && addItem }
             {list.map(
               (...args) => renderListItem({
-                handleItemClick: this.handleItemClick.bind(null, args[0]),
+                handleItemClick: this.handleItemClick.bind(null, args[0], args[1]),
               }, ...args)
             )}
             { addItemPlacement === 'end' && addItem }
