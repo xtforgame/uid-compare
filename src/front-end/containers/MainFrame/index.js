@@ -37,7 +37,7 @@ const styles = theme => ({
   mainContent: {
     // margin: 5,
     width: '100%',
-    flex: 1,
+    height: '100%',
     [theme.breakpoints.up('sm')]: {
       // margin: 40,
       // width: 1200,
@@ -94,11 +94,7 @@ class MainFrame extends React.PureComponent {
           onToggleMenu={this.toggleDrawer(true)}
         />
         <div className={classes.appBarPlaceholder}>DDDD</div>
-        <div className={classes.verticalFlexContainerFWF1}>
-          <div className={classes.mainContent}>
-            {routeView}
-          </div>
-        </div>
+        {routeView}
         <Drawer
           open={drawerOpened}
           onClose={this.toggleDrawer(false)}

@@ -4,7 +4,8 @@ export default theme => ({
   },
   mobielContainer: {
     width: '100%',
-    height: '100%',
+    flex: 1,
+    overflowY: 'hidden',
     flexDirection: 'column',
     display: 'flex',
   },
