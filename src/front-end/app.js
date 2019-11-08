@@ -14,10 +14,11 @@ import { loadState } from './localStorage';
 import modelMapEx from '~/containers/App/modelMapEx';
 
 import App from '~/containers/App';
+import { changeLocale } from '~/containers/LanguageProvider/actions';
 import {
   sessionVerified,
 } from '~/containers/App/actions';
-import { i18nextInited } from './i18next';
+import { i18nextInited, appLocaleMap } from './i18next';
 import './main.css';
 
 // Create a history of your choosing (we're using a browser history in this case)
@@ -70,7 +71,9 @@ class AppWrapper extends React.PureComponent {
   }
 }
 
-i18nextInited.then(() => {
+i18nextInited.then((i18n) => {
+  const locale = appLocaleMap[i18n.language] || 'en';
+  store.dispatch(changeLocale(locale));
   ReactDOM.render(
     <AppWrapper />,
     document.getElementById('page_main')

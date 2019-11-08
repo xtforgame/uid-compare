@@ -29,13 +29,14 @@ import {
   EditableAvatarPreset,
   EditableFabButtonPreset,
 } from '~/components/LinkerPresets';
-import bgImg from './StockSnap_3FOSIEZDTW.jpg';
 
 import {
   makeMyUserSelector,
 } from '~/containers/App/selectors';
 
 import modelMapEx from '~/containers/App/modelMapEx';
+
+const bgImg = './images/StockSnap_3FOSIEZDTW.jpg';
 
 const {
   user: userP,

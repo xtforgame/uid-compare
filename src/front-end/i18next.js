@@ -7,9 +7,27 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 // have a look at the Quick start guide
 // for passing in lng and translations on init
 
-import {
-  DEFAULT_LOCALE,
-} from './containers/LanguageProvider/constants';
+// import {
+//   DEFAULT_LOCALE,
+// } from './containers/LanguageProvider/constants';
+
+export const appLocales = [
+  'en',
+  'de',
+  'ja',
+  'zh-TW',
+  'zh-CN',
+];
+
+export const appLocaleMap = appLocales.reduce((m, l) => ({ ...m, [l]: l }), {});
+
+export const appLocaleNames = [
+  'English',
+  'Deutsch',
+  '日本語',
+  '繁體中文',
+  '简体中文',
+];
 
 let resolved;
 let initCallback = (t) => {
@@ -22,7 +40,8 @@ export const i18nextInited = new Promise((resolve) => {
   } else {
     initCallback = resolve;
   }
-});
+})
+.then(() => i18n);
 
 i18n
   // load translation using xhr -> see /public/locales
@@ -48,7 +67,7 @@ i18n
     // debug: true,
 
     // (overrides language detection)
-    lng: DEFAULT_LOCALE,
+    // lng: DEFAULT_LOCALE,
 
     interpolation: {
       escapeValue: false, // not needed for react as it escapes by default
@@ -63,23 +82,6 @@ i18n
 
 
 export default i18n;
-
-
-export const appLocales = [
-  'en',
-  'de',
-  'ja',
-  'zh-TW',
-  'zh-CN',
-];
-
-export const appLocaleNames = [
-  'English',
-  'Deutsch',
-  '日本語',
-  '繁體中文',
-  '简体中文',
-];
 
 export const localeIndex = {};
 appLocales.forEach((appLocale, i) => {

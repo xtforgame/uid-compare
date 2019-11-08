@@ -5,6 +5,8 @@ import PrivateRoute from '~/containers/routes/PrivateRoute';
 
 import MainFrame from '~/containers/MainFrame';
 import Home from '~/containers/Home';
+import MainFrame2 from '~/containers/LandingPage/MainFrame2';
+import LandingPage from '~/containers/LandingPage/SubContent01';
 import SubContent01 from '~/containers/Home/SubContent01';
 import SubContent02 from '~/containers/Home/SubContent02';
 import SubContent03 from '~/containers/Home/SubContent03';
@@ -62,6 +64,20 @@ const globalRouteConfig = {
       path: '/',
       component: () => <Redirect to={{ pathname: '/home' }} />,
       exact: true,
+    },
+    {
+      name: 'main2',
+      path: '/landing',
+      component: MainFrame2,
+      routeViews: [{
+        switch: true,
+        name: defaultName,
+        routes: [{
+          name: 'landing',
+          path: '/landing',
+          component: LandingPage,
+        }],
+      }],
     },
     {
       name: 'login',
