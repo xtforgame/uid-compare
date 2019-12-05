@@ -1,46 +1,21 @@
 /* eslint-disable no-param-reassign */
 import React from 'react';
+import moment from 'moment';
 import { IFieldLink, FieldObjectConfig } from '~/utils/InputLinker/core/interfaces';
-import FieldLink from '~/utils/InputLinker/core/FieldLink';
 import FormDialogInput from '~/components/FormInputs/FormDialogInput';
+import DateRange from '~/components/Range/DateTime/DateRange';
+import TimeRange from '~/components/Range/DateTime/TimeRange';
+import DateTimeRange from '~/components/Range/DateTime/DateTimeRange';
+import RangeDialog from '~/components/Range/RangeDialog';
 import {
   getDateDisplayFuncFromProps,
   getTimeDisplayFuncFromProps,
   getDateTimeDisplayFuncFromProps,
 } from '~/components/FormInputs/FormDateTimePicker/utils';
-import moment from 'moment';
-import DateRange from './components/DateRange';
-import TimeRange from './components/TimeRange';
-import DateTimeRange from './components/DateTimeRange';
-import RangeDialog from '../RangeDialog';
-
-const normalizeDateTime = ([startTime, endTime] : [any, any]) => {
-  if (
-    startTime
-    && endTime
-    && moment(startTime).valueOf() > moment(endTime).valueOf()
-  ) {
-    return [endTime || null, startTime || null];
-  }
-  return [startTime || null, endTime || null];
-};
-
-const getDateRangeDisplayFunc = (displayFunc : Function) => (range : any) => {
-  const [
-    startTime = null,
-    endTime = null,
-  ] = range || [];
-  const startText = displayFunc(startTime, '');
-  const finishText = displayFunc(endTime, '');
-  if (startText && finishText) {
-    return `${startText}\n~\n${finishText}`;
-  } else if (startText) {
-    return `${startText} ~`;
-  } else if (finishText) {
-    return `~ ${finishText}`;
-  }
-  return '';
-};
+import {
+  normalizeDateTime,
+  getDateRangeDisplayFunc,
+} from '~/components/Range/DateTime/utils';
 
 export const DateTimeRangePresetBase = <
   FieldLink extends IFieldLink<FieldLink>

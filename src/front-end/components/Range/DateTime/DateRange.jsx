@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types, react/forbid-prop-types */
 import React from 'react';
-import { FormDatePicker, FormSpace } from '~/components/FormInputs';
 import { useTranslation } from 'react-i18next';
+import { FormDatePicker, FormSpace } from '~/components/FormInputs';
 
 export default (props) => {
   const {

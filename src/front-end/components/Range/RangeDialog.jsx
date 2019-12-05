@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types, react/forbid-prop-types */
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import DialogContent from '@material-ui/core/DialogContent';
 import ConfirmDialog from '~/components/Dialogs/ConfirmDialog';
 import { FormSpace } from '~/components/FormInputs';
-import { useTranslation } from 'react-i18next';
 
 export default (props) => {
   const {

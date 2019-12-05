@@ -241,7 +241,7 @@ class ServiceCard extends React.PureComponent {
             </List>
           </div>
         </div>
-        <CardActions className={classes.actions} disableActionSpacing>
+        <CardActions className={classes.actions}>
           <IconButton
             aria-label="Refresh"
             onClick={onClickRefresh}

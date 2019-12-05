@@ -6,6 +6,9 @@ import { StoreContext } from 'redux-react-hook';
 import { createHashHistory } from 'history';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
+import {
+  runningMode,
+} from 'config';
 
 import configureStore from './configureStore';
 import getRoutes from './getRoutes';
@@ -35,6 +38,8 @@ const session = userSessionSelector(store.getState());
 if (session) {
   store.dispatch(sessionVerified(session));
 }
+
+console.log('runningMode :', runningMode);
 
 class AppWrapper extends React.PureComponent {
   constructor(props) {

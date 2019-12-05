@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import createCommonStyles from '~/styles/common';
 import JsonFormLayout, { JsonFormLinker } from '~/components/JsonFormLayout';
+import DateRangeExample from './DateRangeExample';
 
 import jsonConfig from './jsonConfig';
 
@@ -46,6 +47,7 @@ class SubContent08 extends React.PureComponent {
     const { value } = this.state;
     return (
       <Paper className={classes.root}>
+        <DateRangeExample />
         <JsonFormLayout
           jsonConfig={jsonConfig}
           Linker={JsonFormLinker}

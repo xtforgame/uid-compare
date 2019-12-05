@@ -1,9 +1,9 @@
 /* eslint-disable react/no-multi-comp */
 
 import React from 'react';
+import MuiButton from '@material-ui/core/Button';
+import MuiDialog from '@material-ui/core/Dialog';
 import useDialogWithButtonState, { Cancel } from '~/hooks/useDialogWithButtonState';
-import FdiDialog from './FdiDialog';
-import FdiButton from './FdiButton';
 
 /*
   props:
@@ -19,12 +19,10 @@ import FdiButton from './FdiButton';
 */
 export default (props) => {
   const {
-    Button = FdiButton,
-    Dialog = FdiDialog,
+    Button = MuiButton,
+    Dialog = MuiDialog,
     label,
     title,
-    value,
-    displayValue = v => v,
     renderButton,
     buttonProps: bp,
     renderDialog,
@@ -53,13 +51,10 @@ export default (props) => {
     buttonProps: bp,
   });
 
-  const valueForDisplay = displayValue(value);
   const propsForButton = {
     label,
     title,
     handleOpen,
-    value,
-    valueForDisplay,
     buttonProps,
   };
 
@@ -69,7 +64,6 @@ export default (props) => {
     open,
     handleClose,
     handleExited,
-    value,
     dialogProps,
   };
 
@@ -77,18 +71,15 @@ export default (props) => {
     <React.Fragment>
       {renderButton ? renderButton(propsForButton) : (
         <Button
-          label={label}
-          value={valueForDisplay}
-          onClick={handleOpen}
-          onKeyDown={handleOpen}
           {...buttonProps}
-        />
+        >
+          {label}
+        </Button>
       )}
       {(!exited) && (
         renderDialog ? renderDialog(propsForDialog) : (
           <Dialog
             title={title != null ? title : label}
-            value={value}
             {...dialogProps}
           />
         )

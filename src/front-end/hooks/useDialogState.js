@@ -6,6 +6,7 @@ export default ({
   open: openFunc = () => {},
   close: closeFunc = () => {},
   exited: exitedFunc = () => {},
+  dialogProps: dp = {},
 }) => {
   const [open, setOpen] = useState(false);
   const [exited, setExited] = useState(true);
@@ -32,6 +33,7 @@ export default ({
   };
 
   const dialogProps = {
+    ...dp,
     open,
     onClose: handleClose,
     onExited: handleExited,
