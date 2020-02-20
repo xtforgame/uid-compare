@@ -7,6 +7,7 @@ import MainFrame from '~/containers/MainFrame';
 import Home from '~/containers/Home';
 import MainFrame2 from '~/containers/LandingPage/MainFrame2';
 import LandingPage from '~/containers/LandingPage/SubContent01';
+import Rst from '~/containers/Home/Rst';
 import SubContent01 from '~/containers/Home/SubContent01';
 import SubContent02 from '~/containers/Home/SubContent02';
 import SubContent03 from '~/containers/Home/SubContent03';
@@ -113,6 +114,14 @@ const globalRouteConfig = {
               path: '/home',
               component: () => <Redirect to={{ pathname: '/home/sub01' }} />,
               exact: true,
+            },
+            {
+              name: 'rst',
+              path: '/home/rst',
+              component: Rst,
+              navbar: {
+                title: 'Rst',
+              },
             },
             {
               name: 'sub01',
