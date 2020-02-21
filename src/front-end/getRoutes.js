@@ -7,8 +7,7 @@ import MainFrame from '~/containers/MainFrame';
 import Home from '~/containers/Home';
 import LandingMainFrame1 from '~/containers/LandingPage/MainFrame';
 import LandingPage from '~/containers/LandingPage/SubContent01';
-import LandingMainFrame2 from '~/containers/EditableLandingPage/MainFrame';
-import EditableLandingPage from '~/containers/EditableLandingPage/SubContent01';
+import EditableLandingPage from '~/containers/EditableLandingPage';
 import RstDemo from '~/containers/Home/RstDemo';
 import SubContent01 from '~/containers/Home/SubContent01';
 import SubContent02 from '~/containers/Home/SubContent02';
@@ -85,16 +84,7 @@ const globalRouteConfig = {
     {
       name: 'landing-main2',
       path: '/landing2',
-      component: LandingMainFrame2,
-      routeViews: [{
-        switch: true,
-        name: defaultName,
-        routes: [{
-          name: 'landing2',
-          path: '/landing2',
-          component: EditableLandingPage,
-        }],
-      }],
+      component: EditableLandingPage,
     },
     {
       name: 'login',

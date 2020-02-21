@@ -12,6 +12,7 @@ import ProgressWithMask from '~/components/Progress/ProgressWithMask';
 import createCommonStyles from '~/styles/common';
 import { drawerWidth } from './constants';
 import MainAppBar from './MainAppBar';
+import SubContent01 from './SubContent01';
 
 const mapStateToProps = createStructuredSelector({
 });
@@ -108,7 +109,8 @@ export default (props) => {
             })}
           />
           <div className={classes.appBarPlaceholder}>DDDD</div>
-          {routeView}
+          <SubContent01 />
+          {/* {routeView} */}
         </div>
         <EditorDrawer
           open={open}
