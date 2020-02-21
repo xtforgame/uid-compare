@@ -5,9 +5,11 @@ import PrivateRoute from '~/containers/routes/PrivateRoute';
 
 import MainFrame from '~/containers/MainFrame';
 import Home from '~/containers/Home';
-import MainFrame2 from '~/containers/LandingPage/MainFrame2';
+import LandingMainFrame1 from '~/containers/LandingPage/MainFrame';
 import LandingPage from '~/containers/LandingPage/SubContent01';
-import Rst from '~/containers/Home/Rst';
+import LandingMainFrame2 from '~/containers/EditableLandingPage/MainFrame';
+import EditableLandingPage from '~/containers/EditableLandingPage/SubContent01';
+import RstDemo from '~/containers/Home/RstDemo';
 import SubContent01 from '~/containers/Home/SubContent01';
 import SubContent02 from '~/containers/Home/SubContent02';
 import SubContent03 from '~/containers/Home/SubContent03';
@@ -67,16 +69,30 @@ const globalRouteConfig = {
       exact: true,
     },
     {
-      name: 'main2',
-      path: '/landing',
-      component: MainFrame2,
+      name: 'landing-main1',
+      path: '/landing1',
+      component: LandingMainFrame1,
       routeViews: [{
         switch: true,
         name: defaultName,
         routes: [{
-          name: 'landing',
-          path: '/landing',
+          name: 'landing1',
+          path: '/landing1',
           component: LandingPage,
+        }],
+      }],
+    },
+    {
+      name: 'landing-main2',
+      path: '/landing2',
+      component: LandingMainFrame2,
+      routeViews: [{
+        switch: true,
+        name: defaultName,
+        routes: [{
+          name: 'landing2',
+          path: '/landing2',
+          component: EditableLandingPage,
         }],
       }],
     },
@@ -117,10 +133,10 @@ const globalRouteConfig = {
             },
             {
               name: 'rst',
-              path: '/home/rst',
-              component: Rst,
+              path: '/home/rst-demo',
+              component: RstDemo,
               navbar: {
-                title: 'Rst',
+                title: 'RstDemo',
               },
             },
             {

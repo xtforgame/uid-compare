@@ -1,21 +1,9 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React, { useState, useEffect } from 'react';
-import { DndProvider } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
-import TouchBackend from 'react-dnd-touch-backend';
-import { SortableTreeWithoutDndContext as SortableTree } from 'react-sortable-tree';
-
 import Button from '@material-ui/core/Button';
+import RstBasic from '../Basic';
 
-import NodeContentRenderer from './NodeContentRenderer';
-import PlaceholderRenderer from './PlaceholderRenderer';
-
-import './styles.css';
-// import 'react-sortable-tree/style.css';
-import './rst-style.css';
-
-
-// const X = props => (
+// const Node = props => (
 //   <div
 //     style={{
 //       backgroundColor: 'gray',
@@ -29,10 +17,10 @@ import './rst-style.css';
 //   </div>
 // );
 
-const X = (props) => {
+const Node = (props) => {
   const {
     node,
-    selectedId,
+    // selectedId,
     onSelect = () => {},
   } = props;
 
@@ -117,14 +105,15 @@ export default (props) => {
     },
   ]);
 
-  const [searchQuery, setSearchQuery] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+
   useEffect(() => {
     setTimeout(() => {
       setSearchQuery('egg8-uid');
     }, 3000);
     setTimeout(() => {
-      setSelectedId('egg8-uid');
+      setSelectedId('egg7-uid');
     }, 4000);
   }, []);
 
@@ -132,50 +121,51 @@ export default (props) => {
   const isTouchDevice = !!('ontouchstart' in window || navigator.maxTouchPoints);
 
   return (
-    <div>
+    <React.Fragment>
       <span>
         {`This is ${!isTouchDevice && 'not '}a touch-supporting browser`}
       </span>
 
-      <div style={{ height: 300 }}>
-        <DndProvider backend={isTouchDevice ? TouchBackend : HTML5Backend}>
-          <SortableTree
-            treeData={treeData}
-            onChange={setTreeData}
-            getNodeKey={({ node, treeIndex }) => {
-              return node.id;
-            }}
-            generateNodeProps={({ node, path, treeIndex, lowerSiblingCounts, isSearchMatch, isSearchFocus }) => {
-              const style = {
-                cursor: 'pointer',
-              };
-              if (selectedId === node.id) {
-                style.backgroundColor = 'rgba(0, 0, 0, 0.3)';
-              }
-              return {
-                style,
-                onClick: () => setSelectedId(node.id),
-                title: node.title || (
-                  <X
-                    node={node}
-                    searchQuery={searchQuery}
-                    selectedId={selectedId}
-                    onSelect={() => setSelectedId(node.id)}
-                  />
-                ),
-              };
-            }}
-            nodeContentRenderer={NodeContentRenderer}
-            placeholderRenderer={PlaceholderRenderer}
-            searchQuery={searchQuery}
-            searchFocusOffset={0}
-            searchMethod={({ node, path, treeIndex, searchQuery }) => {
-              // console.log('searchQuery :', searchQuery);
-              return node.id === searchQuery;
-            }}
-          />
-        </DndProvider>
-      </div>
-    </div>
+      <RstBasic
+        value={treeData}
+        onChange={setTreeData}
+        searchQuery={searchQuery}
+        onSearchQueryChange={setSearchQuery}
+
+        containerProps={{ style: { height: 400 } }}
+        getNodeKey={({ node, treeIndex }) => node.id}
+        searchMethod={({
+          node, path, treeIndex, searchQuery,
+        }) => {
+          // console.log('searchQuery :', searchQuery);
+          if (!searchQuery) {
+            return false;
+          }
+          return (node.id || '').includes(searchQuery);
+        }}
+        generateNodeProps={({
+          node, path, treeIndex, lowerSiblingCounts, isSearchMatch, isSearchFocus,
+        }, { nodeProps, searchQuery }) => {
+          const style = {
+            cursor: 'pointer',
+          };
+          if (selectedId === node.id) {
+            style.backgroundColor = 'rgba(0, 0, 0, 0.3)';
+          }
+          return {
+            style,
+            onClick: () => setSelectedId(node.id),
+            title: node.title || (
+              <Node
+                node={node}
+                searchQuery={searchQuery}
+                selectedId={selectedId}
+                onSelect={() => setSelectedId(node.id)}
+              />
+            ),
+          };
+        }}
+      />
+    </React.Fragment>
   );
 };
