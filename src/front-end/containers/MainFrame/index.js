@@ -21,13 +21,17 @@ import {
 } from './tileData';
 
 import RouteList from './RouteList';
+import NotificationPanel from './NotificationPanel';
 
 const styles = theme => ({
-  list: {
+  leftPanel: {
     width: 250,
   },
-  listFull: {
-    width: 'auto',
+  rightPanel: {
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      width: 360,
+    },
   },
   container: {
     // margin: 5,
@@ -54,19 +58,27 @@ class MainFrame extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      drawerOpened: false,
+      mainMenuDrawerOpened: false,
+      notificationPanelDrawerOpened: false,
     };
   }
 
   closeDrawer = () => {
     this.setState({
-      drawerOpened: false,
+      mainMenuDrawerOpened: false,
+      notificationPanelDrawerOpened: false,
     });
   };
 
-  toggleDrawer = open => () => {
+  toggleMainMenuDrawer = open => () => {
     this.setState({
-      drawerOpened: open,
+      mainMenuDrawerOpened: open,
+    });
+  };
+
+  toggleNotificationPanelDrawer = open => () => {
+    this.setState({
+      notificationPanelDrawerOpened: open,
     });
   };
 
@@ -76,10 +88,13 @@ class MainFrame extends React.PureComponent {
       push,
       classes,
     } = this.props;
-    const { drawerOpened } = this.state;
+    const {
+      mainMenuDrawerOpened,
+      notificationPanelDrawerOpened,
+    } = this.state;
 
-    const sideList = (
-      <div className={classes.list}>
+    const leftSideList = (
+      <div className={classes.leftPanel}>
         <RouteList closeDrawer={this.closeDrawer} />
         <Divider />
         {getMailFolderList(this.closeDrawer, () => push('/home'), () => push('/async-in-main'), () => push('/login'))}
@@ -88,16 +103,23 @@ class MainFrame extends React.PureComponent {
       </div>
     );
 
+    const rightSidePanel = (
+      <div className={classes.rightPanel}>
+        <NotificationPanel closeDrawer={this.closeDrawer} />
+      </div>
+    );
+
     return (
       <React.Fragment>
         <MainAppBar
-          onToggleMenu={this.toggleDrawer(true)}
+          onToggleMenu={this.toggleMainMenuDrawer(true)}
+          onToggleNotificationPanel={this.toggleNotificationPanelDrawer(true)}
         />
         <div className={classes.appBarPlaceholder}>DDDD</div>
         {routeView}
         <Drawer
-          open={drawerOpened}
-          onClose={this.toggleDrawer(false)}
+          open={mainMenuDrawerOpened}
+          onClose={this.toggleMainMenuDrawer(false)}
           ModalProps={{
             keepMounted: true, // Better open performance on mobile.
           }}
@@ -105,10 +127,27 @@ class MainFrame extends React.PureComponent {
           <div
             tabIndex={0}
             role="button"
-            // onClick={this.toggleDrawer(false)}
-            // onKeyDown={this.toggleDrawer(false)}
+            // onClick={this.toggleMainMenuDrawer(false)}
+            // onKeyDown={this.toggleMainMenuDrawer(false)}
           >
-            {sideList}
+            {leftSideList}
+          </div>
+        </Drawer>
+        <Drawer
+          anchor="right"
+          open={notificationPanelDrawerOpened}
+          onClose={this.toggleNotificationPanelDrawer(false)}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+        >
+          <div
+            tabIndex={0}
+            role="button"
+            // onClick={this.toggleMainMenuDrawer(false)}
+            // onKeyDown={this.toggleMainMenuDrawer(false)}
+          >
+            {rightSidePanel}
           </div>
         </Drawer>
       </React.Fragment>

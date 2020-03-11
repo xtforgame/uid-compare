@@ -6,11 +6,12 @@ export default theme => ({
     marginRight: 20,
   },
   appBarPlaceholder: {
-    height: 56,
+    ...theme.mixins.toolbar,
+    // height: 56,
+    // [theme.breakpoints.up('sm')]: {
+    //   height: 64,
+    // },
     flexShrink: 0,
-    [theme.breakpoints.up('sm')]: {
-      height: 64,
-    },
   },
   toolbar: {
     // minHeight: 48,

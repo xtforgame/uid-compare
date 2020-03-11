@@ -3,10 +3,12 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
+import Badge from '@material-ui/core/Badge';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import NotificationsIcon from '@material-ui/icons/Notifications';
 import LocaleDropdown from '~/containers/LocaleDropdown';
 import UserInfoDropdown from '~/containers/UserInfoDropdown';
 
@@ -30,6 +32,7 @@ class MainAppBar extends React.PureComponent {
       classes,
       isUserLoggedIn = true,
       onToggleMenu = () => {},
+      onToggleNotificationPanel = () => {},
     } = this.props;
     return (
       <div className={classes.root}>
@@ -44,6 +47,13 @@ class MainAppBar extends React.PureComponent {
               {t('appTitle')}
             </Typography>
             <LocaleDropdown />
+            {isUserLoggedIn && (
+              <IconButton color="inherit" onClick={onToggleNotificationPanel} aria-label="NotificationList">
+                <Badge badgeContent={4} color="secondary">
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
+            )}
             {/* <Button color="inherit" onClick={() => clearSessionCache('me')}>
               <FormattedMessage {...messages.logout} />
             </Button> */}
