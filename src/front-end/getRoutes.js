@@ -9,6 +9,7 @@ import LandingMainFrame1 from '~/containers/LandingPage/MainFrame';
 import LandingPage from '~/containers/LandingPage/SubContent01';
 import EditableLandingPage from '~/containers/EditableLandingPage';
 import RstDemo from '~/containers/Home/RstDemo';
+import NativeThemeDemo from '~/containers/Home/NativeThemeDemo';
 import SubContent01 from '~/containers/Home/SubContent01';
 import SubContent02 from '~/containers/Home/SubContent02';
 import SubContent03 from '~/containers/Home/SubContent03';
@@ -127,6 +128,14 @@ const globalRouteConfig = {
               component: RstDemo,
               navbar: {
                 title: 'RstDemo',
+              },
+            },
+            {
+              name: 'native-theme',
+              path: '/home/native-theme',
+              component: NativeThemeDemo,
+              navbar: {
+                title: 'NativeThemeDemo',
               },
             },
             {

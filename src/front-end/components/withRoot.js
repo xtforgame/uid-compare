@@ -3,8 +3,8 @@
 import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { StylesProvider, ThemeProvider } from '@material-ui/styles';
-import { MuiThemeProvider } from '@material-ui/core/styles';
-import getPageContext, { updatePageContext } from '../styles/getPageContext';
+import getPageContext, { updatePageContext } from '~/styles/getPageContext';
+import { ThemeProvider as NativeThemeProvider, getTheme } from '~/styles/NativeTheme';
 
 export default function withRoot(BaseComponent) {
   class WithRoot extends React.PureComponent {
@@ -32,6 +32,7 @@ export default function withRoot(BaseComponent) {
         return {
           prevProps: props,
           pageContext: props.pageContext || getPageContext(props.uiTheme),
+          nativeTheme: getTheme(props.uiTheme),
         };
       }
 
@@ -44,6 +45,7 @@ export default function withRoot(BaseComponent) {
         return {
           prevProps: props,
           pageContext: updatePageContext(props.uiTheme),
+          nativeTheme: getTheme(props.uiTheme),
         };
       }
 
@@ -51,7 +53,8 @@ export default function withRoot(BaseComponent) {
     }
 
     render() {
-      const { pageContext } = this.state;
+      const { pageContext, nativeTheme } = this.state;
+      console.log('nativeTheme :', nativeTheme);
       return (
         <StylesProvider
           generateClassName={pageContext.generateClassName}
@@ -59,14 +62,15 @@ export default function withRoot(BaseComponent) {
           sheetsManager={pageContext.sheetsManager}
           sheetsRegistry={pageContext.sheetsRegistry}
         >
-          <MuiThemeProvider theme={pageContext.theme}>
+          {/* StylesProvider can be removed now? */}
+          <NativeThemeProvider theme={nativeTheme}>
             <ThemeProvider theme={pageContext.theme}>
               <React.Fragment>
                 <CssBaseline />
                 <BaseComponent {...this.props} />
               </React.Fragment>
             </ThemeProvider>
-          </MuiThemeProvider>
+          </NativeThemeProvider>
         </StylesProvider>
       );
     }
