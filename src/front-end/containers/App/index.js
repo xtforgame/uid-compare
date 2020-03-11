@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { ConnectedRouter } from 'connected-react-router';
 import useStylesByNs from '~/styles/useStylesByNs';
-import withRoot from '../../components/withRoot';
+import ThemeContainer from '~/containers/core/ThemeContainer';
 
 import {
   makeUiThemeSelector,
@@ -19,15 +19,10 @@ const AppInternal = ({ history, routes }) => {
   );
 };
 
-const AppWithTheme = compose(
-  withRoot,
-)(AppInternal);
-
 const App = props => (
-  <AppWithTheme
-    {...props}
-    uiTheme={props.uiTheme}
-  />
+  <ThemeContainer uiTheme={props.uiTheme}>
+    <AppInternal {...props} />
+  </ThemeContainer>
 );
 
 const mapStateToProps = createStructuredSelector({
