@@ -127,7 +127,7 @@ class CrudDialogEx extends React.PureComponent {
     } = this.props;
 
     const {
-      formKey, editingSource, otherEditingParams, searchText
+      formKey, editingSource, otherEditingParams, searchText,
     } = this.state;
     const editingParams = { ...eP, ...otherEditingParams };
     if (editingSource) {

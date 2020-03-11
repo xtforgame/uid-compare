@@ -11,6 +11,8 @@ import EditableLandingPage from '~/containers/EditableLandingPage';
 import RstDemo from '~/containers/Home/RstDemo';
 import NativeThemeDemo from '~/containers/Home/NativeThemeDemo';
 import BigCalendarDemo from '~/containers/Home/BigCalendarDemo';
+import EditorJsDemo from '~/containers/Home/EditorJsDemo';
+import ImagesInputDemo from '~/containers/Home/ImagesInputDemo';
 import SubContent01 from '~/containers/Home/SubContent01';
 import SubContent02 from '~/containers/Home/SubContent02';
 import SubContent03 from '~/containers/Home/SubContent03';
@@ -145,6 +147,22 @@ const globalRouteConfig = {
               component: BigCalendarDemo,
               navbar: {
                 title: 'BigCalendarDemo',
+              },
+            },
+            {
+              name: 'editor-js',
+              path: '/home/editor-js',
+              component: EditorJsDemo,
+              navbar: {
+                title: 'EditorJsDemo',
+              },
+            },
+            {
+              name: 'images-input',
+              path: '/home/images-input',
+              component: ImagesInputDemo,
+              navbar: {
+                title: 'ImagesInputDemo',
               },
             },
             {

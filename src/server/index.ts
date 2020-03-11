@@ -5,27 +5,20 @@ import {
   runningMode,
 } from 'common/config';
 // ============================================
-import EnvCfg from '~/services/env-cfg';
-import HttpApp from '~/services/http-app';
-import RouterManager from '~/services/router-manager';
-import Mailer from '~/services/mailer';
+import Services from '~/services';
 
 class Server {
   ioc : any;
   constructor() {
     this.ioc = new Azldi();
-    this.ioc.register([
-      EnvCfg,
-      HttpApp,
-      RouterManager,
-      Mailer,
-    ]);
+    this.ioc.register(Services);
 
     this.ioc.digest();
   }
 
   start() {
-    return this.ioc.runAsync('start');
+    return this.ioc.runAsync('start')
+    .then(() => this.ioc.runAsync('allStarted'));
   }
 
   destroy() {

@@ -14,13 +14,13 @@ const makeMyUserSelector = () => createSelector(
       return undefined;
     }
     return users[mySession.user_id];
-  }
+  },
 );
 
 const persistenceSelector = state => state.global.persistence;
 const makeRememberUserSelector = () => createSelector(
   persistenceSelector,
-  persistence => persistence.rememberUser
+  persistence => persistence.rememberUser,
 );
 
 const makeUiThemeSelector = () => createSelector(

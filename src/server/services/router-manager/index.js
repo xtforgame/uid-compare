@@ -1,44 +1,35 @@
+import { promiseReduce } from 'common/utils';
 import ServiceBase from '../ServiceBase';
 // ========================================
-import MainRouter from '~/routers/MainRouter';
-import SessionRouter from '~/routers/SessionRouter';
-import UserRouter from '~/routers/UserRouter';
-import UserSettingRouter from '~/routers/UserSettingRouter';
-import RecoveryRouter from '~/routers/RecoveryRouter';
-import OrganizationRouter from '~/routers/OrganizationRouter';
-import ProjectRouter from '~/routers/ProjectRouter';
-import MemoRouter from '~/routers/MemoRouter';
-import ModuleComplierRouter from '~/routers/ModuleComplierRouter';
+import Routers from '~/routers';
+
 
 export default class RouterManager extends ServiceBase {
   static $name = 'routerManager';
 
   static $type = 'service';
 
-  static $inject = ['httpApp', 'mailer'];
+  static $inject = ['httpApp', 'mailer', 'minioApi'];
 
-  constructor(httpApp, mailer) {
+  constructor(httpApp, mailer, minioApi) {
     super();
     this.mailer = mailer;
+    this.minioApi = minioApi;
 
-    this.routers = [
-      MainRouter,
-      SessionRouter,
-      UserRouter,
-      UserSettingRouter,
-      RecoveryRouter,
-      OrganizationRouter,
-      ProjectRouter,
-      MemoRouter,
-      ModuleComplierRouter,
-    ]
+    this.routers = Routers
     .map(Router => new Router({
+      httpApp,
       mailer: this.mailer,
-      zcfService: this.zcfService,
-    }).setupRoutes(httpApp.appConfig));
+      minioApi: this.minioApi,
+    }));
+    this.routers.map(router => router.setupRoutes(httpApp.appConfig));
   }
 
   onStart() {
+  }
+
+  onAllStarted(containerInterface) {
+    return promiseReduce(this.routers, (_, router) => router.onAllStarted(containerInterface));
   }
 
   onDestroy() {

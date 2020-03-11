@@ -18,6 +18,7 @@ import {
 } from '../actions';
 
 const {
+  systemInfo,
   user,
   userSetting,
   organization,
@@ -43,13 +44,14 @@ const fetchDataAfterSessionVerified = (action$, state$, { getStore }) => action$
       HeaderManager.set('Authorization', `${action.session.token_type} ${action.session.token}`);
       return from(
         Promise.all([
+          systemInfo.getCollection(),
           user.read(action.session.user_id),
           userSetting.getCollection(),
           organization.getCollection(),
           project.getCollection(),
         ])
         .then(
-          ([_, { response: { data: userSettings } }]) => userSettings
+          ([, , { response: { data: userSettings } }]) => userSettings
           .filter(setting => setting.type === 'preference' && setting.data)
           .map(setting => changeTheme(setting.data.uiTheme, false))
         )

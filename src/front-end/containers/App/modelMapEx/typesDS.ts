@@ -40,6 +40,7 @@ export type CommonResourceModelDS = MakeResourceModelType<
 >;
 
 export type ModelMapDS = {
+  systemInfo: CommonResourceModelDS;
   session: CommonResourceModelDS;
   user: CommonResourceModelDS;
   userSetting: CommonResourceModelDS;
@@ -69,6 +70,9 @@ export type ExtraSelectorInfoForModelDS<ReturnType> = {
 };
 
 export type ExtraSelectorInfosForModelDS = {
+  systemInfo: {
+    selectSystemInfo: ExtraSelectorInfoForModelDS<any>,
+  },
   session: {
     selectMe: ExtraSelectorInfoForModelDS<any>,
     selectIsAuthenticated: ExtraSelectorInfoForModelDS<boolean>,

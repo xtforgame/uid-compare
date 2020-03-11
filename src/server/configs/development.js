@@ -32,6 +32,18 @@ const mailerConfig = {
   senderName: '"Az Service" <no-reply@az-authn.io>',
 };
 
+const minioInfoConfig = {
+  endPoint: 'localhost',
+  port: 9001,
+  useSSL: false,
+  accessKey: 'minioxxxak',
+  secretKey: 'minioxxxsk',
+  retry: 0,
+  retryInterval: 3000,
+  ignoreInitFailure: true,
+  defaultBucketName: 'az-rmd-minio',
+};
+
 export {
   credentialFiles,
   jwtSecretFiles,
@@ -44,4 +56,6 @@ export {
   externalUrl,
 
   mailerConfig,
+
+  minioInfoConfig,
 };

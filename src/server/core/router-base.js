@@ -3,4 +3,8 @@ export default class RouterBase {
     const props = _props || {};
     Object.keys(props).map(name => this[name] = props[name]);
   }
+
+  onAllStarted(containerInterface) {
+    return Promise.resolve();
+  }
 }

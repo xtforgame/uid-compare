@@ -101,6 +101,17 @@ export const createModelMapEx = () => {
       return s.global[rootSliceKey];
     },
     models: {
+      systemInfo: {
+        ...getSharedInfo('./api/system-info'),
+        featureDeps: {
+          getId: () => 'main',
+          parseResponse: (s, action) => {
+            return {
+              update: { main: action.response.data },
+            };
+          },
+        },
+      },
       session: {
         ...getSharedInfo('./api/sessions'),
         featureDeps: {
@@ -164,6 +175,16 @@ export const createModelMapEx = () => {
     },
   });
   const cacher = new CacherDS(querchy, {
+    systemInfo: {
+      selectSystemInfo: {
+        creatorCreator: (baseSelector, builtinSelectorCreators) => {
+          return () => createSelector(
+            builtinSelectorCreators.selectResourceMapValues(),
+            resourceMap => resourceMap && resourceMap.main,
+          );
+        },
+      },
+    },
     session: {
       selectMe: {
         creatorCreator: (baseSelector, builtinSelectorCreators) => {

@@ -1,11 +1,33 @@
 version: '3'
 services:
+  minio1:
+    image: minio/minio:RELEASE.2019-04-09T01-22-30Z
+
+    container_name: minio1-webserver-${CONTAINER_POSTFIX:-default}
+
+    volumes:
+      - ../minio_data:/data
+
+    ports:
+      - "9000:9000"
+
+    environment:
+      MINIO_ACCESS_KEY: minioxxxak
+      MINIO_SECRET_KEY: minioxxxsk
+
+    command: server /data
+
   webserver:
     image: seed-proj/webserver
     build:
       context: .
 
     container_name: webserver-${CONTAINER_POSTFIX:-default}
+    links:
+      - "minio1:minio1"
+
+    depends_on:
+      - "minio1"
 
     volumes:
       - ".:/usr/volumes/src/"

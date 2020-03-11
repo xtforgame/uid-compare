@@ -1,6 +1,6 @@
-# AzReactMaterialDev
+# AzReactMaterialDevWithMinIO
 
-A react material ui seed project
+A react material ui seed project with MinIO
 
 Run `npm install`
 
