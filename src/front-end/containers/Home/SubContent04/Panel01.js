@@ -1,6 +1,6 @@
 import React from 'react';
 import { compose } from 'recompose';
-import InputDialog from '~/components/Dialogs/InputDialog';
+import InputDialog from 'azrmui/core/Dialogs/InputDialog';
 import { withStyles } from '@material-ui/core/styles';
 
 import ListItem from '@material-ui/core/ListItem';

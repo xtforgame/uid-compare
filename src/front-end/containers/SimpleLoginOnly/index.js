@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Paper from '@material-ui/core/Paper';
-import translateMessages from '~/utils/translateMessages';
+import translateMessages from 'azrmui/utils/translateMessages';
 import {
   Redirect,
 } from 'react-router-dom';
@@ -18,8 +18,8 @@ import LocaleDropdown from '~/containers/LocaleDropdown';
 
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBack from '@material-ui/icons/ArrowBack';
-import createCommonStyles from '~/styles/common';
-import createFormPaperStyle from '~/styles/FormPaper';
+import createCommonStyles from 'azrmui/styles/common';
+import createFormPaperStyle from 'azrmui/styles/FormPaper';
 
 import SwipeableViews from 'react-swipeable-views';
 

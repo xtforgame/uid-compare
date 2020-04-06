@@ -2,9 +2,9 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import BreakAllCodeBlock from '~/components/Text/BreakAllCodeBlock';
-import createCommonStyles from '~/styles/common';
-import SimpleFullScreenDialog from '~/components/Dialogs/SimpleFullScreenDialog';
+import BreakAllCodeBlock from 'azrmui/core/Text/BreakAllCodeBlock';
+import createCommonStyles from 'azrmui/styles/common';
+import SimpleFullScreenDialog from 'azrmui/core/Dialogs/SimpleFullScreenDialog';
 
 const styles = theme => ({
   ...createCommonStyles(theme, ['flex']),

@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 // import Typography from '@material-ui/core/Typography';
-// import BreakAllCodeBlock from '~/components/Text/BreakAllCodeBlock';
+// import BreakAllCodeBlock from 'azrmui/core/Text/BreakAllCodeBlock';
 import Button from '@material-ui/core/Button';
-import createCommonStyles from '~/styles/common';
-import SimpleFullScreenDialog from '~/components/Dialogs/SimpleFullScreenDialog';
+import createCommonStyles from 'azrmui/styles/common';
+import SimpleFullScreenDialog from 'azrmui/core/Dialogs/SimpleFullScreenDialog';
 import {
   FormTextField,
-} from '~/components/FormInputs';
+} from 'azrmui/core/FormInputs';
 import modelMapEx from '~/containers/App/modelMapEx';
 
 const {

@@ -5,7 +5,7 @@ import { withTranslation, Trans } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import translateMessages from '~/utils/translateMessages';
+import translateMessages from 'azrmui/utils/translateMessages';
 import FormBaseType001 from '~/containers/LoginForms/FormBaseType001';
 import createEnterRecoveryCodeInputConfigs from '~/containers/LoginForms/createEnterRecoveryCodeInputConfigs';
 

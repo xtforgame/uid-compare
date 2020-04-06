@@ -1,11 +1,11 @@
 import React from 'react';
 import {
   FormSpace,
-} from '~/components/FormInputs';
+} from 'azrmui/core/FormInputs';
 import {
   FormCheckboxPreset,
   addOnPressEnterEvent,
-} from '~/utils/InputLinker/helpers';
+} from 'azrmui/utils/InputLinker/helpers';
 
 import {
   createSimpleAccountInput,

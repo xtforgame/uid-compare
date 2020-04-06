@@ -42,6 +42,7 @@ export type CommonResourceModelDS = MakeResourceModelType<
 export type ModelMapDS = {
   systemInfo: CommonResourceModelDS;
   session: CommonResourceModelDS;
+  accountLink: CommonResourceModelDS;
   user: CommonResourceModelDS;
   userSetting: CommonResourceModelDS;
   recoveryToken: CommonResourceModelDS;
@@ -50,6 +51,7 @@ export type ModelMapDS = {
   organization: CommonResourceModelDS;
   project: CommonResourceModelDS;
   memo: CommonResourceModelDS;
+  contactUsMessage: CommonResourceModelDS;
 };
 
 export type QueryBuilderMapDS = {

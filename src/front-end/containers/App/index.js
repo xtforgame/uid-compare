@@ -3,7 +3,7 @@ import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { ConnectedRouter } from 'connected-react-router';
-import useStylesByNs from '~/styles/useStylesByNs';
+import useStylesByNs from 'azrmui/styles/useStylesByNs';
 import ThemeContainer from '~/containers/core/ThemeContainer';
 
 import {

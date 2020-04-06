@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import ClickableCard from '~/components/Cards/ClickableCard';
+import ClickableCard from 'azrmui/core/Cards/ClickableCard';
 import CardHeader from '@material-ui/core/CardHeader';
 import Avatar from '@material-ui/core/Avatar';
 import blue from '@material-ui/core/colors/blue';

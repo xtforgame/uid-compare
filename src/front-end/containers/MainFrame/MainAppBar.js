@@ -15,7 +15,7 @@ import UserInfoDropdown from '~/containers/UserInfoDropdown';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
-import createCommonStyles from '~/styles/common';
+import createCommonStyles from 'azrmui/styles/common';
 
 const styles = theme => ({
   root: {

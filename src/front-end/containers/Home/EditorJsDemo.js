@@ -16,7 +16,7 @@ import warning from '@editorjs/warning';
 import paragraph from '@editorjs/paragraph';
 import checklist from '@editorjs/checklist';
 
-import { getHeaders } from '~/utils/HeaderManager';
+import { getHeaders } from 'azrmui/utils/HeaderManager';
 import useSystemInfo from '../hooks/useSystemInfo';
 
 export default (props) => {

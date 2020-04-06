@@ -19,13 +19,13 @@ import SwipeableViews from 'react-swipeable-views';
 
 import { createStructuredSelector } from 'reselect';
 
-import translateMessages from '~/utils/translateMessages';
+import translateMessages from 'azrmui/utils/translateMessages';
 import LocaleDropdown from '~/containers/LocaleDropdown';
-import createCommonStyles from '~/styles/common';
-import createFormPaperStyle from '~/styles/FormPaper';
+import createCommonStyles from 'azrmui/styles/common';
+import createFormPaperStyle from 'azrmui/styles/FormPaper';
 import {
   FormContent,
-} from '~/components/FormInputs';
+} from 'azrmui/core/FormInputs';
 import LoginForm from '~/containers/LoginForms/LoginForm';
 import RegistrationForm from '~/containers/LoginForms/RegistrationForm';
 import createSimpleLoginInputConfigs from '~/containers/LoginForms/createSimpleLoginInputConfigs';

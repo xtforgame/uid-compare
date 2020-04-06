@@ -11,7 +11,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
-import BreakAllContentText from '~/components/Text/BreakAllContentText';
+import BreakAllContentText from 'azrmui/core/Text/BreakAllContentText';
 import ResultDetailDialog from './ResultDetailDialog';
 
 const styles = theme => ({

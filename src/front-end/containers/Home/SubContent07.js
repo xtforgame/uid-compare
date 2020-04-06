@@ -1,23 +1,23 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import createCommonStyles from '~/styles/common';
-import SimpleHookLayout from '~/components/FormLayouts/SimpleHookLayout';
+import createCommonStyles from 'azrmui/styles/common';
+import SimpleHookLayout from 'azrmui/core/FormLayouts/SimpleHookLayout';
 
 import {
   // FormSpace,
   // FormContent,
   FormPasswordInput,
-} from '~/components/FormInputs';
+} from 'azrmui/core/FormInputs';
 
-// import InputLinker from '~/utils/InputLinker';
+// import InputLinker from 'azrmui/utils/InputLinker';
 import {
   FormTextFieldPreset,
   FormPasswordVisibilityPreset,
   FormCheckboxPreset,
   assert,
   translateLabel,
-} from '~/utils/InputLinker/helpers';
+} from 'azrmui/utils/InputLinker/helpers';
 
 const styles = theme => ({
   ...createCommonStyles(theme, ['flex', 'appBar']),

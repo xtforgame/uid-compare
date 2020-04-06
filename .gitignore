@@ -2,4 +2,7 @@
 /node_modules
 /dist
 /minio_data
+/local_config
+**/vaxalonly
+/env-vars.sh
 .DS_Store

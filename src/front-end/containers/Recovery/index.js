@@ -11,10 +11,10 @@ import IconButton from '@material-ui/core/IconButton';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 import { createStructuredSelector } from 'reselect';
 import LocaleDropdown from '~/containers/LocaleDropdown';
-import createCommonStyles from '~/styles/common';
-import createFormPaperStyle from '~/styles/FormPaper';
+import createCommonStyles from 'azrmui/styles/common';
+import createFormPaperStyle from 'azrmui/styles/FormPaper';
 import RecoveryForm from '~/containers/Recovery/RecoveryForm';
-import ProgressWithMask from '~/components/Progress/ProgressWithMask';
+import ProgressWithMask from 'azrmui/core/Progress/ProgressWithMask';
 import modelMapEx from '~/containers/App/modelMapEx';
 import {
   makeRememberUserSelector,

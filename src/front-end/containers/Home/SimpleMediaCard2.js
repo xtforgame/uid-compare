@@ -8,8 +8,8 @@ import IconButton from '@material-ui/core/IconButton';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Typography from '@material-ui/core/Typography';
 import Collapse from '@material-ui/core/Collapse';
-import SwipeableCardMediaT1 from '~/components/Card/SwipeableCardMediaT1';
-import useExpansion from '~/components/Card/useExpansion';
+import SwipeableCardMediaT1 from 'azrmui/core/Card/SwipeableCardMediaT1';
+import useExpansion from 'azrmui/core/Card/useExpansion';
 import lizard from './contemplative-reptile.jpg';
 
 const useStyles = makeStyles(theme => ({
@@ -18,7 +18,6 @@ const useStyles = makeStyles(theme => ({
   },
   expand: {
     marginLeft: 'auto',
-    marginRight: -8,
     [theme.breakpoints.up('sm')]: {
       marginRight: 0,
     },
@@ -54,7 +53,7 @@ export default (props) => {
             across all continents except Antarctica
           </Typography>
         </CardContent>
-        <CardActions>
+        <CardActions disableSpacing>
           <Button dense="true" color="primary">
             Share
           </Button>

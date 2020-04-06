@@ -11,19 +11,19 @@ import {
   // FormTextField,
   FormPasswordInput,
   // FormCheckbox,
-} from '~/components/FormInputs';
+} from 'azrmui/core/FormInputs';
 
-import InputLinker from '~/utils/InputLinker';
+import InputLinker from 'azrmui/utils/InputLinker';
 import {
   FormTextFieldPreset,
   mwpDisplayErrorFromPropsForTextField,
   FormPasswordVisibilityPreset,
   FormCheckboxPreset,
   assert,
-} from '~/utils/InputLinker/helpers';
+} from 'azrmui/utils/InputLinker/helpers';
 
-import createCommonStyles from '~/styles/common';
-import createFormPaperStyle from '~/styles/FormPaper';
+import createCommonStyles from 'azrmui/styles/common';
+import createFormPaperStyle from 'azrmui/styles/FormPaper';
 
 const styles = theme => ({
   ...createFormPaperStyle(theme),

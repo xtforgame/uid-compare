@@ -1,16 +1,16 @@
 /* eslint-disable no-param-reassign */
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import FormDialogInput from '~/components/FormInputs/FormDialogInput';
+import FormDialogInput from 'azrmui/core/FormInputs/FormDialogInput';
 import {
   getDateDisplayFuncFromProps,
-} from '~/components/FormInputs/FormDateTimePicker/utils';
-import RangeDialog from '~/components/Range/RangeDialog';
-import DateRange from '~/components/Range/DateTime/DateRange';
+} from 'azrmui/core/FormInputs/FormDateTimePicker/utils';
+import RangeDialog from 'azrmui/core/Range/RangeDialog';
+import DateRange from 'azrmui/core/Range/DateTime/DateRange';
 import {
   normalizeDateTime,
   getDateRangeDisplayFunc,
-} from '~/components/Range/DateTime/utils';
+} from 'azrmui/core/Range/DateTime/utils';
 
 const useStyles = makeStyles(theme => ({
   root: {

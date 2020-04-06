@@ -1,7 +1,7 @@
 import React from 'react';
 import { compose } from 'recompose';
-import { FormTextField, FormSpace } from '~/components/FormInputs';
-import ConfirmDialog from '~/components/Dialogs/ConfirmDialog';
+import { FormTextField, FormSpace } from 'azrmui/core/FormInputs';
+import ConfirmDialog from 'azrmui/core/Dialogs/ConfirmDialog';
 import { withStyles } from '@material-ui/core/styles';
 import DialogContent from '@material-ui/core/DialogContent';
 

@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import {
   FormSpace,
   FormPasswordInput,
-} from '~/components/FormInputs';
+} from 'azrmui/core/FormInputs';
 
 import {
   FormTextFieldPreset,
@@ -15,7 +15,7 @@ import {
   assert,
   translateLabel,
   addOnPressEnterEvent,
-} from '~/utils/InputLinker/helpers';
+} from 'azrmui/utils/InputLinker/helpers';
 import {
   isValidPassword,
 } from 'common/utils/validators';

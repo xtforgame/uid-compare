@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import DialogContent from '@material-ui/core/DialogContent';
 import Button from '@material-ui/core/Button';
-import SimpleFullScreenDialog from '~/components/Dialogs/SimpleFullScreenDialog';
-import { FormTextField, FormSpace } from '~/components/FormInputs';
+import SimpleFullScreenDialog from 'azrmui/core/Dialogs/SimpleFullScreenDialog';
+import { FormTextField, FormSpace } from 'azrmui/core/FormInputs';
 
 const useStyles = makeStyles(theme => ({
   root: {

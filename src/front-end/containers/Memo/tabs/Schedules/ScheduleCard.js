@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid, react/jsx-one-expression-per-line */
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import SimpleExpansionCard from '~/components/Cards/SimpleExpansionCard';
+import SimpleExpansionCard from 'azrmui/core/Cards/SimpleExpansionCard';
 import Avatar from '@material-ui/core/Avatar';
 import blue from '@material-ui/core/colors/blue';
 import ButtonBase from '@material-ui/core/ButtonBase';
@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
 import {
   InternalLink as Link,
-} from '~/components/FormInputs';
+} from 'azrmui/core/FormInputs';
 
 moment.locale('zh-TW');
 

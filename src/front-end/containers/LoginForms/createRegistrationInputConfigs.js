@@ -1,13 +1,13 @@
 import React from 'react';
-import SuccessButton from '~/components/Buttons/SuccessButton';
+import SuccessButton from 'azrmui/core/Buttons/SuccessButton';
 import {
   FormSpace,
-} from '~/components/FormInputs';
+} from 'azrmui/core/FormInputs';
 import {
   FormCheckboxPreset,
   createIgnoredPreset,
   addOnPressEnterEvent,
-} from '~/utils/InputLinker/helpers';
+} from 'azrmui/utils/InputLinker/helpers';
 
 import {
   createPhoneOrEmailAccountInput,

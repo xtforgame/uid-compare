@@ -10,7 +10,7 @@ import { withTranslation } from 'react-i18next';
 import {
   FormSpace,
   FormContent,
-} from '~/components/FormInputs';
+} from 'azrmui/core/FormInputs';
 
 const styles = theme => ({
   flexContainer: {

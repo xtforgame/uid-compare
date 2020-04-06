@@ -10,6 +10,8 @@ please DO NOT put any sensitive information here.
 */
 
 /* eslint-disable import/prefer-default-export */
+export { jwtIssuer } from './codegen/development';
+
 const runningMode = 'Development';
 
 export {

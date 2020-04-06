@@ -5,36 +5,39 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import grey from '@material-ui/core/colors/grey';
-import SuccessButton from '~/components/Buttons/SuccessButton';
-import Centered from '~/components/Layout/Centered';
-import EditableCardLayout from '~/components/FormLayouts/EditableCardLayout';
+import SuccessButton from 'azrmui/core/Buttons/SuccessButton';
+import Centered from 'azrmui/core/Layout/Centered';
+import EditableCardLayout from 'azrmui/core/FormLayouts/EditableCardLayout';
 import {
   FormSpace,
-} from '~/components/FormInputs';
+} from 'azrmui/core/FormInputs';
 import {
   createIgnoredPreset,
   FormTextFieldPreset,
   mwpListItemDisplayer,
   addOnPressEnterEvent,
-} from '~/utils/InputLinker/helpers';
+} from 'azrmui/utils/InputLinker/helpers';
 import {
   ContainerConfig,
   EditableConfig,
   EditableCardMediaPreset,
   EditableAvatarPreset,
   EditableFabButtonPreset,
-} from '~/components/LinkerPresets';
+} from 'azrmui/core/LinkerPresets';
 
 import {
   makeMyUserSelector,
 } from '~/containers/App/selectors';
 
 import modelMapEx from '~/containers/App/modelMapEx';
+
+import ChangePasswordButton from './ChangePasswordButton';
 
 const bgImg = './images/StockSnap_3FOSIEZDTW.jpg';
 
@@ -195,7 +198,7 @@ class Profile extends React.PureComponent {
       if (values.avatarImg) {
         patchData.picture = values.avatarImg;
       }
-      p = userP.create(user.id, patchData);
+      p = userP.update(user.id, patchData);
     }
     p.then(() => {
       this.setState({
@@ -226,23 +229,27 @@ class Profile extends React.PureComponent {
 
     return (
       <Centered className={classes.mainContainer}>
-        <EditableCardLayout
-          className={classes.card}
-          user={user}
-          bgImg={bgImg}
-          fields={getFields(classes)}
-          defaultValues={{
-            name,
-            bannerImg: bgImg,
-            avatarImg,
-            bio,
-            email,
-          }}
-          isEditing={isEditing}
-          onStartEditing={() => this.setState({ isEditing: true })}
-          onCancelEditing={() => this.setState({ isEditing: false })}
-          onSubmit={this.submit}
-        />
+        <div>
+          <EditableCardLayout
+            className={classes.card}
+            user={user}
+            bgImg={bgImg}
+            fields={getFields(classes)}
+            defaultValues={{
+              name,
+              bannerImg: bgImg,
+              avatarImg,
+              bio,
+              email,
+            }}
+            isEditing={isEditing}
+            onStartEditing={() => this.setState({ isEditing: true })}
+            onCancelEditing={() => this.setState({ isEditing: false })}
+            onSubmit={this.submit}
+          />
+          <FormSpace variant="content2" />
+          <ChangePasswordButton />
+        </div>
       </Centered>
     );
   }

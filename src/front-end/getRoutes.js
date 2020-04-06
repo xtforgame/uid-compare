@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Redirect } from 'react-router';
-import EnhancedRoute from '~/components/routes/EnhancedRoute';
+import EnhancedRoute from 'azrmui/core/routes/EnhancedRoute';
 import PrivateRoute from '~/containers/routes/PrivateRoute';
 
 import MainFrame from '~/containers/MainFrame';
@@ -22,6 +22,11 @@ import SubContent06 from '~/containers/Home/SubContent06';
 import SubContent07 from '~/containers/Home/SubContent07';
 import SubContent08 from '~/containers/Home/SubContent08';
 import SubContent09 from '~/containers/Home/SubContent09';
+
+import AdminPages from '~/containers/AdminPages';
+import OrganizationManagement from '~/containers/AdminPages/OrganizationManagement';
+import ProjectManagement from '~/containers/AdminPages/ProjectManagement';
+import UserManagementDemo from '~/containers/AdminPages/UserManagementDemo';
 
 import UserProfile from '~/containers/UserProfile';
 
@@ -118,6 +123,9 @@ const globalRouteConfig = {
           //   // level: currentLevel => (currentLevel ? (currentLevel - 1) : 0),
           // },
           navbar: true,
+          // navbar: {
+          //   title: 'Home',
+          // },
           routeViews: [{
             routes: [{
               name: 'home-index',
@@ -235,6 +243,52 @@ const globalRouteConfig = {
               component: SubContent09,
               navbar: {
                 title: 'Sub 09',
+              },
+            }],
+          }],
+        },
+        {
+          name: 'management',
+          path: '/management',
+          component: AdminPages,
+          // navbar: {
+          //   title: 'AdminPages',
+          //   level: 0,
+          //   // level: currentLevel => (currentLevel ? (currentLevel - 1) : 0),
+          // },
+          // navbar: true,
+          navbar: {
+            title: '管理頁面',
+          },
+          routeViews: [{
+            routes: [{
+              name: 'management-index',
+              path: '/management',
+              component: () => <Redirect to={{ pathname: '/management/organization' }} />,
+              exact: true,
+            },
+            {
+              name: 'organization',
+              path: '/management/organization',
+              component: OrganizationManagement,
+              navbar: {
+                title: '組織管理',
+              },
+            },
+            {
+              name: 'project',
+              path: '/management/project',
+              component: ProjectManagement,
+              navbar: {
+                title: '專案管理',
+              },
+            },
+            {
+              name: 'user',
+              path: '/management/user',
+              component: UserManagementDemo,
+              navbar: {
+                title: '使用者管理(範例)',
               },
             }],
           }],

@@ -5,12 +5,12 @@ import { withTranslation, Trans } from 'react-i18next';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
-import translateMessages from '~/utils/translateMessages';
+import translateMessages from 'azrmui/utils/translateMessages';
 import {
   InternalLink as Link,
-} from '~/components/FormInputs';
+} from 'azrmui/core/FormInputs';
 import FormBaseType001 from '~/containers/LoginForms/FormBaseType001';
-import createFormPaperStyle from '~/styles/FormPaper';
+import createFormPaperStyle from 'azrmui/styles/FormPaper';
 
 const styles = theme => ({
   ...createFormPaperStyle(theme),

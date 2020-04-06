@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import DialogContent from '@material-ui/core/DialogContent';
-import { FormTextField, FormSpace } from '~/components/FormInputs';
+import { FormTextField, FormSpace } from 'azrmui/core/FormInputs';
 
 const useStyles = makeStyles(theme => ({
 }));

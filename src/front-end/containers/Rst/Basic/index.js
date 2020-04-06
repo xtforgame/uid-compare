@@ -12,7 +12,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
-import { FormTextField, FormSpace } from '~/components/FormInputs';
+import { FormTextField, FormSpace } from 'azrmui/core/FormInputs';
 
 import NodeContentRenderer from '../shared/NodeContentRenderer';
 import PlaceholderRenderer from '../shared/PlaceholderRenderer';

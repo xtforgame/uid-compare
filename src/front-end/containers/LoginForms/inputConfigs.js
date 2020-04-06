@@ -1,6 +1,6 @@
 import {
   FormPasswordInput,
-} from '~/components/FormInputs';
+} from 'azrmui/core/FormInputs';
 
 import {
   FormPhoneOrEmailInputPreset,
@@ -11,7 +11,7 @@ import {
   translateLabel,
   addOnPressEnterEvent,
   mwpDisplayErrorFromPropsForTextField,
-} from '~/utils/InputLinker/helpers';
+} from 'azrmui/utils/InputLinker/helpers';
 
 import {
   isValidPassword,

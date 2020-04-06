@@ -2,7 +2,7 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { compose } from 'recompose';
 import { withTranslation } from 'react-i18next';
-import SimpleFullScreenDialog from '~/components/Dialogs/SimpleFullScreenDialog';
+import SimpleFullScreenDialog from 'azrmui/core/Dialogs/SimpleFullScreenDialog';
 import Profile from './Profile';
 
 const styles = theme => ({

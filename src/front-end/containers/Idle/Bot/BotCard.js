@@ -1,6 +1,6 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import ClickableCard from '~/components/Cards/ClickableCard';
+import ClickableCard from 'azrmui/core/Cards/ClickableCard';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import {

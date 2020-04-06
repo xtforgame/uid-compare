@@ -2,9 +2,9 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
-import ServiceCard from '~/components/Cards/ServiceCard';
-import ContainerCard from '~/components/Cards/ContainerCard';
-import SuccessButton from '~/components/Buttons/SuccessButton';
+import ServiceCard from 'azrmui/core/Cards/ServiceCard';
+import ContainerCard from 'azrmui/core/Cards/ContainerCard';
+import SuccessButton from 'azrmui/core/Buttons/SuccessButton';
 import ServiceDialog from './ServiceDialog';
 
 const styles = {

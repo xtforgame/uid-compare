@@ -5,11 +5,11 @@ import { withTranslation } from 'react-i18next';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import createCommonStyles from '~/styles/common';
+import createCommonStyles from 'azrmui/styles/common';
 import {
   FormSpace,
   FormContent,
-} from '~/components/FormInputs';
+} from 'azrmui/core/FormInputs';
 import MainAppBar from './MainAppBar';
 
 import modelMapEx from '~/containers/App/modelMapEx';

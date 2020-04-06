@@ -2,12 +2,14 @@
 // This file is shared across the demos.
 
 import React from 'react';
+import { createStructuredSelector } from 'reselect';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
+import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
-import ListSubheader from '@material-ui/core/ListSubheader';
+// import ListSubheader from '@material-ui/core/ListSubheader';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -18,6 +20,12 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import StarBorder from '@material-ui/icons/StarBorder';
+import modelMapEx from '~/containers/App/modelMapEx';
+import {
+  makeSelectedOrganizationIdSelector,
+  makeSelectedProjectSelector,
+} from '~/containers/App/selectors';
+
 import getListHierarchy from './getListHierarchy';
 
 const styles = theme => ({
@@ -40,7 +48,10 @@ const styles = theme => ({
 });
 
 class RouteList extends React.PureComponent {
-  state = {};
+  state = {
+    'open-home': true,
+    'open-management': true,
+  };
 
   handleClick = name => () => {
     this.setState({ [`open-${name}`]: !this.state[`open-${name}`] });
@@ -48,7 +59,12 @@ class RouteList extends React.PureComponent {
 
   render() {
     const listHierarchy = getListHierarchy();
-    const { closeDrawer, push, classes } = this.props;
+    const {
+      closeDrawer, push, classes, location,
+      selectedOrganization,
+      selectedProject,
+    } = this.props;
+
     const navigateToFunc = path => (e) => {
       if (closeDrawer) {
         closeDrawer();
@@ -61,6 +77,25 @@ class RouteList extends React.PureComponent {
     const getList = (array = listHierarchy, level = 0, parents = []) => {
       const children = [];
       array.forEach((item) => {
+        const require = item.navbar && item.navbar.require;
+        if (require) {
+          if (require.organization) {
+            if (
+              !selectedOrganization
+              || !require.organization.includes(selectedOrganization.userOrganization.role)
+            ) {
+              return;
+            }
+          }
+          if (require.project) {
+            if (
+              !selectedProject
+              || !require.project.includes(selectedProject.userProject.role)
+            ) {
+              return;
+            }
+          }
+        }
         if (item.children) {
           children.push(
             <ListItem key={item.name} className={classes[`nested${level}`]} button onClick={this.handleClick(item.name)}>
@@ -79,12 +114,16 @@ class RouteList extends React.PureComponent {
             </Collapse>
           );
         } else {
+          const color = location.pathname === item.path ? 'primary' : 'inherit';
           children.push(
             <ListItem key={item.name} className={classes[`nested${level}`]} button onClick={navigateToFunc(item.path)}>
               <ListItemIcon>
-                <StarBorder />
+                <StarBorder color={color} />
               </ListItemIcon>
-              <ListItemText primary={item.title} />
+              <ListItemText
+                primaryTypographyProps={{ color }}
+                primary={item.title}
+              />
             </ListItem>
           );
         }
@@ -94,11 +133,11 @@ class RouteList extends React.PureComponent {
         return (
           <List
             className={classes.root}
-            subheader={(
-              <ListSubheader>
-                Pages
-              </ListSubheader>
-            )}
+            // subheader={(
+            //   <ListSubheader>
+            //     Pages
+            //   </ListSubheader>
+            // )}
           >
             {children}
           </List>
@@ -118,8 +157,12 @@ class RouteList extends React.PureComponent {
 
 export default compose(
   connect(
-    state => ({}),
+    createStructuredSelector({
+      selectedOrganization: makeSelectedOrganizationIdSelector(),
+      selectedProject: makeSelectedProjectSelector(),
+    }),
     { push }
   ),
+  withRouter,
   withStyles(styles),
 )(RouteList);

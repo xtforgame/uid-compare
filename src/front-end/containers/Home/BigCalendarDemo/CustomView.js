@@ -18,7 +18,6 @@ function Event({ event, ...rest }) {
       <div
         style={{
           width: '100%',
-          overflow: 'hidden',
           whiteSpace: 'nowrap',
           textOverflow: 'ellipsis',
           // backgroundColor: 'gray',
@@ -29,15 +28,28 @@ function Event({ event, ...rest }) {
     );
   }
   return (
-    <React.Fragment>
+    <div
+      style={{
+        width: '100%',
+        height: '100%',
+        border: '1px solid #265985',
+        borderRadius: 5,
+        overflow: 'hidden',
+        backgroundColor: 'white',
+      }}
+    >
       {title}
-      <div style={{ width: '100%', height: '100%', backgroundColor: 'black' }}>
+      <div
+        style={{
+          width: '100%', height: '100%',
+        }}
+      >
         <span>
           <strong>{event.title}</strong>
           {event.desc && `:  ${event.desc}`}
         </span>
       </div>
-    </React.Fragment>
+    </div>
   );
 }
 
@@ -148,6 +160,10 @@ const CustomView = ({ localizer }) => (
   <Calendar
     // selectable
     onSelectEvent={event => alert(event.title)}
+    onShowMore={(events) => {
+      console.log('events :', events);
+      alert(events.length);
+    }}
     events={events}
     localizer={localizer}
     defaultView={Views.WEEK}

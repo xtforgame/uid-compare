@@ -3,6 +3,8 @@ import HttpApp from '~/services/http-app';
 import RouterManager from '~/services/router-manager';
 import Mailer from '~/services/mailer';
 import MinioApi from '~/services/minio';
+import SequelizeDb from '~/services/sequelize-db';
+import ResourceManager from '~/services/resource-manager';
 
 export default [
   EnvCfg,
@@ -10,4 +12,6 @@ export default [
   RouterManager,
   Mailer,
   MinioApi,
+  SequelizeDb,
+  ResourceManager,
 ];

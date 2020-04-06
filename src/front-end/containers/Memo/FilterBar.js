@@ -6,15 +6,15 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
-import DialogWithChips from '~/components/FilterInputs/DialogWithChips';
+import DialogWithChips from 'azrmui/core/FilterInputs/DialogWithChips';
 
 import { compose } from 'recompose';
-import createCommonStyles from '~/styles/common';
+import createCommonStyles from 'azrmui/styles/common';
 
 import {
   FormTextFieldPreset,
   addOnPressEnterEvent,
-} from '~/utils/InputLinker/helpers';
+} from 'azrmui/utils/InputLinker/helpers';
 
 const styles = theme => ({
   root: {

@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { StoreContext } from 'redux-react-hook';
 import { createHashHistory } from 'history';
+import { SnackbarProvider } from 'notistack';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
 import {
@@ -15,6 +16,7 @@ import getRoutes from './getRoutes';
 import fontLoader from './fontLoader';
 import { loadState } from './localStorage';
 import modelMapEx from '~/containers/App/modelMapEx';
+import HeaderManager from 'azrmui/utils/HeaderManager';
 
 import App from '~/containers/App';
 import { changeLocale } from '~/containers/LanguageProvider/actions';
@@ -37,7 +39,9 @@ const userSessionSelector = modelMapEx.cacher.selectorCreatorSet.session.selectM
 const session = userSessionSelector(store.getState());
 
 if (session) {
-  store.dispatch(sessionVerified(session));
+  // store.dispatch(sessionVerified(session));
+  HeaderManager.set('Authorization', `${session.token_type} ${session.token}`);
+  store.dispatch(modelMapEx.querchy.actionCreatorSets.session.read('me'));
 }
 
 console.log('runningMode :', runningMode);
@@ -68,9 +72,17 @@ class AppWrapper extends React.PureComponent {
     return (
       <Provider store={store}>
         <StoreContext.Provider value={store}>
-          <MuiPickersUtilsProvider utils={MomentUtils}>
-            {app}
-          </MuiPickersUtilsProvider>
+          <SnackbarProvider
+            maxSnack={3}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'center',
+            }}
+          >
+            <MuiPickersUtilsProvider utils={MomentUtils}>
+              {app}
+            </MuiPickersUtilsProvider>
+          </SnackbarProvider>
         </StoreContext.Provider>
       </Provider>
     );

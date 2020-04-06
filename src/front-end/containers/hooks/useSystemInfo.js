@@ -1,5 +1,5 @@
 import { createStructuredSelector } from 'reselect';
-import { useConnect } from '~/hooks/redux-react-hook-ex';
+import { useConnect } from 'azrmui/hooks/redux-react-hook-ex';
 import modelMapEx from '~/containers/App/modelMapEx';
 
 const mapStateToProps = createStructuredSelector({

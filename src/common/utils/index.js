@@ -28,10 +28,15 @@ const toCamel = str => str.replace(/_([a-z])/g, g => g[1].toUpperCase());
 const toUnderscore = str => str.replace(/([A-Z])/g, g => `_${g.toLowerCase()}`);
 const capitalizeFirstLetter = str => (str.charAt(0).toUpperCase() + str.slice(1));
 
+const toCurrency = number => number.toFixed().replace(/\d(?=(\d{3})+$)/g, '$&,');
+const toFloatCurrency = (v, d = 2) => parseFloat(v).toFixed(d).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+
 export {
   toCamel,
   toUnderscore,
   capitalizeFirstLetter,
+  toCurrency,
+  toFloatCurrency,
 };
 
 /*

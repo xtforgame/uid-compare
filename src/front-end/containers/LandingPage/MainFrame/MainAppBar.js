@@ -15,7 +15,7 @@ import { withTranslation } from 'react-i18next';
 
 import LocaleDropdown from '~/containers/LocaleDropdown';
 // import UserInfoDropdown from '~/containers/UserInfoDropdown';
-import createCommonStyles from '~/styles/common';
+import createCommonStyles from 'azrmui/styles/common';
 
 import MainAppMenu from './MainAppMenu';
 

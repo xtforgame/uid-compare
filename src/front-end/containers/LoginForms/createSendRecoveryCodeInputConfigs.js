@@ -2,7 +2,7 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import {
   FormSpace,
-} from '~/components/FormInputs';
+} from 'azrmui/core/FormInputs';
 import {
   FormPhoneOrEmailInputPreset,
   createIgnoredPreset,
@@ -10,7 +10,7 @@ import {
   assert,
   translateLabel,
   addOnPressEnterEvent,
-} from '~/utils/InputLinker/helpers';
+} from 'azrmui/utils/InputLinker/helpers';
 
 export default recover => ([
   {

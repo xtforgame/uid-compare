@@ -13,7 +13,7 @@ import { push } from 'connected-react-router';
 import {
   withRouter,
 } from 'react-router-dom';
-import createCommonStyles from '~/styles/common';
+import createCommonStyles from 'azrmui/styles/common';
 
 import modelMapEx from '~/containers/App/modelMapEx';
 import FilterBar from './FilterBar';

@@ -9,10 +9,16 @@ export default class RouterManager extends ServiceBase {
 
   static $type = 'service';
 
-  static $inject = ['httpApp', 'mailer', 'minioApi'];
+  static $inject = ['httpApp', 'mailer', 'minioApi', 'resourceManager'];
 
-  constructor(httpApp, mailer, minioApi) {
+  static $funcDeps = {
+    start: ['resourceManager'],
+  };
+
+  constructor(httpApp, mailer, minioApi, resourceManager) {
     super();
+    this.authKit = resourceManager.authKit;
+    this.resourceManager = resourceManager.resourceManager;
     this.mailer = mailer;
     this.minioApi = minioApi;
 
@@ -21,6 +27,8 @@ export default class RouterManager extends ServiceBase {
       httpApp,
       mailer: this.mailer,
       minioApi: this.minioApi,
+      authKit: this.authKit,
+      resourceManager: this.resourceManager,
     }));
     this.routers.map(router => router.setupRoutes(httpApp.appConfig));
   }

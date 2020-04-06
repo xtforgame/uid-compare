@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { createSelector } from 'reselect';
-import { getHeaders } from '~/utils/HeaderManager';
+import { getHeaders } from 'azrmui/utils/HeaderManager';
 import {
   INIT_FUNC,
   createFeatureGroup,
@@ -42,6 +42,9 @@ const getSharedInfo = (url : string) => ({
       );
     },
     parseResponse: (s, action) => {
+      if (action.options.transferables.requestAction.url) {
+        return {};
+      }
       return {
         update: (
           (
@@ -66,6 +69,10 @@ export const createModelMapEx = () => {
   const querchy = new QuerchyDS({
     commonConfig: {
       defaultBuildUrl: (modelBaseUrl, action) => {
+        const options = action.options || {};
+        const actionProps = options.actionProps || {};
+        const { url } = actionProps;
+        if (url) { return url; }
         if (action.crudType === 'create' || action.crudType === 'getCollection') {
           return modelBaseUrl;
         }
@@ -118,6 +125,7 @@ export const createModelMapEx = () => {
           getId: () => 'me',
         },
       },
+      accountLink: getSharedInfo('./api/accountLinks'),
       user: getSharedInfo('./api/users'),
       userSetting: {
         ...getSharedInfo('./api/userSettings'),
@@ -147,6 +155,7 @@ export const createModelMapEx = () => {
       organization: getSharedInfo('./api/organizations'),
       project: getSharedInfo('./api/projects'),
       memo: getSharedInfo('./api/memos'),
+      contactUsMessage: getSharedInfo('./api/contactUsMessages'),
     },
     queryBuilders: {
       defaultBuilder: {

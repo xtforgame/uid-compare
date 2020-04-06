@@ -5,11 +5,11 @@ import IconButton from '@material-ui/core/IconButton';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import SearchIcon from '@material-ui/icons/Search';
 import MenuItem from '@material-ui/core/MenuItem';
-import TableAppBar from '~/components/Tables/TableAppBar';
-import EnhancedTable from '~/components/Tables/EnhancedTable';
+import TableAppBar from 'azrmui/core/Tables/TableAppBar';
+import EnhancedTable from 'azrmui/core/Tables/EnhancedTable';
 import SimpleTabs from './SimpleTabs';
 import Chip from '@material-ui/core/Chip';
-import createCommonStyles from '~/styles/common';
+import createCommonStyles from 'azrmui/styles/common';
 
 const styles = theme => ({
   ...createCommonStyles(theme, ['flex', 'appBar']),

@@ -6,7 +6,7 @@ import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import Zoom from '@material-ui/core/Zoom';
 import { push } from 'connected-react-router';
-import createCommonStyles from '~/styles/common';
+import createCommonStyles from 'azrmui/styles/common';
 // import NewProjectDialog from './tabs/Projects/NewProjectDialog';
 
 const styles = theme => ({

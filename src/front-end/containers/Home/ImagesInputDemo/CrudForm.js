@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import DialogContent from '@material-ui/core/DialogContent';
-import { FormTextField, FormSpace, FormImagesInput } from '~/components/FormInputs';
-import { createHandleUploadFunction, isImageUploaded, arrayUpdate } from '~/components/FormInputs/FormImagesInput';
+import { FormTextField, FormSpace, FormImagesInput } from 'azrmui/core/FormInputs';
+import { createHandleUploadFunction, isImageUploaded, arrayUpdate } from 'azrmui/core/FormInputs/FormImagesInput';
 import EditorDialog from './EditorDialog';
-import useDialogState, { Cancel } from '~/hooks/useDialogState';
+import useDialogState, { Cancel } from 'azrmui/hooks/useDialogState';
 
 const useStyles = makeStyles(theme => ({
 }));

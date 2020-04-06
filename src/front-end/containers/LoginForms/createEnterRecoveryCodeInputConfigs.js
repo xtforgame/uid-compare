@@ -2,8 +2,8 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import {
   FormSpace,
-} from '~/components/FormInputs';
-import { createIgnoredPreset } from '~/utils/InputLinker/helpers';
+} from 'azrmui/core/FormInputs';
+import { createIgnoredPreset } from 'azrmui/utils/InputLinker/helpers';
 import {
   createRecoveryCodeInput,
 } from './inputConfigs';

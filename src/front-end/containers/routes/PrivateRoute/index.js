@@ -1,5 +1,5 @@
 import React from 'react';
-import EnhancedRoute from '~/components/routes/EnhancedRoute';
+import EnhancedRoute from 'azrmui/core/routes/EnhancedRoute';
 import TryRedirect from './TryRedirect';
 
 class PrivateRoute extends React.PureComponent {

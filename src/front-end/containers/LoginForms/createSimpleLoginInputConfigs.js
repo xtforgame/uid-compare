@@ -1,9 +1,9 @@
-// import InputLinker from '~/utils/InputLinker';
+// import InputLinker from 'azrmui/utils/InputLinker';
 import {
   FormCheckboxPreset,
   translateLabel,
   addOnPressEnterEvent,
-} from '~/utils/InputLinker/helpers';
+} from 'azrmui/utils/InputLinker/helpers';
 
 import {
   createSimpleAccountInput,

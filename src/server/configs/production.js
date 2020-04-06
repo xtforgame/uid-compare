@@ -1,8 +1,18 @@
 import path from 'path';
 import appRootPath from 'app-root-path';
+import {
+  minioBucketName,
+  postgresDbName,
+} from './codegen/production';
+
+export { jwtIssuer } from 'common/config';
+
+export {
+  externalUrl,
+} from './codegen/production';
 
 const appRoot = appRootPath.resolve('./');
-const secretsFolder = path.join(appRoot, 'secrets');
+const secretsFolder = process.env.AFS_SECRETS_FOLDER || path.join(appRoot, 'secrets');
 
 const credentialFiles = {
   basePath: path.join(secretsFolder, 'ssl'),
@@ -20,7 +30,6 @@ const httpPort = 80;
 const httpsPort = 443;
 
 const sendRecoveryTokenInterval = 2 * 60 * 1000;
-const externalUrl = 'https://localhost:8443';
 
 const mailerConfig = {
   type: 'gmail',
@@ -41,8 +50,13 @@ const minioInfoConfig = {
   retry: 10,
   retryInterval: 3000,
   ignoreInitFailure: false,
-  defaultBucketName: 'az-rmd-minio',
+  defaultBucketName: minioBucketName,
 };
+
+const postgresPort = 5432;
+const postgresUser = 'rick';
+const postgresPassword = 'xxxx1234';
+const postgresHost = 'postgres';
 
 export {
   credentialFiles,
@@ -51,9 +65,14 @@ export {
   httpsPort,
 
   sendRecoveryTokenInterval,
-  externalUrl,
 
   mailerConfig,
 
   minioInfoConfig,
+
+  postgresPort,
+  postgresUser,
+  postgresDbName,
+  postgresPassword,
+  postgresHost,
 };

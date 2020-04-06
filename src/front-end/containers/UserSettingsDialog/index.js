@@ -9,8 +9,8 @@ import Switch from '@material-ui/core/Switch';
 import { useTranslation } from 'react-i18next';
 import {
   useConnect,
-} from '~/hooks/redux-react-hook-ex';
-import SimpleFullScreenDialog from '~/components/Dialogs/SimpleFullScreenDialog';
+} from 'azrmui/hooks/redux-react-hook-ex';
+import SimpleFullScreenDialog from 'azrmui/core/Dialogs/SimpleFullScreenDialog';
 import {
   changeTheme,
 } from '~/containers/App/actions';

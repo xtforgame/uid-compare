@@ -4,7 +4,7 @@ import {
   // createIgnoredPreset,
   translateLabel,
   addOnPressEnterEvent,
-} from '~/utils/InputLinker/helpers';
+} from 'azrmui/utils/InputLinker/helpers';
 
 import {
   createPhoneOrEmailAccountInput,

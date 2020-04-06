@@ -7,10 +7,10 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Divider from '@material-ui/core/Divider';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import CrudDialogEx from '~/components/Dialogs/CrudDialogEx';
-import useDialogState, { Cancel } from '~/hooks/useDialogState';
-import { FormImagesInput } from '~/components/FormInputs';
-import { createHandleUploadFunction } from '~/components/FormInputs/FormImagesInput';
+import CrudDialogEx from 'azrmui/core/Dialogs/CrudDialogEx';
+import useDialogState, { Cancel } from 'azrmui/hooks/useDialogState';
+import { FormImagesInput } from 'azrmui/core/FormInputs';
+import { createHandleUploadFunction } from 'azrmui/core/FormInputs/FormImagesInput';
 import useSystemInfo from '../../hooks/useSystemInfo';
 import CrudForm from './CrudForm';
 

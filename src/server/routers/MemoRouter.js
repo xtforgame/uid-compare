@@ -2,52 +2,47 @@ import {
   // RestfulResponse,
   RestfulError,
 } from 'az-restful-helpers';
+import {
+  findUser,
+  userCreateMemo,
+  patchMemo,
+} from '~/domain-logic';
 import RouterBase from '../core/router-base';
-import fakeUserManager from '../utils/fakeUserManager';
 
 export default class MemoRouter extends RouterBase {
-  findUser(userId, withMemo = false) {
-    const User = this.resourceManager.getSqlzModel('user');
-    const Memo = this.resourceManager.getSqlzModel('memo');
-
-    const extraOptions = withMemo && {
-      include: [{
-        model: Memo,
-        as: 'memos',
-      }],
-    };
-
-    return User.findOne({
-      where: {
-        id: userId,
-      },
-      ...extraOptions,
-    });
-  }
-
   setupRoutes({ router }) {
-    router.get('/api/memos', fakeUserManager.getIdentity, (ctx, next) => {
+    router.get('/api/memos', this.authKit.koaHelper.getIdentity, async (ctx, next) => {
       // console.log('ctx.local.user.userSettings :', ctx.local.user.userSettings);
-      if (!ctx.local.userSession || !ctx.local.exposedUser) {
+      if (!ctx.local.userSession || !ctx.local.userSession.user_id) {
         RestfulError.koaThrowWith(ctx, 404, 'User not found');
       }
 
-      return ctx.body = ctx.local.user.memos;
+      const user = await findUser(this.resourceManager, ctx.local.userSession.user_id, ['memos'/* , 'memos.users' */])
+      if (!user) {
+        return RestfulError.koaThrowWith(ctx, 404, 'User not found');
+      }
+      return ctx.body = user.memos;
     });
 
-    router.post('/api/memos', fakeUserManager.getIdentity, (ctx, next) => {
-      // console.log('ctx.local.user.userSettings :', ctx.local.user.userSettings);
-      if (!ctx.local.userSession || !ctx.local.exposedUser) {
+    router.post('/api/memos', this.authKit.koaHelper.getIdentity, async (ctx, next) => {
+      if (!ctx.local.userSession || !ctx.local.userSession.user_id) {
         RestfulError.koaThrowWith(ctx, 404, 'User not found');
       }
 
-      const memo = {
-        id: ctx.local.user.memos.length + 1,
-        data: ctx.request.body,
-      };
+      try {
+        const memo = await userCreateMemo(this.resourceManager, ctx.local.userSession.user_id, ctx.request.body);
+        ctx.body = memo;
+      } catch (error) {
+        return RestfulError.koaThrowWith(ctx, 404, 'User not found');
+      }
+    });
 
-      ctx.local.user.memos.push(memo);
-      return ctx.body = memo;
+    router.patch('/api/memos/:memoId', this.authKit.koaHelper.getIdentity, async (ctx, next) => {
+      if (!ctx.local.userSession || !ctx.local.userSession.user_id) {
+        return RestfulError.koaThrowWith(ctx, 404, 'User not found');
+      }
+      const memo = await patchMemo(this.resourceManager, ctx.params.memoId, ctx.request.body)
+      ctx.body = memo;
     });
   }
 }

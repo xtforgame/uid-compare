@@ -1,5 +1,15 @@
 import path from 'path';
 import appRootPath from 'app-root-path';
+import {
+  minioBucketName,
+  postgresDbName,
+} from './codegen/test';
+
+export { jwtIssuer } from 'common/config';
+
+export {
+  externalUrl,
+} from './codegen/test';
 
 const appRoot = appRootPath.resolve('./');
 const secretsFolder = path.join(appRoot, 'dev-secrets');
@@ -22,7 +32,6 @@ const httpsPort = 8443;
 const webpackHotClientPort = 18080;
 
 const sendRecoveryTokenInterval = 1 * 20 * 1000;
-const externalUrl = 'https://localhost:8443';
 
 const mailerConfig = {
   type: 'ethereal',
@@ -41,8 +50,14 @@ const minioInfoConfig = {
   retry: 10,
   retryInterval: 3000,
   ignoreInitFailure: true,
-  defaultBucketName: 'az-rmd-minio',
+  defaultBucketName: minioBucketName,
 };
+
+const postgresPort = 5432;
+const postgresUser = 'rick';
+const postgresPassword = 'xxxx1234';
+const postgresHost = 'localhost';
+
 
 export {
   credentialFiles,
@@ -53,9 +68,14 @@ export {
   webpackHotClientPort,
 
   sendRecoveryTokenInterval,
-  externalUrl,
 
   mailerConfig,
 
   minioInfoConfig,
+
+  postgresPort,
+  postgresUser,
+  postgresDbName,
+  postgresPassword,
+  postgresHost,
 };

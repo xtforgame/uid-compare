@@ -17,11 +17,11 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { updatePageContext } from '~/styles/getPageContext';
-// import modelMap from '~/containers/App/modelMap';
+import modelMapEx from '~/containers/App/modelMapEx';
 
-// const {
-//   postSubscriptions,
-// } = modelMap.waitableActions;
+const {
+  contactUsMessage,
+} = modelMapEx.querchy.promiseActionCreatorSets;
 
 // https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript
 const validateEmail = (email) => {
@@ -69,19 +69,18 @@ const Contact = (props) => {
     if (!content) {
       return setNameError('Content Required');
     }
-    handleClickOpen();
-    return props.postSubscriptions({
+    return contactUsMessage.create({
       name,
       email,
       data: {},
     })
     .then(() => {
-      // setName('');
-      // setNameError('');
-      // setEmail('');
-      // setEmailError('');
-      // setContent('');
-      // setContentError('');
+      setName('');
+      setNameError('');
+      setEmail('');
+      setEmailError('');
+      setContent('');
+      setContentError('');
       handleClickOpen();
     });
   };
@@ -179,10 +178,10 @@ const Contact = (props) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{'完成訂閱'}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">發送成功</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            我們已經收到您的訂閱資訊，我們將持續寄送產品的最新狀態至您的信箱，感謝
+            我們已經收到您的訊息，請您耐心等候，我們將由專人回覆至您的信箱，謝謝
           </DialogContentText>
         </DialogContent>
         <DialogActions>

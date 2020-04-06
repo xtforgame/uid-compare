@@ -3,13 +3,13 @@ import { compose } from 'recompose';
 import { withTranslation } from 'react-i18next';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import { createIgnoredPreset } from '~/utils/InputLinker/helpers';
+import { createIgnoredPreset } from 'azrmui/utils/InputLinker/helpers';
 import {
   FormSpace,
-} from '~/components/FormInputs';
+} from 'azrmui/core/FormInputs';
 import FormBaseType001 from '~/containers/LoginForms/FormBaseType001';
 
-import createFormPaperStyle from '~/styles/FormPaper';
+import createFormPaperStyle from 'azrmui/styles/FormPaper';
 
 const styles = theme => ({
   ...createFormPaperStyle(theme),

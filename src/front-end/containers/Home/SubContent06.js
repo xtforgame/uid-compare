@@ -2,11 +2,11 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-import createCommonStyles from '~/styles/common';
-import EditableLayout from '~/components/FormLayouts/EditableLayout';
+import createCommonStyles from 'azrmui/styles/common';
+import EditableLayout from 'azrmui/core/FormLayouts/EditableLayout';
 import {
   FormTextFieldPreset,
-} from '~/utils/InputLinker/helpers';
+} from 'azrmui/utils/InputLinker/helpers';
 
 const styles = theme => ({
   ...createCommonStyles(theme, ['flex', 'appBar']),

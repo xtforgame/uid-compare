@@ -5,8 +5,8 @@ import { createStructuredSelector } from 'reselect';
 import { push } from 'connected-react-router';
 import { withStyles } from '@material-ui/core/styles';
 import Fade from '@material-ui/core/Fade';
-import ProgressWithMask from '~/components/Progress/ProgressWithMask';
-import createCommonStyles from '~/styles/common';
+import ProgressWithMask from 'azrmui/core/Progress/ProgressWithMask';
+import createCommonStyles from 'azrmui/styles/common';
 import MainAppBar from './MainAppBar';
 
 const styles = theme => ({

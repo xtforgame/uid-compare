@@ -2,7 +2,7 @@
 import React from 'react';
 import StackedProgress, {
   Segment,
-} from '~/components/Progress/StackedProgress';
+} from 'azrmui/core/Progress/StackedProgress';
 
 export const getTextStyle = color => ({
 

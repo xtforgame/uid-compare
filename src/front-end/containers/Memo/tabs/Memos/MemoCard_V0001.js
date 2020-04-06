@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import SimpleExpansionCard from '~/components/Cards/SimpleExpansionCard';
+import SimpleExpansionCard from 'azrmui/core/Cards/SimpleExpansionCard';
 import Avatar from '@material-ui/core/Avatar';
 import blue from '@material-ui/core/colors/blue';
 import Typography from '@material-ui/core/Typography';
