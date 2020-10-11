@@ -17,7 +17,7 @@ export default () => {
   try {
     const koaWebpack = require('koa-webpack');
     const colorsSupported = require('supports-color');
-    config = require(path.join(appRoot, 'webpack/webpack.dev')); // eslint-disable-line import/no-dynamic-require
+    config = require('webpack-dev-config').default; // eslint-disable-line import/no-dynamic-require
     // console.log('config.output.publicPath :', config.output.publicPath); // eslint-disable-line no-console
     compiler = webpack(config);
     middlewarePromise = koaWebpack({

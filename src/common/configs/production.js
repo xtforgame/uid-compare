@@ -14,6 +14,14 @@ export { jwtIssuer } from './codegen/production';
 
 const runningMode = 'Production';
 
+// const urlPrefix = '/sayaweb/';
+// const routerPrefix = '/sayaweb';
+
+const urlPrefix = '/';
+const routerPrefix = '';
+
 export {
   runningMode,
+  urlPrefix,
+  routerPrefix,
 };

@@ -1,7 +1,7 @@
 import {
   serverTasks,
-} from 'az-gulp-env-lite';
+} from './gulp';
 
-import gulpConfig from '../../.azdata/gulp-config';
+import gulpConfig from '../../azdata/gulp-config';
 
 serverTasks.addTasks(gulpConfig);

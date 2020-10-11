@@ -14,6 +14,11 @@ export { jwtIssuer } from './codegen/development';
 
 const runningMode = 'Development';
 
+const urlPrefix = '/';
+const routerPrefix = '';
+
 export {
   runningMode,
+  urlPrefix,
+  routerPrefix,
 };
