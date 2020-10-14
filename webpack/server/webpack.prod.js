@@ -1,9 +1,13 @@
 import webpack from 'webpack';
 import CompressionPlugin from 'compression-webpack-plugin';
 import webpackCommon from './webpack.common';
+import gulpConfig from '../../azdata/gulp-config';
+
+const reactRootConfig = gulpConfig.getSubmodule('reactRoot');
 
 const cfg = webpackCommon({
   mode: 'production',
+  ssrMode: reactRootConfig.get('prodUseSsr'),
 });
 
 cfg.devtool = 'cheap-source-map';

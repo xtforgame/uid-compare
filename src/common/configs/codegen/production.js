@@ -1,4 +1,4 @@
-const jwtIssuer = 'sayaweb';
+const jwtIssuer = 'myweb';
 
 export {
   jwtIssuer,

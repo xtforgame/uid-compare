@@ -24,6 +24,26 @@ const config = {
         },
       },
     },
+    reactRoot: {
+      prefix: 'react-root',
+      devUseSsr: true,
+      prodUseSsr: true,
+      entry: {
+        dir: 'src/react-root',
+        js: {
+          glob: '**/*.{js,ts}',
+        },
+        ts: {
+          tsconfig: 'tsconfig.build.json',
+          glob: '**/*.ts',
+        },
+      },
+      output: {
+        default: {
+          js: {},
+        },
+      },
+    },
     server: {
       prefix: 'server',
       useCommonLibrary: {
@@ -44,7 +64,7 @@ const config = {
         default: {
           dir: 'dist/server',
           js: {
-            filename: 'index.js',
+            filename: 'assets/js/index.js',
           },
         },
         // dev: {},

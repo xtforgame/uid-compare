@@ -17,8 +17,11 @@ const runningMode = 'Development';
 const urlPrefix = '/';
 const routerPrefix = '';
 
+const publicUrlBase = 'http://localhost:8080';
+
 export {
   runningMode,
   urlPrefix,
   routerPrefix,
+  publicUrlBase,
 };

@@ -14,14 +14,17 @@ export { jwtIssuer } from './codegen/production';
 
 const runningMode = 'Production';
 
-// const urlPrefix = '/sayaweb/';
-// const routerPrefix = '/sayaweb';
+// const urlPrefix = '/myweb/';
+// const routerPrefix = '/myweb';
 
 const urlPrefix = '/';
 const routerPrefix = '';
+
+const publicUrlBase = 'http://localhost:8080';
 
 export {
   runningMode,
   urlPrefix,
   routerPrefix,
+  publicUrlBase,
 };

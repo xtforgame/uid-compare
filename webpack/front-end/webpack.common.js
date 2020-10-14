@@ -3,6 +3,7 @@ import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import gulpConfig from '../../azdata/gulp-config';
+import renderHtml from '../../azdata/renderHtml';
 
 const baseFolderName = 'assets';
 const projRoot = path.resolve(__dirname, '../..');
@@ -10,13 +11,16 @@ const projRoot = path.resolve(__dirname, '../..');
 const commonConfig = gulpConfig.getSubmodule('commonLibrary');
 const commonConfigJsEntryFolder = commonConfig.joinPathByKeys(['entry', 'js']);
 
+const reactRootConfig = gulpConfig.getSubmodule('reactRoot');
+const reactRootConfigJsEntryFolder = reactRootConfig.joinPathByKeys(['entry', 'js']);
+
 const frontEndConfig = gulpConfig.getSubmodule('frontEnd');
 const frontEndJsEntryFolder = frontEndConfig.joinPathByKeys(['entry', 'js']);
 const frontEndJsEntryFilename = frontEndConfig.joinPathByKeys(['entry', 'js', 'filename']);
 const frontEndJsPublicFolder = frontEndConfig.joinPathByKeys(['entry', 'static']);
 const frontEndJsOutputFolder = frontEndConfig.joinPathByKeys(['output', 'default']);
 
-export default function ({ mode }) {
+export default function ({ mode, ssrMode }) {
   return {
     mode,
     devtool: 'inline-source-map',
@@ -47,6 +51,7 @@ export default function ({ mode }) {
           include: [
             path.resolve(projRoot, frontEndJsEntryFolder),
             path.resolve(projRoot, commonConfigJsEntryFolder),
+            path.resolve(projRoot, reactRootConfigJsEntryFolder),
           ],
           use: [{
             loader: 'babel-loader',
@@ -99,7 +104,10 @@ export default function ({ mode }) {
       ],
     },
     plugins: [
-      new webpack.DefinePlugin({ 'process.env': { NODE_ENV: JSON.stringify(mode) } }),
+      new webpack.DefinePlugin({
+        'process.env.NODE_ENV': JSON.stringify(mode),
+        'process.env.reactSsrMode': JSON.stringify(ssrMode),
+      }),
       new CopyWebpackPlugin([
         {
           from: path.resolve(projRoot, frontEndJsPublicFolder),
@@ -108,8 +116,9 @@ export default function ({ mode }) {
       ]),
       new HtmlWebpackPlugin({
         chunks: ['app'],
-        template: path.resolve(projRoot, frontEndJsEntryFolder, 'index.html'),
+        // template: path.resolve(projRoot, frontEndJsEntryFolder, 'index.html'),
         filename: 'index.html',
+        templateContent: renderHtml({}),
       }),
     ],
   };

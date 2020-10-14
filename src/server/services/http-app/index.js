@@ -8,9 +8,12 @@ import { RestfulError } from 'az-restful-helpers';
 import http from 'http';
 import path from 'path';
 import appRootPath from 'app-root-path';
+import MobileDetect from 'mobile-detect';
+import { urlPrefix, routerPrefix } from 'common/config';
 import getWebpackService from './webpack-service';
 import runServer from './runServer';
 import ServiceBase from '../ServiceBase';
+import renderer from '../../routers/renderer';
 
 const appRoot = appRootPath.resolve('./');
 const methods = http.METHODS.map(method => method.toLowerCase());
@@ -30,8 +33,29 @@ export default class HttpApp extends ServiceBase {
     super();
     this.app = new Koa();
     this.app.proxy = !!process.env.KOA_PROXY_ENABLED;
+    this.app.use((ctx, next) => {
+      ctx.local = ctx.local || {
+        md: new MobileDetect(ctx.request.headers['user-agent']),
+      };
+      return next();
+    });
     // prevent any error to be sent to user
-    this.app.use((ctx, next) => next().catch((err) => {
+    this.app.use((ctx, next) => next()
+    .then(() => {
+      if (!ctx.body) {
+        ctx.status = 404;
+        if (ctx.local.md.phone() && ctx.path.startsWith(`${urlPrefix}mobile`)) {
+          ctx.body = renderer(`${urlPrefix}mobile/not-found`, {});
+        } else if (!ctx.path.startsWith(`${urlPrefix}mobile`)) {
+          ctx.status = 301;
+          const path2 = ctx.path.substr(urlPrefix.length);
+          ctx.redirect(path.join(`${urlPrefix}mobile`, path2));
+        } else {
+          ctx.body = renderer(`${urlPrefix}not-found`, {});
+        }
+      }
+    })
+    .catch((err) => {
       if (err instanceof RestfulError) {
         return err.koaThrow(ctx);
       }

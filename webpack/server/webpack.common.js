@@ -8,11 +8,14 @@ import gulpConfig from '../../azdata/gulp-config';
 
 const appRoot = appRootPath.resolve('./');
 
-const baseFolderName = '.';
+const baseFolderName = 'assets';
 const projRoot = path.resolve(__dirname, '../..');
 
 const commonConfig = gulpConfig.getSubmodule('commonLibrary');
 const commonConfigJsEntryFolder = commonConfig.joinPathByKeys(['entry', 'js']);
+
+const reactRootConfig = gulpConfig.getSubmodule('reactRoot');
+const reactRootConfigJsEntryFolder = reactRootConfig.joinPathByKeys(['entry', 'js']);
 
 const serverConfig = gulpConfig.getSubmodule('server');
 const serverJsEntryFolder = serverConfig.joinPathByKeys(['entry', 'js']);
@@ -21,14 +24,14 @@ const serverJsPublicFolder = serverConfig.joinPathByKeys(['entry', 'static']);
 const serverJsOutputFolder = serverConfig.joinPathByKeys(['output', 'default']);
 serverJsEntryFilename = `${serverJsEntryFolder}/index.ts`;
 
-export default function ({ mode }) {
+export default function ({ mode, ssrMode }) {
   return {
     mode,
     target: 'node', // in order to ignore built-in modules like path, fs, etc.
     externals: [
       nodeExternals(),
       {
-        'webpack-dev-config': 'commonjs2 ../../webpack/front-end/webpack.dev.wrapper',
+        'webpack-dev-config': 'commonjs2 ../../../../webpack/front-end/webpack.dev.wrapper',
       },
     ],
     devtool: 'inline-source-map',
@@ -42,7 +45,7 @@ export default function ({ mode }) {
       // path: path.resolve(projRoot, serverJsPublicFolder),
       path: path.resolve(projRoot, serverJsOutputFolder),
       pathinfo: mode === 'development',
-      filename: `${baseFolderName}/[name].js`,
+      filename: `${baseFolderName}/js/[name].js`,
       publicPath: '/',
     },
     resolve: {
@@ -59,6 +62,7 @@ export default function ({ mode }) {
           include: [
             path.resolve(projRoot, serverJsEntryFolder),
             path.resolve(projRoot, commonConfigJsEntryFolder),
+            path.resolve(projRoot, reactRootConfigJsEntryFolder),
           ],
           use: [{
             loader: 'babel-loader',
@@ -111,7 +115,10 @@ export default function ({ mode }) {
       ],
     },
     plugins: [
-      new webpack.DefinePlugin({ 'process.env': { NODE_ENV: JSON.stringify(mode) } }),
+      new webpack.DefinePlugin({
+        'process.env.reactSsrMode': JSON.stringify(ssrMode),
+      }),
+      // new webpack.DefinePlugin({ 'process.env': { NODE_ENV: JSON.stringify(mode) } }),
       // new CopyWebpackPlugin([
       //   {
       //     from: path.resolve(projRoot, serverJsPublicFolder),

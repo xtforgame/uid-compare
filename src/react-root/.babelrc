@@ -1,0 +1,56 @@
+{
+  "presets": [
+    ["@babel/preset-env", {
+      "targets": { 
+        "node": "10"
+      }
+    }],
+    "@babel/typescript",
+    "@babel/preset-react"
+  ],
+  "plugins": [
+    "@babel/proposal-class-properties",
+    "@babel/proposal-object-rest-spread"
+  ],
+  "env": {
+    "development": {
+      "plugins": [
+        ["module-resolver", {
+          "extensions": [".js", ".ts"],
+          "alias": {
+            "~": "./src/react-root",
+            "common/config": "./src/common/configs/development",
+            "common": "./src/common",
+            "config": "./src/react-root/configs/development"
+          }
+        }]
+      ]
+    },
+    "production": {
+      "plugins": [
+        ["module-resolver", {
+          "extensions": [".js", ".ts"],
+          "alias": {
+            "~": "./src/react-root",
+            "common/config": "./src/common/configs/production",
+            "common": "./src/common",
+            "config": "./src/react-root/configs/production"
+          }
+        }]
+      ]
+    },
+    "test": {
+      "plugins": [
+        ["module-resolver", {
+          "extensions": [".js", ".ts"],
+          "alias": {
+            "~": "./src/react-root",
+            "common/config": "./src/common/configs/test",
+            "common": "./src/common",
+            "config": "./src/react-root/configs/test"
+          }
+        }]
+      ]
+    }
+  }
+}

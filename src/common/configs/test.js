@@ -14,6 +14,14 @@ export { jwtIssuer } from './codegen/test';
 
 const runningMode = 'Test';
 
+const urlPrefix = '/';
+const routerPrefix = '';
+
+const publicUrlBase = 'http://localhost:8080';
+
 export {
   runningMode,
+  urlPrefix,
+  routerPrefix,
+  publicUrlBase,
 };

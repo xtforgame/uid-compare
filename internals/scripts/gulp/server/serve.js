@@ -1,9 +1,8 @@
-import path from 'path';
 import gulp from 'gulp';
 import nodemon from 'gulp-nodemon';
 import yargs from 'yargs';
 
-function addServeTasks(serverConfig, commonLibraryConfig = null, envConfig, serverOptions = {}) {
+function addServeTasks(serverConfig, commonLibraryConfig = null, reactRootConfig = null, envConfig, serverOptions = {}) {
   const serverSourceDir = serverConfig.joinPathByKeys(['entry']);
   const delay = serverConfig.get('reloadDelay') || 1000;
   const watchArray = [serverSourceDir];
@@ -13,8 +12,13 @@ function addServeTasks(serverConfig, commonLibraryConfig = null, envConfig, serv
     watchArray.push(commonLibrarySourceDir);
   }
 
+  if (reactRootConfig && reactRootConfig.get('devUseSsr')) {
+    const reactRootSourceDir = reactRootConfig.joinPathByKeys(['entry']);
+    watchArray.push(reactRootSourceDir);
+  }
+
   const outputEntryFile = envConfig.env.joinPathByKeys(['js', 'filename']);
-  const reloadTasks = serverConfig.addPrefix([`build${envConfig.postfix}`, `build:extras${envConfig.postfix}`]);
+  const reloadTasks = serverConfig.addPrefix([`build${envConfig.postfix}`]);
 
   const mainFunc = (cb) => {
     const nodemonConfig = {
@@ -47,7 +51,7 @@ function addServeTasks(serverConfig, commonLibraryConfig = null, envConfig, serv
       }, 1000);
     });
   };
-  (mainFunc).displayName = serverConfig.addPrefix(`serve:<main>${envConfig.postfix}`);
+  mainFunc.displayName = serverConfig.addPrefix(`serve:<main>${envConfig.postfix}`);
 
   gulp.task(serverConfig.addPrefix(`serve${envConfig.postfix}`), gulp.series(
     serverConfig.addPrefix(`clean${envConfig.postfix}`),
@@ -59,10 +63,11 @@ function addServeTasks(serverConfig, commonLibraryConfig = null, envConfig, serv
 function addTasks(gulpConfig) {
   const serverConfig = gulpConfig.getSubmodule('server');
   const commonLibraryConfig = gulpConfig.getSubmodule('commonLibrary');
+  const reactRootConfig = gulpConfig.getSubmodule('reactRoot');
   const envConfigs = serverConfig.getEnvConfigsForDevDist();
   const serverOptionsList = serverConfig.getOptionsForDevDist() || [];
 
-  envConfigs.map((envConfig, i) => addServeTasks(serverConfig, commonLibraryConfig, envConfig, serverOptionsList[i] || {}));
+  envConfigs.map((envConfig, i) => addServeTasks(serverConfig, commonLibraryConfig, reactRootConfig, envConfig, serverOptionsList[i] || {}));
 }
 
 const gulpModules = { addTasks };

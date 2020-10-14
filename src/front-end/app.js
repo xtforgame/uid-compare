@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Routes from 'common/ssr/Routes';
-import { BrowserRouter } from 'react-router-dom';
+import Routes from 'react-root/Routes';
+import { BrowserRouter, HashRouter } from 'react-router-dom';
 import { renderRoutes } from 'react-router-config';
 
 import {
   routerPrefix,
 } from 'common/config';
+
+const Router = process.env.reactSsrMode ? BrowserRouter : HashRouter;
 
 const Main = () => {
   React.useEffect(() => {
@@ -17,13 +19,14 @@ const Main = () => {
   }, []);
 
   return (
-    <BrowserRouter basename={routerPrefix}>
+    <Router basename={routerPrefix}>
       {renderRoutes(Routes)}
-    </BrowserRouter>
+    </Router>
   );
 };
 
-const renderMethod = module.hot ? ReactDOM.render : ReactDOM.hydrate;
+// const renderMethod = module.hot && !process.env.reactSsrMode ? ReactDOM.render : ReactDOM.hydrate;
+const renderMethod = process.env.reactSsrMode ? ReactDOM.hydrate : ReactDOM.render;
 
 renderMethod(
   <Main />,

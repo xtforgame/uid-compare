@@ -21,6 +21,8 @@
             "~": "./src/server",
             "common/config": "./src/common/configs/development",
             "common": "./src/common",
+            "react-root/config": "./src/react-root/configs/development",
+            "react-root": "./src/react-root",
             "config": "./src/server/configs/development"
           }
         }]
@@ -34,6 +36,8 @@
             "~": "./src/server",
             "common/config": "./src/common/configs/production",
             "common": "./src/common",
+            "react-root/config": "./src/react-root/configs/production",
+            "react-root": "./src/react-root",
             "config": "./src/server/configs/production"
           }
         }]
@@ -47,6 +51,8 @@
             "~": "./src/server",
             "common/config": "./src/common/configs/test",
             "common": "./src/common",
+            "react-root/config": "./src/react-root/configs/test",
+            "react-root": "./src/react-root",
             "config": "./src/server/configs/test"
           }
         }]
