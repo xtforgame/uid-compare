@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 // import Sequelize from 'sequelize';
 import AmmOrm from 'az-model-manager/core';
-import createAsuModelDefs from '~/asu-model';
+import createAsuModelDefs from '~/amm-schemas';
 
 export const modelDef = createAsuModelDefs();
 

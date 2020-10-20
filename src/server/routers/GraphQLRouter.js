@@ -27,30 +27,29 @@ const books = [
 
 // Schema definition
 const typeDefs = gql`
-
 # A library has a branch and books
-  type Library {
-    branch: String!
-    books: [Book!]
-  }
+type Library {
+  branch: String!
+  books: [Book!]
+}
 
-  # A book has a title and author
-  type Book {
-    title: String!
-    author: Author!
-  }
+# A book has a title and author
+type Book {
+  title: String!
+  author: Author!
+}
 
-  # An author has a name
-  type Author {
-    id: String!
-    name: String!
-  }
+# An author has a name
+type Author {
+  id: String!
+  name: String!
+}
 
-  # Queries can fetch a list of libraries
-  type Query {
-    library(branch: String!): Library
-    libraries: [Library]
-  }
+# Queries can fetch a list of libraries
+type Query {
+  library(branch: String!): Library
+  libraries: [Library]
+}
 `;
 
 const printDeepSelections = (selections, prefix = '') => {
@@ -135,7 +134,7 @@ const getContext = async ({ ctx, connection }) => {
 // }
 
 
-export default class MainRouter extends RouterBase {
+export default class GraphQLRouter extends RouterBase {
   setupRoutes({ router }) {
     const qlServer = new ApolloServer({
       context: getContext,
@@ -150,19 +149,7 @@ export default class MainRouter extends RouterBase {
       typeDefs,
       resolvers,
     });
-    this.httpApp.app.use(qlServer.getMiddleware({ path: '/graphql' }));
-    this.httpApp.app.use(iqlServer.getMiddleware({ path: '/graphiql' }));
-
-    router.get('/api', (ctx, next) => ctx.body = 'test');
-
-    router.get('/api/icon-test/:seed', (ctx, next) => ctx.body = `
-        <html>
-          <body>
-            <img src="data:png;base64,${
-  drawIcon(ctx.params.seed || '').toString('base64')
-}" style="border-radius: 50%;" />
-          </body>
-        </html>
-      `);
+    this.httpApp.app.use(qlServer.getMiddleware({ path: '/api/graphql' }));
+    this.httpApp.app.use(iqlServer.getMiddleware({ path: '/api/graphiql' }));
   }
 }

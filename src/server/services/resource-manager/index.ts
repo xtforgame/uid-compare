@@ -15,7 +15,7 @@ import ServiceBase from '../ServiceBase';
 
 import SequelizeStore from './SequelizeStore';
 
-import createAsuModelDefs from '../../asu-model';
+import createAsuModelDefs from '../../amm-schemas';
 
 import initDatabase from './initDatabase';
 
