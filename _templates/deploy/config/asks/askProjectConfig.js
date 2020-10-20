@@ -45,6 +45,24 @@ module.exports = async ({ prompter, args }, { localConfig, config, step }) => {
     });
   }
 
+  if (!project.displayName) {
+    choices.push({
+      name: 'displayName',
+      message: 'Project Display Name',
+      initial: (config.project && config.project.name),
+      editable: true,
+      validate(value, state) {
+        // console.log('state :', state);
+        if (!value) {
+          this.error = 'Invalid Project Display Name';
+          return false;
+        }
+        this.error = void 0;
+        return true;
+      },
+    });
+  }
+
   if (choices.length === 0) {
     return {
       project,

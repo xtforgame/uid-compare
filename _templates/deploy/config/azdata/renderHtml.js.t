@@ -15,7 +15,7 @@ export default ({
     <!-- Make the page mobile compatible -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="mobile-web-app-capable" content="yes">
-    <title><%= h.capitalize(project.name) %></title>
+    <title><%= project.displayName %></title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     ${header}
     <!-- <link rel="stylesheet" type="text/css" href="${urlPrefix}font.css"> -->

@@ -10,14 +10,16 @@ please DO NOT put any sensitive information here.
 */
 
 /* eslint-disable import/prefer-default-export */
-export { jwtIssuer } from './codegen/development';
+import { externalUrl } from './codegen/development';
+
+export { jwtIssuer, externalUrl } from './codegen/development';
 
 const runningMode = 'Development';
 
 const urlPrefix = '/';
 const routerPrefix = '';
 
-const publicUrlBase = 'http://localhost:8080';
+const publicUrlBase = externalUrl;
 
 export {
   runningMode,
