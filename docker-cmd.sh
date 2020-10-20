@@ -4,4 +4,4 @@ cp -rf /usr/volumes/src/* /usr/src/app
 
 #npm start
 npm run build
-node dist/server/index.js
+node dist/server/assets/js/index.js
