@@ -1,5 +1,6 @@
 // ========================================
-import AsuOrm from 'az-sequelize-utils';
+import { Sequelize } from 'sequelize';
+import AmmOrm from 'az-model-manager/core';
 import {
   AuthCore,
   AuthProviderManager,
@@ -31,6 +32,12 @@ export default class ResourceManager extends ServiceBase {
     start: ['sequelizeDb'],
   };
 
+  jwtSecrets : any;
+  database : Sequelize;
+  resourceManager : AmmOrm;
+  AuthProviders : any[];
+  authKit: any;
+
   constructor(envCfg, sequelizeDb) {
     super();
     this.jwtSecrets = envCfg.jwtSecrets;
@@ -52,7 +59,7 @@ export default class ResourceManager extends ServiceBase {
     };
     this.authKit.koaHelper = new KoaHelper(this.authKit.authCore, this.authKit.authProviderManager);
 
-    this.resourceManager = new AsuOrm(this.database, createAsuModelDefs());
+    this.resourceManager = new AmmOrm(this.database, createAsuModelDefs());
   }
 
   onStart() {

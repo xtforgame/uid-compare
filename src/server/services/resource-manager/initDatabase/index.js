@@ -1,5 +1,5 @@
 import Sequelize from 'sequelize';
-import AsuOrm from 'az-sequelize-utils';
+import AmmOrm from 'az-model-manager/core';
 import {
   toSeqPromise,
 } from 'common/utils';
@@ -64,12 +64,12 @@ const createTestUser = async (resourceManager) => {
       if (username === 'admin@foo.bar') {
         extraColumns.organizations = [{
           name: 'default',
-          [AsuOrm.ThroughValues]: {
+          [AmmOrm.ThroughValues]: {
             role: 'owner',
           },
         }, {
           name: 'private',
-          [AsuOrm.ThroughValues]: {
+          [AmmOrm.ThroughValues]: {
             role: 'owner',
           },
         }];

@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 // import Sequelize from 'sequelize';
-import AsuOrm from 'az-sequelize-utils';
+import AmmOrm from 'az-model-manager/core';
 import createAsuModelDefs from '~/asu-model';
 
 export const modelDef = createAsuModelDefs();
@@ -15,7 +15,7 @@ export const isAssociation = (baseModelName, associationModelNameAs) => {
     // throw new Error(`Association Model not found: ${associationModelNameAs}`);
     return false;
   }
-  return AsuOrm.isAssociationColumn(modelDef.models[baseModelName].columns[associationModelNameAs].type);
+  return AmmOrm.isAssociationColumn(modelDef.models[baseModelName].columns[associationModelNameAs].type);
 };
 
 export const getAssociationIncludeData = (resourceManager, baseModelName, associationModelNameAs) => {
@@ -27,7 +27,7 @@ export const getAssociationIncludeData = (resourceManager, baseModelName, associ
     // throw new Error(`Association Model not found: ${associationModelNameAs}`);
     return null;
   }
-  if (!AsuOrm.isAssociationColumn(modelDef.models[baseModelName].columns[associationModelNameAs].type)) {
+  if (!AmmOrm.isAssociationColumn(modelDef.models[baseModelName].columns[associationModelNameAs].type)) {
     return null;
   }
   const { targetModel } = modelDef.models[baseModelName].columns[associationModelNameAs].type;
