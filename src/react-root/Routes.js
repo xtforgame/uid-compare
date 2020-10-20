@@ -1,3 +1,4 @@
+import { Redirect } from 'react-router-dom';
 import App from './App';
 import DesktopMainFrame from './desktop/MainFrame';
 import MobileMainFrame from './mobile/MainFrame';
@@ -5,7 +6,7 @@ import { forEachNode } from './desktop/navigation';
 import { forEachNode as forEachMobileNode } from './mobile/navigation';
 
 const NotFound = () => 'NotFound';
-const MobileNotFound = () => 'MobileNotFound';
+const MobileNotFound = NotFound;
 
 const desktopRoutes = [];
 forEachNode((node) => {

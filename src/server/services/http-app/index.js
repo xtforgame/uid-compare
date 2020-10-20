@@ -46,10 +46,6 @@ export default class HttpApp extends ServiceBase {
         ctx.status = 404;
         if (ctx.local.md.phone() && ctx.path.startsWith(`${urlPrefix}mobile`)) {
           ctx.body = renderer(`${urlPrefix}mobile/not-found`, {});
-        } else if (!ctx.path.startsWith(`${urlPrefix}mobile`)) {
-          ctx.status = 301;
-          const path2 = ctx.path.substr(urlPrefix.length);
-          ctx.redirect(path.join(`${urlPrefix}mobile`, path2));
         } else {
           ctx.body = renderer(`${urlPrefix}not-found`, {});
         }
