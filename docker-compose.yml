@@ -16,9 +16,6 @@ services:
     volumes:
       - ../minio_data:/data
 
-    ports:
-      - "${AZ_MINIO_PORT:-9000}:9000"
-
     environment:
       MINIO_ACCESS_KEY: minioxxxak
       MINIO_SECRET_KEY: minioxxxsk
@@ -33,9 +30,6 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: xxxx1234
       PGDATA: /var/lib/postgresql/data/pgdata
-
-    ports:
-      - "${AZ_PG_PORT:-5432}:5432"
 
     volumes:
       - "../pgdata:/var/lib/postgresql/data/pgdata"

@@ -1,4 +1,4 @@
-const externalUrl = 'https://localhost:8443';
+const externalUrl = 'http://localhost:8080';
 const minioBucketName = 'az-rmd-minio';
 const postgresDbName = 'db_rick_data';
 

@@ -1,0 +1,23 @@
+{
+  "project": {
+    "name": "az-neo-stack",
+    "safename": "myweb",
+    "displayName": "My Web"
+  },
+  "common": {
+    "jwtIssuer": "myweb"
+  },
+  "server": {
+    "externalUrl": "http://localhost:8080",
+    "minioBucketName": "az-rmd-minio",
+    "postgresDbName": "db_rick_data"
+  },
+  "docker": {
+    "envVarPrfix": "az",
+    "networkName": "",
+    "minioExposePort": "",
+    "dockerMinioType": "mine",
+    "postgresExposePort": "",
+    "dockerPostgresType": "mine"
+  }
+}
