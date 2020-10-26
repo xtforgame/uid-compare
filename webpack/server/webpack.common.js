@@ -117,6 +117,7 @@ export default function ({ mode, ssrMode }) {
     plugins: [
       new webpack.DefinePlugin({
         'process.env.reactSsrMode': JSON.stringify(ssrMode),
+        'process.env.NODE_ENV': JSON.stringify(mode),
       }),
       // new webpack.DefinePlugin({ 'process.env': { NODE_ENV: JSON.stringify(mode) } }),
       // new CopyWebpackPlugin([

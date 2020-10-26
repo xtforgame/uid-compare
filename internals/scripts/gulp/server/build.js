@@ -3,13 +3,16 @@ import gutil from 'gulp-util';
 import webpack from 'webpack';
 
 import webpackConfigDev from '../../../../webpack/server/webpack.dev';
+import webpackConfigProd from '../../../../webpack/server/webpack.prod';
 
 function addBuildTasks(serverConfig, envConfig) {
   let waitingTasks = ['clean'];
   waitingTasks = serverConfig.addPrefix(waitingTasks);
 
+  const webpackConfig = envConfig.postfix ? webpackConfigDev : webpackConfigProd;
+
   const mainFunc = (callback) => {
-    webpack(webpackConfigDev, (err, stats) => {
+    webpack(webpackConfig, (err, stats) => {
       if (err) throw new gutil.PluginError('webpack', err);
       gutil.log('[webpack]', stats.toString({
         // output options
