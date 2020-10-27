@@ -7,12 +7,26 @@ import ArticlePage from './Blog/Articles';
 
 import About from './About/About';
 
+import SimpleLoginOnly from '../containers/SimpleLoginOnly';
+import GoodsManagement from '../containers/GoodsManagement';
+
 export const navigation = [
   {
     name: '',
     path: '',
     component: Home,
     exact: true,
+  },
+  {
+    name: 'Login',
+    path: 'login',
+    exact: true,
+    component: SimpleLoginOnly,
+  },
+  {
+    name: 'GoodsManagement',
+    path: 'gm',
+    component: GoodsManagement,
   },
   {
     name: 'Blog',

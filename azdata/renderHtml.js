@@ -4,6 +4,8 @@ export default ({
   urlPrefix = '/',
   header = '',
   body = '',
+  azPreloadedStateKey = '__AZ_PRELOADED_STATE__',
+  azPreloadedState = {},
 }) => `<!DOCTYPE html>
 <html>
   <head>
@@ -19,6 +21,16 @@ export default ({
     <style id="jss-server-side">${css}</style>
   </head>
   <body>
+    <script>
+      // WARNING: See the following for security issues around embedding JSON in HTML:
+      // https://redux.js.org/recipes/server-rendering/#security-considerations
+      window.${azPreloadedStateKey} = ${
+  JSON.stringify(azPreloadedState).replace(
+    /</g,
+    '\\u003c'
+  )
+}
+    </script>
     <div id="page_main">${content}</div>
     ${body}
   </body>

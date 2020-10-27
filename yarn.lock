@@ -2723,9 +2723,9 @@ axobject-query@^2.1.2:
   version "0.1.0"
   resolved "git+https://github.com/xtforgame/azldi.git#1dd22338a58be911353256ab2fb7760a8d0a04ab"
 
-"azrmui@git+https://github.com/xtforgame/azrmui.git#v0.1.1":
-  version "0.1.0"
-  resolved "git+https://github.com/xtforgame/azrmui.git#4f36e7f5037aa1628b07de939e1e35a1277edd75"
+"azrmui@git+https://github.com/xtforgame/azrmui.git#v0.1.5":
+  version "0.1.5"
+  resolved "git+https://github.com/xtforgame/azrmui.git#147e68767ad1b459c0d0bfbf938c8557208f8d1a"
 
 babel-code-frame@^6.26.0:
   version "6.26.0"
