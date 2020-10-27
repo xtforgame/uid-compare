@@ -1,10 +1,11 @@
 import AmmOrm from 'az-model-manager/core';
+import { AuthKit } from '../services/resource-manager/insterfaces';
 
 export default class RouterBase {
   httpApp!: any;
   mailer!: any;
   minioApi!: any;
-  authKit!: any;
+  authKit!: AuthKit;
   resourceManager!: AmmOrm;
 
   constructor(_props) {

@@ -45,10 +45,12 @@ export default (props) => {
 
   const {
     login: li,
-    session,
+    // session,
+    state: {
+      session,
+      sessionExists,
+    },
   } = useContext(preloadedStateContext);
-
-  console.log('session :', session);
 
   const swipeTo = (tabIndex) => {
     setTabIndex(tabIndex);
@@ -73,7 +75,7 @@ export default (props) => {
     });
   };
 
-  if (session) {
+  if (session && sessionExists) {
     return <Redirect to={{ pathname: '/gm' }} />;
   }
 

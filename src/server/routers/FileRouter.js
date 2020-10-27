@@ -45,7 +45,7 @@ export default class FileRouter extends RouterBase {
     if (!this.minioApi) {
       return;
     }
-    router.options('/api/files/:filename', this.authKit.koaHelper.getIdentity, (ctx, next) => {
+    router.options('/api/files/:filename', this.authKit.koaHelperEx.getIdentity, (ctx, next) => {
       return this.minioApi.statFile(ctx.params.filename)
       .then(({ headers }) => {
         ctx.set(headers);
@@ -55,7 +55,7 @@ export default class FileRouter extends RouterBase {
         ctx.body = {};
       });
     });
-    router.get('/api/files/:filename', this.authKit.koaHelper.getIdentity, (ctx, next) => {
+    router.get('/api/files/:filename', this.authKit.koaHelperEx.getIdentity, (ctx, next) => {
       return this.minioApi.getFile(ctx.params.filename)
       .then(({ dataStream, headers }) => {
         ctx.set(headers);
@@ -63,7 +63,7 @@ export default class FileRouter extends RouterBase {
       });
     });
 
-    router.post('/api/files', mdUpload, this.authKit.koaHelper.getIdentity, (ctx, next) => {
+    router.post('/api/files', mdUpload, this.authKit.koaHelperEx.getIdentity, (ctx, next) => {
       if (!ctx.local.userSession || !ctx.local.userSession.user_id) {
         return RestfulError.koaThrowWith(ctx, 403, 'Forbidden');
       }
@@ -96,7 +96,7 @@ export default class FileRouter extends RouterBase {
       });
     });
 
-    router.post('/api/fileUrls', this.authKit.koaHelper.getIdentity, async (ctx, next) => {
+    router.post('/api/fileUrls', this.authKit.koaHelperEx.getIdentity, async (ctx, next) => {
       if (!ctx.local.userSession || !ctx.local.userSession.user_id) {
         return RestfulError.koaThrowWith(ctx, 403, 'Forbidden');
       }
@@ -132,7 +132,7 @@ export default class FileRouter extends RouterBase {
       });
     });
 
-    router.get('/api/fetchUrl', this.authKit.koaHelper.getIdentity, async (ctx, next) => {
+    router.get('/api/fetchUrl', this.authKit.koaHelperEx.getIdentity, async (ctx, next) => {
       let title = 'Link';
       let description = ctx.request.query.url;
       let imageUrl = './mail-assets/logo.png';

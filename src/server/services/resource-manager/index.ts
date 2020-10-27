@@ -18,6 +18,8 @@ import SequelizeStore from './SequelizeStore';
 import createAsuModelDefs from '../../amm-schemas';
 
 import initDatabase from './initDatabase';
+import KoaHelperEx from './KoaHelperEx';
+import { AuthKit } from './insterfaces';
 
 // ========================================
 
@@ -36,7 +38,7 @@ export default class ResourceManager extends ServiceBase {
   database : Sequelize;
   resourceManager : AmmOrm;
   AuthProviders : any[];
-  authKit: any;
+  authKit: AuthKit;
 
   constructor(envCfg, sequelizeDb) {
     super();
@@ -44,7 +46,7 @@ export default class ResourceManager extends ServiceBase {
     this.database = sequelizeDb.database;
 
     this.AuthProviders = AuthProviders;
-    this.authKit = {
+    this.authKit = <any>{
       authCore: new AuthCore(this.jwtSecrets, { algorithm: 'RS256', issuer: jwtIssuer }),
       sequelizeStore: new SequelizeStore({}),
       authProviderManager: new AuthProviderManager(
@@ -58,6 +60,7 @@ export default class ResourceManager extends ServiceBase {
       ),
     };
     this.authKit.koaHelper = new KoaHelper(this.authKit.authCore, this.authKit.authProviderManager);
+    this.authKit.koaHelperEx = new KoaHelperEx(this.authKit.koaHelper);
 
     this.resourceManager = new AmmOrm(this.database, createAsuModelDefs());
   }

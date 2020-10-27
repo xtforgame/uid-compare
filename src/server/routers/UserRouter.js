@@ -13,7 +13,7 @@ import RouterBase from '../core/router-base';
 
 export default class UserRouter extends RouterBase {
   setupRoutes({ router }) {
-    router.param('userId', (userId, ctx, next) => this.authKit.koaHelper.getIdentity(ctx, next));
+    router.param('userId', (userId, ctx, next) => this.authKit.koaHelperEx.getIdentity(ctx, next));
 
     router.get('/api/users/:userId', async (ctx, next) => {
       if (!ctx.local.userSession || !ctx.local.userSession.user_id) {
@@ -70,7 +70,7 @@ export default class UserRouter extends RouterBase {
       ctx.body = user;
     });
 
-    router.get('/api/users', this.authKit.koaHelper.getIdentity, async (ctx) => {
+    router.get('/api/users', this.authKit.koaHelperEx.getIdentity, async (ctx) => {
       if (!ctx.local.userSession
         || !ctx.local.userSession.user_id
         || ctx.local.userSession.privilege !== 'admin'

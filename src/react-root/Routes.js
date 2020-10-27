@@ -2,63 +2,24 @@ import { Redirect } from 'react-router-dom';
 import App from './App';
 import DesktopMainFrame from './desktop/MainFrame';
 import MobileMainFrame from './mobile/MainFrame';
-import { forEachNode } from './desktop/navigation';
-import { forEachNode as forEachMobileNode } from './mobile/navigation';
+import { navigation as desktopNavigation, forEachNode } from './desktop/navigation';
+import { navigation as mobileNavigation, forEachNode as forEachMobileNode } from './mobile/navigation';
 
 const NotFound = () => 'NotFound';
 const MobileNotFound = NotFound;
 
-const desktopRoutes = [];
-forEachNode((node) => {
-  const {
-    path,
-    component,
-    exact,
-  } = node;
-  if (path != null && component) {
-    desktopRoutes.push({
-      component,
-      path: `/${path}`,
-      exact,
-    });
-  }
-});
-
-desktopRoutes.push({
-  component: NotFound,
-});
-
-const mobileRoutes = [];
-forEachMobileNode((node) => {
-  const {
-    path,
-    component,
-    exact,
-  } = node;
-  if (path != null && component) {
-    mobileRoutes.push({
-      component,
-      path: `/${path}`,
-      exact,
-    });
-  }
-});
-mobileRoutes.push({
-  component: MobileNotFound,
-});
-
 export default [{
   component: App,
   routes: [
+    ...mobileNavigation,
+    ...desktopNavigation,
     {
-      component: MobileMainFrame,
-      path: '/mobile',
-      routes: mobileRoutes,
+      component: NotFound,
     },
-    {
-      component: DesktopMainFrame,
-      path: '/',
-      routes: desktopRoutes,
-    },
+    // {
+    //   component: DesktopMainFrame,
+    //   path: '/',
+    //   routes: desktopRoutes,
+    // },
   ],
 }];

@@ -16,7 +16,7 @@ import RouterBase from '../core/router-base';
 
 export default class OrganizationRouter extends RouterBase {
   setupRoutes({ router }) {
-    router.get('/api/organizations', this.authKit.koaHelper.getIdentity, async (ctx, next) => {
+    router.get('/api/organizations', this.authKit.koaHelperEx.getIdentity, async (ctx, next) => {
       // console.log('ctx.local.userSession :', ctx.local.userSession);
 
       if (!ctx.local.userSession || !ctx.local.userSession.user_id) {
@@ -29,7 +29,7 @@ export default class OrganizationRouter extends RouterBase {
       return ctx.body = user.organizations;
     });
 
-    router.post('/api/organizations', this.authKit.koaHelper.getIdentity, async (ctx, next) => {
+    router.post('/api/organizations', this.authKit.koaHelperEx.getIdentity, async (ctx, next) => {
       if (!ctx.local.userSession || !ctx.local.userSession.user_id) {
         RestfulError.koaThrowWith(ctx, 404, 'User not found');
       }
@@ -42,7 +42,7 @@ export default class OrganizationRouter extends RouterBase {
       }
     });
 
-    router.patch('/api/organizations/:organizationId', this.authKit.koaHelper.getIdentity, async (ctx, next) => {
+    router.patch('/api/organizations/:organizationId', this.authKit.koaHelperEx.getIdentity, async (ctx, next) => {
       if (!ctx.local.userSession || !ctx.local.userSession.user_id) {
         return RestfulError.koaThrowWith(ctx, 404, 'User not found');
       }
@@ -50,7 +50,7 @@ export default class OrganizationRouter extends RouterBase {
       ctx.body = organization;
     });
 
-    router.get('/api/organizations/:organizationId/members', this.authKit.koaHelper.getIdentity, async (ctx, next) => {
+    router.get('/api/organizations/:organizationId/members', this.authKit.koaHelperEx.getIdentity, async (ctx, next) => {
       if (!ctx.local.userSession || !ctx.local.userSession.user_id) {
         return RestfulError.koaThrowWith(ctx, 404, 'User not found');
       }
@@ -62,7 +62,7 @@ export default class OrganizationRouter extends RouterBase {
       return ctx.body = members;
     });
 
-    router.post('/api/organizations/:organizationId/members', this.authKit.koaHelper.getIdentity, async (ctx, next) => {
+    router.post('/api/organizations/:organizationId/members', this.authKit.koaHelperEx.getIdentity, async (ctx, next) => {
       if (!ctx.local.userSession || !ctx.local.userSession.user_id) {
         return RestfulError.koaThrowWith(ctx, 404, 'User not found');
       }
@@ -92,7 +92,7 @@ export default class OrganizationRouter extends RouterBase {
       return ctx.body = user;
     });
 
-    router.patch('/api/organizations/:organizationId/members/:memberId', this.authKit.koaHelper.getIdentity, async (ctx, next) => {
+    router.patch('/api/organizations/:organizationId/members/:memberId', this.authKit.koaHelperEx.getIdentity, async (ctx, next) => {
       if (!ctx.local.userSession || !ctx.local.userSession.user_id) {
         return RestfulError.koaThrowWith(ctx, 404, 'User not found');
       }

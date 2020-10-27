@@ -9,28 +9,35 @@ import preloadedStateContext, { injectionKey } from 'common/react/az-preloaded-s
 import renderHtml from '../../../azdata/renderHtml';
 
 
-export default (path, { canonicalUrl } = {}) => {
+export default (ctx, path, { canonicalPath, azPreloadedState = {} } = {}) => {
   const sheets = new ServerStyleSheets();
 
   console.log('path :', path);
-
-  const azPreloadedState = { xxx: 1 };
+  const context = {};
   const content = renderToString(
     sheets.collect(
       <preloadedStateContext.Provider value={{ state: azPreloadedState }}>
-        <StaticRouter basename={routerPrefix} location={path}>
+        <StaticRouter basename={routerPrefix} location={path} context={context}>
           {renderRoutes(Routes)}
         </StaticRouter>
       </preloadedStateContext.Provider>
     ),
   );
+
+  if (context.url) {
+    console.log('context :', context);
+    ctx.status = 301;
+    ctx.redirect(context.url);
+    return;
+  }
+
   const css = sheets.toString();
 
-  return renderHtml({
+  ctx.body = renderHtml({
     urlPrefix,
     css,
     content,
-    header: canonicalUrl != null ? `<link rel="canonical" href="${publicUrlBase}/${canonicalUrl}" />` : '',
+    header: canonicalPath != null ? `<link rel="canonical" href="${publicUrlBase}${canonicalPath}" />` : '',
     body: `<script src="${urlPrefix}assets/js/app.js"></script>`,
     azPreloadedStateKey: injectionKey,
     azPreloadedState,

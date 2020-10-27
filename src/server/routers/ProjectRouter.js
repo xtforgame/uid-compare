@@ -19,7 +19,7 @@ import RouterBase from '../core/router-base';
 
 export default class ProjectRouter extends RouterBase {
   setupRoutes({ router }) {
-    router.get('/api/projects', this.authKit.koaHelper.getIdentity, async (ctx, next) => {
+    router.get('/api/projects', this.authKit.koaHelperEx.getIdentity, async (ctx, next) => {
       if (!ctx.local.userSession || !ctx.local.userSession.user_id) {
         return RestfulError.koaThrowWith(ctx, 404, 'User not found');
       }
@@ -35,7 +35,7 @@ export default class ProjectRouter extends RouterBase {
       return ctx.body = user.projects;
     });
 
-    router.post('/api/projects', this.authKit.koaHelper.getIdentity, async (ctx, next) => {
+    router.post('/api/projects', this.authKit.koaHelperEx.getIdentity, async (ctx, next) => {
       if (!ctx.local.userSession || !ctx.local.userSession.user_id) {
         return RestfulError.koaThrowWith(ctx, 404, 'User not found');
       }
@@ -55,7 +55,7 @@ export default class ProjectRouter extends RouterBase {
       ]);
     });
 
-    router.get('/api/projects/:projectId', this.authKit.koaHelper.getIdentity, async (ctx, next) => {
+    router.get('/api/projects/:projectId', this.authKit.koaHelperEx.getIdentity, async (ctx, next) => {
       if (!ctx.local.userSession || !ctx.local.userSession.user_id) {
         return RestfulError.koaThrowWith(ctx, 404, 'User not found');
       }
@@ -67,7 +67,7 @@ export default class ProjectRouter extends RouterBase {
       return ctx.body = project;
     });
 
-    router.get('/api/projects/:projectId/members', this.authKit.koaHelper.getIdentity, async (ctx, next) => {
+    router.get('/api/projects/:projectId/members', this.authKit.koaHelperEx.getIdentity, async (ctx, next) => {
       if (!ctx.local.userSession || !ctx.local.userSession.user_id) {
         return RestfulError.koaThrowWith(ctx, 404, 'User not found');
       }
@@ -80,7 +80,7 @@ export default class ProjectRouter extends RouterBase {
       return ctx.body = members;
     });
 
-    router.post('/api/projects/:projectId/members', this.authKit.koaHelper.getIdentity, async (ctx, next) => {
+    router.post('/api/projects/:projectId/members', this.authKit.koaHelperEx.getIdentity, async (ctx, next) => {
       if (!ctx.local.userSession || !ctx.local.userSession.user_id) {
         return RestfulError.koaThrowWith(ctx, 404, 'User not found');
       }
@@ -97,7 +97,7 @@ export default class ProjectRouter extends RouterBase {
       return ctx.body = {};
     });
 
-    router.patch('/api/projects/:projectId/members/:memberId', this.authKit.koaHelper.getIdentity, async (ctx, next) => {
+    router.patch('/api/projects/:projectId/members/:memberId', this.authKit.koaHelperEx.getIdentity, async (ctx, next) => {
       if (!ctx.local.userSession || !ctx.local.userSession.user_id) {
         return RestfulError.koaThrowWith(ctx, 404, 'User not found');
       }
@@ -113,7 +113,7 @@ export default class ProjectRouter extends RouterBase {
       return ctx.body = user;
     });
 
-    router.delete('/api/projects/:projectId/members/:memberId', this.authKit.koaHelper.getIdentity, async (ctx, next) => {
+    router.delete('/api/projects/:projectId/members/:memberId', this.authKit.koaHelperEx.getIdentity, async (ctx, next) => {
       if (!ctx.local.userSession || !ctx.local.userSession.user_id) {
         return RestfulError.koaThrowWith(ctx, 404, 'User not found');
       }

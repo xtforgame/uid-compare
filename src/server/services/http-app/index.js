@@ -42,12 +42,11 @@ export default class HttpApp extends ServiceBase {
     // prevent any error to be sent to user
     this.app.use((ctx, next) => next()
     .then(() => {
-      if (!ctx.body) {
-        ctx.status = 404;
+      if (ctx.body == null && ctx.status === 404) {
         if (ctx.local.md.phone() && ctx.path.startsWith(`${urlPrefix}mobile`)) {
-          ctx.body = renderer(`${urlPrefix}mobile/not-found`, {});
+          renderer(ctx, `${urlPrefix}mobile/not-found`, {});
         } else {
-          ctx.body = renderer(`${urlPrefix}not-found`, {});
+          renderer(ctx, `${urlPrefix}not-found`, {});
         }
       }
     })
