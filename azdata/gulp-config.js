@@ -26,8 +26,8 @@ const config = {
     },
     reactRoot: {
       prefix: 'react-root',
-      devUseSsr: true,
-      prodUseSsr: true,
+      devUseSsr: false,
+      prodUseSsr: false,
       entry: {
         dir: 'src/react-root',
         js: {
