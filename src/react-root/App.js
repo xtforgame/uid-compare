@@ -19,10 +19,10 @@ export default ({ route, ...rest }) => {
     resultMsg = `${resultMsg}檔案二有效行數：${result2.data.length}\n`;
 
     const resultMap = {};
-    result1.data.forEach((r) => {
+    result2.data.forEach((r) => {
       resultMap[r[0]] = true;
     });
-    const matched = result2.data.filter(row => resultMap[row[0]]).map(s => `${s[0]},`);
+    const matched = result1.data.filter(row => !resultMap[row[0]]).map(s => `${s[0]},`);
     resultMsg = `${resultMsg}符合行數：${matched.length}\n`;
 
     const blob = new Blob([matched.join('\n')], { type: 'text/csv;charset=utf-8' });
